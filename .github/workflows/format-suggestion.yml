@@ -1,8 +1,6 @@
 name: Format Suggestion
 on:
-  pull_request:
-    paths-ignore:
-      - 'app-ios/**'
+  pull_request
 
 concurrency:
   group: format-${{ github.ref }}
