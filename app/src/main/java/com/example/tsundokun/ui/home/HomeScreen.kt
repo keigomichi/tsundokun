@@ -1,4 +1,4 @@
-package com.example.tsundoku.ui.home
+package com.example.tsundokun.ui.home
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
