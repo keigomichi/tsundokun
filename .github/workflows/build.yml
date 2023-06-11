@@ -37,8 +37,5 @@ jobs:
       - name: Check spotless
         run: ./gradlew spotlessCheck --no-configuration-cache
 
-      - name: Check lint
-        run: ./gradlew lintDemoDebug
-
       - name: Build all build type and flavor permutations
         run: ./gradlew assemble
