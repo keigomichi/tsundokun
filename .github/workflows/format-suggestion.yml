@@ -11,6 +11,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - run: ./gradlew spotlessKotlinApply
+        continue-on-error: true
       - uses: reviewdog/action-suggester@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
