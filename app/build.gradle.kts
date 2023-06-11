@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.spotless)
 }
 
 android {
@@ -57,6 +58,16 @@ android {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
+}
+
+spotless {
+    kotlin {
+        target("**/*.kt")
+        targetExclude("$buildDir/**/*.kt")
+        targetExclude("bin/**/*.kt")
+
+        ktlint("0.49.1")
+    }
 }
 
 dependencies {
