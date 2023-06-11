@@ -1,4 +1,4 @@
-package com.example.tsundoku.ui.theme
+package com.example.tsundokun.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

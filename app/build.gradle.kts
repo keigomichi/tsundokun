@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.tsundoku"
+    namespace = "com.example.tsundokun"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.example.tsundoku"
+        applicationId = "com.example.tsundokun"
         minSdk = 24
         targetSdk = 33
         versionCode = 1

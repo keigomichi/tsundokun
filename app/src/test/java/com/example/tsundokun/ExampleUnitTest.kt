@@ -1,4 +1,4 @@
-package com.example.tsundoku
+package com.example.tsundokun
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
