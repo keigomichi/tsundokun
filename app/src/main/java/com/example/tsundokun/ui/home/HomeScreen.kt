@@ -12,6 +12,6 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 fun HomeScreen() {
     Text(
         text = "Hello Android!",
-        modifier = Modifier
+        modifier = Modifier,
     )
 }
