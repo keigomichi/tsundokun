@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">tsundokun</string>
+    <string name="app_name">つんどくん</string>
+    <string name="sample_web_page_title">おっ、CSSでゲルフォントの定数が使えるじゃん</string>
+    <string name="sample_web_page_type">Qiita・1ヶ月</string>
+    <string name="button_favorite_description">お気に入り</string>
+    <string name="button_share_description">共有</string>
+    <string name="button_morevert_description">詳細</string>
+    <string name="button_search_description">検索</string>
+    <string name="dropdown_menuitem_setting">設定</string>
+    <string name="dropdown_memuitem_export">Notionデータベースへのエクスポート</string>
+    <string name="fab_add">追加</string>
+    <string name="tsundokun_report">今週は%d件積読しました</string>
+    <string name="button_close">閉じる</string>
+    <string name="tsundokun_report_detail">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
 </resources>
