@@ -1,0 +1,17 @@
+name: Format Suggestion
+on: [ pull_request ]
+jobs:
+  format-suggestion:
+    name: runner / suggester / spotless
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      - run: ./gradlew spotlessKotlinApply
+      - uses: reviewdog/action-suggester@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tool_name: spotless
