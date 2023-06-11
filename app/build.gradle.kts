@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.spotless)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -80,6 +81,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.compose.destinations.core)
+    implementation(platform("com.google.firebase:firebase-bom:32.1.0"))
+    implementation ("com.google.firebase:firebase-analytics-ktx")
 
     ksp(libs.compose.destinations.ksp)
 
