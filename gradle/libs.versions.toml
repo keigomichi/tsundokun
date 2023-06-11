@@ -1,0 +1,10 @@
+[versions]
+androidGradlePlugin = "8.0.0"
+kotlin = "1.8.10"
+ksp = "1.8.10-1.0.9"
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
