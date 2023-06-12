@@ -82,6 +82,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.compose.destinations.core)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
     implementation(platform("com.google.firebase:firebase-bom:32.1.0"))
     implementation ("com.google.firebase:firebase-analytics-ktx")
     //supabase
@@ -89,7 +91,10 @@ dependencies {
     implementation(libs.supabase.postgrest.kt)
     implementation(libs.ktor.client.cio)
 
+    annotationProcessor(libs.room.compiler)
+
     ksp(libs.compose.destinations.ksp)
+    ksp(libs.room.compiler)
 
     testImplementation(libs.junit)
 
