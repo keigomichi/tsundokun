@@ -24,7 +24,7 @@ class TsundokuDaoTest {
     fun initDb() {
         database = Room.inMemoryDatabaseBuilder(
             getApplicationContext(),
-            TsundokunDatabase::class.java
+            TsundokunDatabase::class.java,
         ).allowMainThreadQueries().build()
     }
 
