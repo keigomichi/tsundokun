@@ -12,6 +12,7 @@ class Datasource() {
             WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
             WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
             WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image))
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+        )
     }
 }

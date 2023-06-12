@@ -5,5 +5,5 @@ import androidx.annotation.StringRes
 
 data class WebPage(
     @StringRes val stringResourceId: Int,
-    @DrawableRes val imageResourceId: Int
+    @DrawableRes val imageResourceId: Int,
 )
