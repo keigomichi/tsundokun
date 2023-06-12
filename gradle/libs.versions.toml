@@ -1,5 +1,5 @@
 [versions]
-androidGradlePlugin = "7.4.2"
+androidGradlePlugin = "8.0.2"
 androidxActivity = "1.5.1"
 androidxComposeBom = "2022.10.00"
 androidxCore = "1.8.0"
@@ -7,9 +7,11 @@ androidxEspresso = "3.5.1"
 androidxLifecycle = "2.3.1"
 androidxTestExt = "1.1.5"
 composeDestinations = "1.7.41-beta"
+googleServices = "4.3.15"
 junit = "4.13.2"
 kotlin = "1.8.10"
 ksp = "1.8.10-1.0.9"
+spotless = "6.19.0"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
@@ -27,6 +29,7 @@ androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espres
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxTestExt" }
 compose-destinations-core = { group = "io.github.raamcosta.compose-destinations", name = "core", version.ref = "composeDestinations" }
 compose-destinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "composeDestinations" }
+google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 
 [plugins]
@@ -34,3 +37,4 @@ android-application = { id = "com.android.application", version.ref = "androidGr
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
