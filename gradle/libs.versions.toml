@@ -11,6 +11,7 @@ googleServices = "4.3.15"
 junit = "4.13.2"
 kotlin = "1.8.10"
 ksp = "1.8.10-1.0.9"
+room = "2.5.0"
 spotless = "6.19.0"
 
 [libraries]
@@ -31,6 +32,9 @@ compose-destinations-core = { group = "io.github.raamcosta.compose-destinations"
 compose-destinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "composeDestinations" }
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
