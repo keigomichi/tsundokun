@@ -84,6 +84,10 @@ dependencies {
     implementation(libs.compose.destinations.core)
     implementation(platform("com.google.firebase:firebase-bom:32.1.0"))
     implementation ("com.google.firebase:firebase-analytics-ktx")
+    //supabase
+    implementation(platform(libs.supabase.bom))
+    implementation(libs.supabase.postgrest.kt)
+    implementation(libs.ktor.client.cio)
 
     ksp(libs.compose.destinations.ksp)
 
@@ -96,9 +100,4 @@ dependencies {
 
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.testManifest)
-
-    //supabase
-    implementation(platform(libs.supabase.bom))
-    implementation(libs.supabase.postgrest.kt)
-    implementation(libs.ktor.client.cio)
 }
