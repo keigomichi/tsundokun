@@ -404,7 +404,8 @@ fun AddFab() {
     ExtendedFloatingActionButton(
         text = { Text(text = stringResource(R.string.fab_add)) },
         icon = { Icon(Filled.Add, contentDescription = stringResource(R.string.fab_add)) },
-        onClick = { /*TODO*/ })
+        onClick = { /*TODO*/ },
+    )
 }
 
 /*
