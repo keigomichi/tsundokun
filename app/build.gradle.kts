@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.spotless)
     id("com.google.gms.google-services")
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -85,6 +86,10 @@ dependencies {
     implementation(libs.room.ktx)
     implementation(platform("com.google.firebase:firebase-bom:32.1.0"))
     implementation ("com.google.firebase:firebase-analytics-ktx")
+    //supabase
+    implementation(platform(libs.supabase.bom))
+    implementation(libs.supabase.postgrest.kt)
+    implementation(libs.ktor.client.cio)
 
     annotationProcessor(libs.room.compiler)
 
