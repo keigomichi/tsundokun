@@ -1,5 +1,7 @@
 package com.example.tsundokun.ui.home
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -55,8 +57,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tsundokun.R
-import com.example.tsundokun.data.Datasource
-import com.example.tsundokun.model.WebPage
 import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -240,9 +240,26 @@ fun WebPageListScreen() {
                 )
             }
         }
+
+        /* 以下は一時的に表示するダミーの情報 */
+        var allTsundokus = listOf<WebPage>(
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+        )
+        var favoriteTsundoku = listOf<WebPage>(
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+        )
+
         when (tabSelected) {
-            Screen.ALL -> AllScreen()
-            Screen.FAVORITE -> FavoriteScreen()
+            Screen.ALL -> WebPageList(webPageList = allTsundokus)
+            Screen.FAVORITE -> WebPageList(webPageList = favoriteTsundoku)
         }
     }
 }
@@ -255,31 +272,12 @@ enum class Screen {
 }
 
 /*
- * すべてに切り替えたときに表示するリスト
+ * Webページの情報のデータクラス
  */
-@Composable
-fun AllScreen() {
-    WebPageList()
-}
-
-/*
- * お気に入りに切り替えたときに表示するリスト
- */
-@Composable
-fun FavoriteScreen() {
-    WebPageList()
-}
-
-/*
- * 読み込んだデータを渡して
- * Webページのリスト(Lazy Column)を作成する
- */
-@Composable
-fun WebPageList() {
-    WebPageList(
-        webPageList = Datasource().loadWebPage(),
-    )
-}
+data class WebPage(
+    @StringRes val stringResourceId: Int,
+    @DrawableRes val imageResourceId: Int,
+)
 
 /*
  * Webページのリスト(Lazy Column)の作成
@@ -414,5 +412,7 @@ fun AddFab() {
 @Preview
 @Composable
 private fun AddFabPreview() {
-    AddFab()
+    TsundokunTheme() {
+        AddFab()
+    }
 }
