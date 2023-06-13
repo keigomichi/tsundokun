@@ -57,6 +57,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tsundokun.R
+import com.example.tsundokun.ui.setting.SettingScreen
 import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -111,6 +112,7 @@ fun TopAppBar(modifier: Modifier = Modifier) {
 @Composable
 fun Dropdown() {
     var expanded by remember { mutableStateOf(false) }
+    var openSettingScreen by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
             .wrapContentSize(Alignment.TopStart),
@@ -136,7 +138,7 @@ fun Dropdown() {
         ) {
             DropdownMenuItem(
                 text = { Text(text = stringResource(id = R.string.dropdown_menuitem_setting)) },
-                onClick = { /*TODO*/ },
+                onClick = { openSettingScreen = true; expanded = false },
             )
             DropdownMenuItem(
                 text = { Text(text = stringResource(id = R.string.dropdown_memuitem_export)) },
@@ -144,6 +146,7 @@ fun Dropdown() {
             )
         }
     }
+    if (openSettingScreen) SettingScreen()
 }
 
 /*
