@@ -91,10 +91,6 @@ dependencies {
     implementation(platform(libs.supabase.bom))
     implementation(libs.supabase.postgrest.kt)
     implementation(libs.ktor.client.cio)
-    implementation(platform("androidx.compose:compose-bom:2022.10.00"))
-    implementation(platform("androidx.compose:compose-bom:2022.10.00"))
-    androidTestImplementation(platform("androidx.compose:compose-bom:2022.10.00"))
-    androidTestImplementation(platform("androidx.compose:compose-bom:2022.10.00"))
 
     annotationProcessor(libs.room.compiler)
 
