@@ -113,6 +113,9 @@ fun TopAppBar(modifier: Modifier = Modifier) {
 fun Dropdown() {
     var expanded by remember { mutableStateOf(false) }
     var openSettingScreen by remember { mutableStateOf(false) }
+    val setOpenSettingScreen: () -> Unit = {
+        openSettingScreen = openSettingScreen
+    }
     Box(
         modifier = Modifier
             .wrapContentSize(Alignment.TopStart),
@@ -138,7 +141,7 @@ fun Dropdown() {
         ) {
             DropdownMenuItem(
                 text = { Text(text = stringResource(id = R.string.dropdown_menuitem_setting)) },
-                onClick = { openSettingScreen = true; expanded = false },
+                onClick = { setOpenSettingScreen; expanded = false },
             )
             DropdownMenuItem(
                 text = { Text(text = stringResource(id = R.string.dropdown_memuitem_export)) },
@@ -146,7 +149,7 @@ fun Dropdown() {
             )
         }
     }
-    if (openSettingScreen) SettingScreen()
+    if (openSettingScreen) SettingScreen(setOpenSettingScreen)
 }
 
 /*
