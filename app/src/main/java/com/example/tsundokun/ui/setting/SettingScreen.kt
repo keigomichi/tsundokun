@@ -18,11 +18,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.tsundokun.ui.destinations.HomeScreenDestination
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
-fun SettingScreen(setOpenSettingScreen: () -> Unit)  {
+@Destination
+fun SettingScreen(navigator: DestinationsNavigator)  {
     Column(){
-        TopSettingBar(setOpenSettingScreen)
+        TopSettingBar(navigator)
         SettingItem("アカウント設定", "アカウント情報を設定します")
         SettingItem("通知設定", "通知のオン・オフを設定します")
         SettingItem("プライバシー設定", "プライバシー関連の設定を管理します")
@@ -47,11 +51,11 @@ fun SettingItem(title: String, description: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopSettingBar(setOpenSettingScreen: () -> Unit) {
+fun TopSettingBar(navigator: DestinationsNavigator) {
     CenterAlignedTopAppBar(
         title = { Text(text = "設定") },
         navigationIcon = {
-            IconButton(onClick = { setOpenSettingScreen }) {
+            IconButton(onClick = { navigator.navigate(HomeScreenDestination())}) {
                 Icon(Icons.Filled.ArrowBack, contentDescription = "return home")
             }
         }
