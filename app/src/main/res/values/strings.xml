@@ -14,6 +14,5 @@
     <string name="tsundokun_report_detail">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="do_update">更新する</string>
-    <string name="close">閉じる</string>
     <string name="need_update_info">利用しているアプリのバージョンは古いため更新が必要です。</string>
 </resources>

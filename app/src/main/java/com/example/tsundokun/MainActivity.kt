@@ -120,7 +120,7 @@ class MainActivity : ComponentActivity() {
             dismissButton = {
                 if (!requireForceUpdate) {
                     Button(onClick = { showDialog.value = false }) {
-                        Text(stringResource(string.close))
+                        Text(stringResource(string.button_close))
                     }
                 }
             },
