@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.spotless)
+    id("com.google.gms.google-services")
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -84,8 +86,19 @@ dependencies {
     implementation(libs.coil.kt)
     implementation(libs.coil.compose)
     implementation(libs.jsoup)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    implementation(platform("com.google.firebase:firebase-bom:32.1.0"))
+    implementation ("com.google.firebase:firebase-analytics-ktx")
+    //supabase
+    implementation(platform(libs.supabase.bom))
+    implementation(libs.supabase.postgrest.kt)
+    implementation(libs.ktor.client.cio)
+
+    annotationProcessor(libs.room.compiler)
 
     ksp(libs.compose.destinations.ksp)
+    ksp(libs.room.compiler)
 
     testImplementation(libs.junit)
 

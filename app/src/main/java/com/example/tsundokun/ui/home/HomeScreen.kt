@@ -1,5 +1,7 @@
 package com.example.tsundokun.ui.home
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -55,24 +57,25 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tsundokun.R
-import com.example.tsundokun.data.Datasource
-import com.example.tsundokun.model.WebPage
+import com.example.tsundokun.ui.destinations.SettingScreenDestination
 import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RootNavGraph(start = true)
 @Destination
 @Composable
-fun HomeScreen() {
+
+fun HomeScreen(navigator: DestinationsNavigator) {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
+        color = MaterialTheme.colorScheme.background,
     ) {
         Scaffold(
-            topBar = { TopAppBar() },
-            floatingActionButton = { AddFab() }
+            topBar = { TopAppBar(navigator) },
+            floatingActionButton = { AddFab() },
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
                 TsundokunReport()
@@ -87,20 +90,20 @@ fun HomeScreen() {
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBar(modifier: Modifier = Modifier) {
+fun TopAppBar(navigator: DestinationsNavigator) {
     CenterAlignedTopAppBar(
         title = { Text(stringResource(id = R.string.app_name)) },
         navigationIcon = {
             IconButton(onClick = { /* 検索する */ }) {
                 Icon(
                     imageVector = Filled.Search,
-                    contentDescription = stringResource(R.string.button_search_description)
+                    contentDescription = stringResource(R.string.button_search_description),
                 )
             }
         },
         actions = {
-            Dropdown()
-        }
+            Dropdown(navigator)
+        },
     )
 }
 
@@ -109,20 +112,20 @@ fun TopAppBar(modifier: Modifier = Modifier) {
  * ドロップダウンリスト
  */
 @Composable
-fun Dropdown() {
+fun Dropdown(navigator: DestinationsNavigator) {
     var expanded by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
-            .wrapContentSize(Alignment.TopStart)
+            .wrapContentSize(Alignment.TopStart),
     ) {
         IconButton(
             onClick = {
                 expanded = true
-            }
+            },
         ) {
             Icon(
                 imageVector = Filled.MoreVert,
-                contentDescription = stringResource(R.string.button_morevert_description)
+                contentDescription = stringResource(R.string.button_morevert_description),
             )
         }
         DropdownMenu(
@@ -132,15 +135,15 @@ fun Dropdown() {
                 .clip(RoundedCornerShape(16.dp)),
             expanded = expanded,
             // メニューの外がタップされた時に閉じる
-            onDismissRequest = { expanded = false }
+            onDismissRequest = { expanded = false },
         ) {
             DropdownMenuItem(
                 text = { Text(text = stringResource(id = R.string.dropdown_menuitem_setting)) },
-                onClick = { /*TODO*/ }
+                onClick = { navigator.navigate(SettingScreenDestination()) },
             )
             DropdownMenuItem(
                 text = { Text(text = stringResource(id = R.string.dropdown_memuitem_export)) },
-                onClick = { /*TODO*/ }
+                onClick = { /*TODO*/ },
             )
         }
     }
@@ -152,7 +155,7 @@ fun Dropdown() {
 @Preview
 @Composable
 private fun TopAppBarPreview() {
-    TopAppBar()
+//    TopAppBar()
 }
 
 /*
@@ -168,8 +171,8 @@ fun TsundokunReport(modifier: Modifier = Modifier) {
                 .padding(16.dp)
                 .border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(8.dp)),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.background
-            )
+                containerColor = MaterialTheme.colorScheme.background,
+            ),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
@@ -177,18 +180,18 @@ fun TsundokunReport(modifier: Modifier = Modifier) {
                     contentDescription = "",
                     modifier = Modifier
                         .padding(horizontal = 8.dp)
-                        .weight(1f)
+                        .weight(1f),
                 )
                 Column(
                     modifier = Modifier
                         .padding(8.dp)
-                        .weight(3f)
+                        .weight(3f),
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
                             text = stringResource(id = R.string.tsundokun_report, 10),
                             style = MaterialTheme.typography.bodyLarge,
-                            modifier = modifier.weight(10f)
+                            modifier = modifier.weight(10f),
                         )
                         IconButton(onClick = { visible.value = false }) {
                             Icon(
@@ -196,14 +199,14 @@ fun TsundokunReport(modifier: Modifier = Modifier) {
                                 contentDescription = stringResource(R.string.button_close),
                                 Modifier
                                     .width(16.dp)
-                                    .weight(1f)
+                                    .weight(1f),
                             )
                         }
                     }
                     Text(
                         text = stringResource(id = R.string.tsundokun_report_detail),
                         style = MaterialTheme.typography.bodySmall,
-                        modifier = modifier.padding(bottom = 8.dp)
+                        modifier = modifier.padding(bottom = 8.dp),
                     )
                 }
             }
@@ -230,19 +233,36 @@ fun WebPageListScreen() {
     var tabSelected by rememberSaveable { mutableStateOf(Screen.ALL) }
     Column {
         TabRow(
-            selectedTabIndex = tabSelected.ordinal
+            selectedTabIndex = tabSelected.ordinal,
         ) {
             Screen.values().map { it.name }.forEachIndexed { index, title ->
                 Tab(
                     text = { Text(text = tabName[title].toString()) },
                     selected = tabSelected.ordinal == index,
-                    onClick = { tabSelected = Screen.values()[index] }
+                    onClick = { tabSelected = Screen.values()[index] },
                 )
             }
         }
+
+        /* 以下は一時的に表示するダミーの情報 */
+        var allTsundokus = listOf<WebPage>(
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+        )
+        var favoriteTsundoku = listOf<WebPage>(
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+        )
+
         when (tabSelected) {
-            Screen.ALL -> AllScreen()
-            Screen.FAVORITE -> FavoriteScreen()
+            Screen.ALL -> WebPageList(webPageList = allTsundokus)
+            Screen.FAVORITE -> WebPageList(webPageList = favoriteTsundoku)
         }
     }
 }
@@ -255,31 +275,12 @@ enum class Screen {
 }
 
 /*
- * すべてに切り替えたときに表示するリスト
+ * Webページの情報のデータクラス
  */
-@Composable
-fun AllScreen() {
-    WebPageList()
-}
-
-/*
- * お気に入りに切り替えたときに表示するリスト
- */
-@Composable
-fun FavoriteScreen() {
-    WebPageList()
-}
-
-/*
- * 読み込んだデータを渡して
- * Webページのリスト(Lazy Column)を作成する
- */
-@Composable
-fun WebPageList() {
-    WebPageList(
-        webPageList = Datasource().loadWebPage(),
-    )
-}
+data class WebPage(
+    @StringRes val stringResourceId: Int,
+    @DrawableRes val imageResourceId: Int,
+)
 
 /*
  * Webページのリスト(Lazy Column)の作成
@@ -290,9 +291,9 @@ fun WebPageList(webPageList: List<WebPage>, modifier: Modifier = Modifier) {
         items(webPageList) { webPage ->
             WebPageCard(
                 webpage = webPage,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
             )
-            Divider(color = Color.Gray)  // 区切り線
+            Divider(color = Color.Gray) // 区切り線
         }
     }
 }
@@ -306,8 +307,9 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier) {
         modifier = modifier,
         shape = RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.background
-        )) {
+            containerColor = MaterialTheme.colorScheme.background,
+        ),
+    ) {
         Column {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
@@ -323,24 +325,24 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .padding(horizontal = 8.dp)
                         .height(96.dp)
-                        .weight(3f)
+                        .weight(3f),
                 )
             }
-            Row (verticalAlignment = Alignment.CenterVertically){
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
                     painter = painterResource(R.drawable.ic_qiita),
                     contentDescription = "qiita",
                     modifier = Modifier
                         .padding(horizontal = 8.dp)
                         .clip(RoundedCornerShape(50))
-                        .weight(1f)
+                        .weight(1f),
                 )
                 Text(
                     text = LocalContext.current.getString(R.string.sample_web_page_type),
                     modifier = Modifier
                         .padding(8.dp)
                         .weight(3f),
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
                 )
                 Spacer(modifier = modifier.weight(2f))
                 IconButton(onClick = { /* TODO */ }) {
@@ -349,7 +351,7 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier) {
                         contentDescription = stringResource(R.string.button_favorite_description),
                         modifier = modifier
                             .weight(1f)
-                            .width(20.dp)
+                            .width(20.dp),
                     )
                 }
                 IconButton(onClick = { /* TODO */ }) {
@@ -367,7 +369,7 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier) {
                         contentDescription = stringResource(R.string.button_morevert_description),
                         modifier = modifier
                             .weight(1f)
-                            .width(20.dp)
+                            .width(20.dp),
                     )
                 }
             }
@@ -403,7 +405,8 @@ fun AddFab() {
     ExtendedFloatingActionButton(
         text = { Text(text = stringResource(R.string.fab_add)) },
         icon = { Icon(Filled.Add, contentDescription = stringResource(R.string.fab_add)) },
-        onClick = { /*TODO*/ })
+        onClick = { /*TODO*/ },
+    )
 }
 
 /*
@@ -412,5 +415,7 @@ fun AddFab() {
 @Preview
 @Composable
 private fun AddFabPreview() {
-    AddFab()
+    TsundokunTheme() {
+        AddFab()
+    }
 }
