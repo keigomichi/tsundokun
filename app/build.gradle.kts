@@ -88,16 +88,16 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     implementation(platform("com.google.firebase:firebase-bom:32.1.0"))
-    implementation ("com.google.firebase:firebase-analytics-ktx")
-    //supabase
+    implementation("com.google.firebase:firebase-analytics-ktx")
     implementation(platform(libs.supabase.bom))
     implementation(libs.supabase.postgrest.kt)
     implementation(libs.ktor.client.cio)
-
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    implementation(libs.hilt.android.testing)
 
     annotationProcessor(libs.room.compiler)
+
+    kapt(libs.hilt.compiler)
 
     ksp(libs.compose.destinations.ksp)
     ksp(libs.room.compiler)
