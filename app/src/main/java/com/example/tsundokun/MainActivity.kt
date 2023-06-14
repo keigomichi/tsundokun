@@ -13,7 +13,9 @@ import com.example.tsundokun.ui.NavGraphs
 import com.example.tsundokun.ui.stack.StackScreen
 import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
