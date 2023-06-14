@@ -1,5 +1,7 @@
 package com.example.tsundokun
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -22,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.tsundokun.R.string
 import com.example.tsundokun.ui.NavGraphs
+import com.example.tsundokun.ui.stack.StackScreen
 import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ConfigUpdate
@@ -125,12 +128,25 @@ class MainActivity : ComponentActivity() {
         )
     }
 
-    @Composable
-    @Preview
-    fun PreviewShowUpdate() {
-        val showDialog = remember { mutableStateOf(true) }
-        TsundokunTheme {
-            ShowUpdate(showDialog)
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        if (Intent.ACTION_SEND.equals(intent?.action) && intent?.type != null) {
+            if ("text/plain".equals(intent?.type)) {
+                handleSendText(intent); // Handle text being sent
+            }
+        }
+    }
+
+    private fun handleSendText(intent: Intent?) {
+        val sharedText = intent!!.getStringExtra(Intent.EXTRA_TEXT)
+        if (sharedText != null) {
+            setContent {
+                TsundokunTheme {
+                    // Launch the desired Composable with the shared URL
+                    StackScreen(url = Uri.parse(sharedText))
+                }
+            }
         }
     }
 }
