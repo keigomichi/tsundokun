@@ -109,7 +109,7 @@ private fun StackAppBar(fieldsAreValid: Boolean, navigator: DestinationsNavigato
         IconButton(onClick = { navigator.navigate(HomeScreenDestination()) }) {
             Icon(
                 imageVector = Outlined.Close,
-                contentDescription = stringResource(string.close),
+                contentDescription = stringResource(string.button_close),
             )
         }
     }, actions = {

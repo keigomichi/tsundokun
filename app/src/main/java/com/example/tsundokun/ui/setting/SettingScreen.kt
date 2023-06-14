@@ -46,7 +46,7 @@ fun SettingItem(title: String, description: String) {
         Text(
             text = title,
             style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
         )
         Text(text = description, style = MaterialTheme.typography.labelSmall)
     }
