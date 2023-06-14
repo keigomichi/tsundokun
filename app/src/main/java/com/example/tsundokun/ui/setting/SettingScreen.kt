@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,8 +29,7 @@ fun SettingScreen(navigator: DestinationsNavigator)  {
         TopSettingBar(navigator)
         SettingItem("アカウント設定", "アカウント情報を設定します")
         SettingItem("通知設定", "通知のオン・オフを設定します")
-        SettingItem("プライバシー設定", "プライバシー関連の設定を管理します")
-        SettingItem("言語設定", "表示言語を選択します")
+        SettingItem("ログアウト", "")
     }
 }
 
@@ -56,7 +55,7 @@ fun TopSettingBar(navigator: DestinationsNavigator) {
         title = { Text(text = "設定") },
         navigationIcon = {
             IconButton(onClick = { navigator.navigate(HomeScreenDestination())}) {
-                Icon(Icons.Filled.ArrowBack, contentDescription = "return home")
+                Icon(Icons.Filled.Close, contentDescription = "return home")
             }
         }
     )
