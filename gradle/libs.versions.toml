@@ -15,6 +15,7 @@ ktor = "2.3.1"
 room = "2.5.0"
 spotless = "6.19.0"
 supabase = "1.0.3"
+hilt = "2.44"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
@@ -33,6 +34,9 @@ androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version
 compose-destinations-core = { group = "io.github.raamcosta.compose-destinations", name = "core", version.ref = "composeDestinations" }
 compose-destinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "composeDestinations" }
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ktor-client-cio = { group = "io.ktor" , name = "ktor-client-cio" , version.ref = "ktor"}
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
@@ -44,6 +48,7 @@ supabase-postgrest-kt = { group = "io.github.jan-tennert.supabase", name = "post
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization" , version.ref = "kotlin"}

@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.spotless)
     id("com.google.gms.google-services")
     alias(libs.plugins.serialization)
+
 }
 
 android {
