@@ -21,7 +21,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.tsundokun.R.string
 import com.example.tsundokun.ui.NavGraphs
 import com.example.tsundokun.ui.stack.StackScreen
@@ -76,7 +75,7 @@ class MainActivity : ComponentActivity() {
 
         if (currentVersion != packageManager.getPackageInfo(
                 packageName,
-                0
+                0,
             ).versionName
         ) {
             showDialog.value = true
@@ -92,7 +91,7 @@ class MainActivity : ComponentActivity() {
                     Box(
                         Modifier
                             .fillMaxSize()
-                            .background(Color.Black.copy(alpha = 0.4f))
+                            .background(Color.Black.copy(alpha = 0.4f)),
                     ) {
                         ShowUpdate(showDialog, requireForceUpdate)
                     }
@@ -124,7 +123,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             },
-            text = { Text(stringResource(string.need_update_info)) }
+            text = { Text(stringResource(string.need_update_info)) },
         )
     }
 
