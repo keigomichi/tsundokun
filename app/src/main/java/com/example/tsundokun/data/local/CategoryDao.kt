@@ -20,7 +20,7 @@ interface CategoryDao {
     @Query("SELECT * FROM category WHERE id = :id")
     suspend fun getById(id:String) :CategoryEntity
 
-    @Query
+    @Upsert
     suspend fun upsert(category: CategoryEntity)
 
     @Query("DELETE FROM category WHERE id = :id")
