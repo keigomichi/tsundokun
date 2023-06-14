@@ -8,7 +8,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 
 @Destination
 @Composable
-fun StackScreen(url: Uri) {
+fun StackScreen(url: Uri = Uri.parse("")) {
     Column() {
         Text(text = "積読を追加")
         Text(text = url.toString())
