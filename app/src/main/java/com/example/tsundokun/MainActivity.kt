@@ -9,7 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.tsundokun.ui.home.NavGraphs
+import com.example.tsundokun.ui.NavGraphs
+import com.example.tsundokun.ui.stack.StackScreen
 import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
 
@@ -32,11 +33,8 @@ class MainActivity : ComponentActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
-        val action: String? = intent?.action
-        val data: Uri? = intent?.data
-        val type: String? = intent?.type
-        if (Intent.ACTION_SEND.equals(action) && type != null) {
-            if ("text/plain".equals(type)) {
+        if (Intent.ACTION_SEND.equals(intent?.action) && intent?.type != null) {
+            if ("text/plain".equals(intent?.type)) {
                 handleSendText(intent); // Handle text being sent
             }
         }
@@ -45,8 +43,12 @@ class MainActivity : ComponentActivity() {
     private fun handleSendText(intent: Intent?) {
         val sharedText = intent!!.getStringExtra(Intent.EXTRA_TEXT)
         if (sharedText != null) {
-            // Update UI to reflect text being shared
-            // sharedTextに共有されたURLが含まれる
+            setContent {
+                TsundokunTheme {
+                    // Launch the desired Composable with the shared URL
+                    StackScreen(url = Uri.parse(sharedText))
+                }
+            }
         }
     }
 }
