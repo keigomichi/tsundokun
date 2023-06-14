@@ -24,8 +24,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
 @Destination
-fun SettingScreen(navigator: DestinationsNavigator)  {
-    Column(){
+fun SettingScreen(navigator: DestinationsNavigator) {
+    Column() {
         TopSettingBar(navigator)
         SettingItem("アカウント設定", "アカウント情報を設定します")
         SettingItem("通知設定", "通知のオン・オフを設定します")
@@ -41,7 +41,7 @@ fun SettingItem(title: String, description: String) {
             .fillMaxWidth()
             .height(60.dp)
             .padding(horizontal = 20.dp)
-            .clickable { /*TODO*/ }
+            .clickable { /*TODO*/ },
     ) {
         Text(text = title, style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
         Text(text = description, style = MaterialTheme.typography.labelSmall)
@@ -54,9 +54,9 @@ fun TopSettingBar(navigator: DestinationsNavigator) {
     CenterAlignedTopAppBar(
         title = { Text(text = "設定") },
         navigationIcon = {
-            IconButton(onClick = { navigator.navigate(HomeScreenDestination())}) {
+            IconButton(onClick = { navigator.navigate(HomeScreenDestination()) }) {
                 Icon(Icons.Filled.Close, contentDescription = "return home")
             }
-        }
+        },
     )
 }

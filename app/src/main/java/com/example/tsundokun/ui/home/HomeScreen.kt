@@ -58,7 +58,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tsundokun.R
 import com.example.tsundokun.ui.destinations.SettingScreenDestination
-import com.example.tsundokun.ui.setting.SettingScreen
 import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -139,7 +138,7 @@ fun Dropdown(navigator: DestinationsNavigator) {
         ) {
             DropdownMenuItem(
                 text = { Text(text = stringResource(id = R.string.dropdown_menuitem_setting)) },
-                onClick = {navigator.navigate(SettingScreenDestination())},
+                onClick = { navigator.navigate(SettingScreenDestination()) },
             )
             DropdownMenuItem(
                 text = { Text(text = stringResource(id = R.string.dropdown_memuitem_export)) },
