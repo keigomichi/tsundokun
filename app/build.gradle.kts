@@ -86,6 +86,7 @@ dependencies {
     implementation(libs.room.ktx)
     implementation(platform("com.google.firebase:firebase-bom:32.1.0"))
     implementation ("com.google.firebase:firebase-analytics-ktx")
+    implementation ("com.google.firebase:firebase-config-ktx")
     //supabase
     implementation(platform(libs.supabase.bom))
     implementation(libs.supabase.postgrest.kt)
