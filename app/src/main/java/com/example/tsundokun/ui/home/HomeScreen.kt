@@ -40,7 +40,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -58,6 +57,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tsundokun.R
 import com.example.tsundokun.ui.destinations.SettingScreenDestination
+import com.example.tsundokun.ui.destinations.StackScreenDestination
 import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -67,7 +67,6 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @RootNavGraph(start = true)
 @Destination
 @Composable
-
 fun HomeScreen(navigator: DestinationsNavigator) {
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -75,7 +74,7 @@ fun HomeScreen(navigator: DestinationsNavigator) {
     ) {
         Scaffold(
             topBar = { TopAppBar(navigator) },
-            floatingActionButton = { AddFab() },
+            floatingActionButton = { AddFab(navigator) },
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
                 TsundokunReport()
@@ -401,11 +400,11 @@ fun WebPagePreview() {
  * FAB(追加ボタン)
  */
 @Composable
-fun AddFab() {
+fun AddFab(navigator: DestinationsNavigator) {
     ExtendedFloatingActionButton(
         text = { Text(text = stringResource(R.string.fab_add)) },
         icon = { Icon(Filled.Add, contentDescription = stringResource(R.string.fab_add)) },
-        onClick = { /*TODO*/ },
+        onClick = { navigator.navigate(StackScreenDestination()) },
     )
 }
 
@@ -416,6 +415,6 @@ fun AddFab() {
 @Composable
 private fun AddFabPreview() {
     TsundokunTheme() {
-        AddFab()
+//        AddFab()
     }
 }

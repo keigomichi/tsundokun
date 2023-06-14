@@ -49,12 +49,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.tsundokun.R.string
-import com.example.tsundokun.ui.theme.TsundokunTheme
+import com.example.tsundokun.ui.destinations.HomeScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
@@ -62,7 +62,7 @@ import org.jsoup.Jsoup
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
-fun StackScreen() {
+fun StackScreen(navigator: DestinationsNavigator) {
     var fieldsAreValid by remember { mutableStateOf(false) }
 
     Surface(
@@ -73,6 +73,7 @@ fun StackScreen() {
             topBar = {
                 StackAppBar(
                     fieldsAreValid = fieldsAreValid,
+                    navigator,
                 )
             },
         ) { innerPadding ->
@@ -92,20 +93,12 @@ fun StackScreen() {
     }
 }
 
-@Composable
-@Preview
-private fun Check() {
-    TsundokunTheme {
-        StackScreen()
-    }
-}
-
 /*
  * つんどく追加画面のアプリバー
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun StackAppBar(fieldsAreValid: Boolean) {
+private fun StackAppBar(fieldsAreValid: Boolean, navigator: DestinationsNavigator) {
     TopAppBar(title = {
         Text(
             text = stringResource(string.add),
@@ -113,7 +106,7 @@ private fun StackAppBar(fieldsAreValid: Boolean) {
             overflow = TextOverflow.Ellipsis,
         )
     }, navigationIcon = {
-        IconButton(onClick = { /* Homeに戻る */ }) {
+        IconButton(onClick = { navigator.navigate(HomeScreenDestination()) }) {
             Icon(
                 imageVector = Outlined.Close,
                 contentDescription = stringResource(string.close),
