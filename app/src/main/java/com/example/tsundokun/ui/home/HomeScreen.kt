@@ -57,21 +57,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tsundokun.R
+import com.example.tsundokun.ui.destinations.SettingScreenDestination
 import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RootNavGraph(start = true)
 @Destination
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navigator: DestinationsNavigator) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
     ) {
         Scaffold(
-            topBar = { TopAppBar() },
+            topBar = { TopAppBar(navigator) },
             floatingActionButton = { AddFab() },
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
@@ -87,7 +89,7 @@ fun HomeScreen() {
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBar(modifier: Modifier = Modifier) {
+fun TopAppBar(navigator: DestinationsNavigator) {
     CenterAlignedTopAppBar(
         title = { Text(stringResource(id = R.string.app_name)) },
         navigationIcon = {
@@ -99,7 +101,7 @@ fun TopAppBar(modifier: Modifier = Modifier) {
             }
         },
         actions = {
-            Dropdown()
+            Dropdown(navigator)
         },
     )
 }
@@ -109,7 +111,7 @@ fun TopAppBar(modifier: Modifier = Modifier) {
  * ドロップダウンリスト
  */
 @Composable
-fun Dropdown() {
+fun Dropdown(navigator: DestinationsNavigator) {
     var expanded by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
@@ -136,7 +138,7 @@ fun Dropdown() {
         ) {
             DropdownMenuItem(
                 text = { Text(text = stringResource(id = R.string.dropdown_menuitem_setting)) },
-                onClick = { /*TODO*/ },
+                onClick = { navigator.navigate(SettingScreenDestination()) },
             )
             DropdownMenuItem(
                 text = { Text(text = stringResource(id = R.string.dropdown_memuitem_export)) },
@@ -152,7 +154,7 @@ fun Dropdown() {
 @Preview
 @Composable
 private fun TopAppBarPreview() {
-    TopAppBar()
+//    TopAppBar()
 }
 
 /*
