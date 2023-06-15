@@ -30,7 +30,7 @@ import io.github.jan.supabase.gotrue.mfa.FactorType.TOTP.value
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
-fun LoginScreen(navigator: DestinationsNavigator){
+fun LoginScreen(navigator: DestinationsNavigator) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     Surface(
@@ -51,7 +51,7 @@ fun LoginScreen(navigator: DestinationsNavigator){
                 label = { Text(text = "メールアドレス") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 5.dp)
+                    .padding(vertical = 5.dp),
             )
             OutlinedTextField(
                 value = password,
@@ -59,14 +59,14 @@ fun LoginScreen(navigator: DestinationsNavigator){
                 label = { Text(text = "パスワード") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 5.dp)
+                    .padding(vertical = 5.dp),
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = { /* ログイン処理を実行 */ },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 20.dp)
+                    .padding(vertical = 20.dp),
             ) {
                 Text(text = "ログイン")
             }

@@ -29,7 +29,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
-fun RegistrationScreen(navigator: DestinationsNavigator){
+fun RegistrationScreen(navigator: DestinationsNavigator) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     Surface(
@@ -46,24 +46,30 @@ fun RegistrationScreen(navigator: DestinationsNavigator){
                 value = email,
                 onValueChange = { email = it },
                 label = { Text(text = "メールアドレス") },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp)
+                modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp),
             )
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
                 label = { Text(text = "パスワード") },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp)
+                modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp),
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = { /* 新規登録処理を実行 */ },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp)
+                modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp),
             ) {
                 Text(text = "新規登録")
             }
-            Text(text = "ログインはこちら", style = MaterialTheme.typography.bodySmall, modifier = Modifier.clickable { navigator.navigate(
-                LoginScreenDestination()
-            ) })
+            Text(
+                text = "ログインはこちら",
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.clickable {
+                    navigator.navigate(
+                        LoginScreenDestination(),
+                    )
+                },
+            )
             Spacer(modifier = Modifier.height(30.dp))
             Text(text = "または", modifier = Modifier.padding(vertical = 10.dp))
             Text(text = "googleアカウントで登録", modifier = Modifier.padding(vertical = 0.dp))
