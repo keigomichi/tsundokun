@@ -24,12 +24,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.tsundokun.ui.destinations.RegistrationScreenDestination
+import com.example.tsundokun.ui.destinations.SettingScreenDestination
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.github.jan.supabase.gotrue.mfa.FactorType.TOTP.value
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
+@Destination
 @Composable
-fun LoginScreen(){
+fun LoginScreen(navigator: DestinationsNavigator){
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     Surface(
@@ -38,7 +43,9 @@ fun LoginScreen(){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize().padding(horizontal = 20.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 20.dp),
         ) {
             Text(text = "つんどくん", style = MaterialTheme.typography.titleLarge)
             Spacer(modifier = Modifier.height(20.dp))
@@ -46,22 +53,28 @@ fun LoginScreen(){
                 value = email,
                 onValueChange = { email = it },
                 label = { Text(text = "メールアドレス") },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 5.dp)
             )
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
                 label = { Text(text = "パスワード") },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 5.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = { /* ログイン処理を実行 */ },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 20.dp)
             ) {
                 Text(text = "ログイン")
             }
-            Text(text = "新規登録はこちら", style = MaterialTheme.typography.bodySmall, modifier = Modifier.clickable { /*TODO*/ })
+            Text(text = "新規登録はこちら", style = MaterialTheme.typography.bodySmall, modifier = Modifier.clickable { navigator.navigate(RegistrationScreenDestination()) })
             Spacer(modifier = Modifier.height(30.dp))
             Text(text = "または", modifier = Modifier.padding(vertical = 10.dp))
             Text(text = "google認証でログイン", modifier = Modifier.padding(vertical = 0.dp))

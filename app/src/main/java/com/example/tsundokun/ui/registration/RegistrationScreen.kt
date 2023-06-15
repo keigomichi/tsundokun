@@ -23,11 +23,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.tsundokun.ui.destinations.LoginScreenDestination
+import com.example.tsundokun.ui.destinations.RegistrationScreenDestination
+import com.example.tsundokun.ui.destinations.SettingScreenDestination
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
+@Destination
 @Composable
-fun RegistrationScreen(){
+fun RegistrationScreen(navigator: DestinationsNavigator){
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     Surface(
@@ -59,7 +64,9 @@ fun RegistrationScreen(){
             ) {
                 Text(text = "新規登録")
             }
-            Text(text = "ログインはこちら", style = MaterialTheme.typography.bodySmall, modifier = Modifier.clickable { /*TODO*/ })
+            Text(text = "ログインはこちら", style = MaterialTheme.typography.bodySmall, modifier = Modifier.clickable { navigator.navigate(
+                LoginScreenDestination()
+            ) })
             Spacer(modifier = Modifier.height(30.dp))
             Text(text = "または", modifier = Modifier.padding(vertical = 10.dp))
             Text(text = "googleアカウントで登録", modifier = Modifier.padding(vertical = 0.dp))
