@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.spotless)
     id("com.google.gms.google-services")
     alias(libs.plugins.serialization)
+    kotlin("kapt")
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -54,6 +56,7 @@ android {
     packagingOptions {
         resources {
             excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
 }
@@ -90,10 +93,14 @@ dependencies {
     implementation(libs.room.ktx)
     implementation(platform("com.google.firebase:firebase-bom:32.1.0"))
     implementation ("com.google.firebase:firebase-analytics-ktx")
+    implementation ("com.google.firebase:firebase-config-ktx")
     //supabase
     implementation(platform(libs.supabase.bom))
     implementation(libs.supabase.postgrest.kt)
     implementation(libs.ktor.client.cio)
+
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 
     annotationProcessor(libs.room.compiler)
 
@@ -109,4 +116,9 @@ dependencies {
 
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.testManifest)
+
+}
+
+kapt {
+    correctErrorTypes = true
 }
