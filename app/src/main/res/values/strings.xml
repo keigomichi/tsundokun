@@ -17,4 +17,5 @@
     <string name="do_add">追加する</string>
     <string name="link">リンク</string>
     <string name="category">カテゴリー</string>
+    <string name="add_url_text">追加したいURL入力してください</string>
 </resources>
