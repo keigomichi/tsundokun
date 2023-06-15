@@ -94,14 +94,13 @@ dependencies {
     implementation(libs.supabase.postgrest.kt)
     implementation(libs.ktor.client.cio)
     implementation(libs.hilt.android)
-    implementation(libs.hilt.android.testing)
 
     annotationProcessor(libs.room.compiler)
 
     kapt(libs.hilt.compiler)
+    kapt(libs.room.compiler)
 
     ksp(libs.compose.destinations.ksp)
-    ksp(libs.room.compiler)
 
     testImplementation(libs.junit)
 
