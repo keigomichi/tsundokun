@@ -73,7 +73,7 @@ fun LoginScreen(navigator: DestinationsNavigator) {
             Text(text = "新規登録はこちら", style = MaterialTheme.typography.bodySmall, modifier = Modifier.clickable { navigator.navigate(RegistrationScreenDestination()) })
             Spacer(modifier = Modifier.height(30.dp))
             Text(text = "または", modifier = Modifier.padding(vertical = 10.dp))
-            Text(text = "google認証でログイン", modifier = Modifier.padding(vertical = 0.dp))
+            Text(text = "google認証でログイン", modifier = Modifier.clickable { /*TODO*/ })
         }
     }
 }

@@ -72,7 +72,7 @@ fun RegistrationScreen(navigator: DestinationsNavigator) {
             )
             Spacer(modifier = Modifier.height(30.dp))
             Text(text = "または", modifier = Modifier.padding(vertical = 10.dp))
-            Text(text = "googleアカウントで登録", modifier = Modifier.padding(vertical = 0.dp))
+            Text(text = "googleアカウントで登録", modifier = Modifier.clickable { /*TODO*/ })
         }
     }
 }
