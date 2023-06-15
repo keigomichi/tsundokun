@@ -1,4 +1,4 @@
-package com.example.tsundokun.data.local
+package com.example.tsundokun.data.local.Category
 
 import androidx.room.Dao
 import androidx.room.Query
@@ -18,7 +18,7 @@ interface CategoryDao {
     suspend fun getAll() : List<CategoryEntity>
 
     @Query("SELECT * FROM category WHERE id = :id")
-    suspend fun getById(id:String) :CategoryEntity
+    suspend fun getById(id:String) : CategoryEntity
 
     @Upsert
     suspend fun upsert(category: CategoryEntity)

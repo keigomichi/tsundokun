@@ -1,4 +1,4 @@
-package com.example.tsundokun.data.local
+package com.example.tsundokun.data.local.Category
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
