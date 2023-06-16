@@ -7,6 +7,7 @@ androidxEspresso = "3.5.1"
 androidxHiltNavigationCompose= "1.0.0"
 androidxLifecycle = "2.3.1"
 androidxTestExt = "1.1.5"
+coil = "2.3.0"
 composeDestinations = "1.7.41-beta"
 googleServices = "4.3.15"
 hilt = "2.44"
@@ -17,6 +18,7 @@ ktor = "2.3.1"
 room = "2.5.0"
 spotless = "6.19.0"
 supabase = "1.0.3"
+jsoup = "1.16.1"
 
 
 [libraries]
@@ -36,10 +38,13 @@ androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espres
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxTestExt" }
 compose-destinations-core = { group = "io.github.raamcosta.compose-destinations", name = "core", version.ref = "composeDestinations" }
 compose-destinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "composeDestinations" }
+coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+jsoup = { module = "org.jsoup:jsoup", name = "jsoup", version.ref = "jsoup" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ktor-client-cio = { group = "io.ktor" , name = "ktor-client-cio" , version.ref = "ktor"}
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
