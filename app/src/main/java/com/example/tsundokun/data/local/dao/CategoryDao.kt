@@ -1,8 +1,9 @@
-package com.example.tsundokun.data.local.category
+package com.example.tsundokun.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
+import com.example.tsundokun.data.local.entities.CategoryEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
