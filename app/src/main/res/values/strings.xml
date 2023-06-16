@@ -23,4 +23,5 @@
     <string name="cant_add_url">このURLは追加することが出来ません</string>
     <string name="loading_error">情報を取得する際にエラーが発生しました</string>
     <string name="back_home">ホームに戻る</string>
+    <string name="share_link">リンクを共有</string>
 </resources>
