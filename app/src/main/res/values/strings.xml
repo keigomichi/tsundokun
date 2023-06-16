@@ -21,4 +21,6 @@
     <string name="do_update">更新する</string>
     <string name="need_update_info">利用しているアプリのバージョンは古いため更新が必要です。</string>
     <string name="cant_add_url">このURLは追加することが出来ません</string>
+    <string name="loading_error">情報を取得する際にエラーが発生しました</string>
+    <string name="back_home">ホームに戻る</string>
 </resources>

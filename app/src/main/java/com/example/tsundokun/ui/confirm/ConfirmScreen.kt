@@ -1,6 +1,5 @@
 package com.example.tsundokun.ui.confirm
 
-import android.content.res.Resources.Theme
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,6 +19,8 @@ import androidx.compose.material.icons.filled.Attachment
 import androidx.compose.material.icons.outlined.Category
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Send
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -51,12 +52,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
+import com.example.tsundokun.R
 import com.example.tsundokun.R.string
 import com.example.tsundokun.ui.destinations.HomeScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 
@@ -76,6 +79,29 @@ fun ConfirmScreen(navigator: DestinationsNavigator, link: String) {
         if (ogpImageUrl != null) {
             isLoading = false
         }
+    }
+
+    val title = getTitle(html)
+    var showTitleErrorDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(title) {
+        if (title.isNullOrEmpty()) {
+            delay(10000)
+            showTitleErrorDialog = true
+        }
+    }
+
+    if (showTitleErrorDialog) {
+        AlertDialog(onDismissRequest = { },
+            text = { Text(stringResource(string.loading_error)) },
+            dismissButton = {
+                Button(
+                    onClick = { navigator.navigate(HomeScreenDestination()) },
+                ) {
+                    Text(stringResource(string.back_home))
+                }
+            },
+            confirmButton = { })
     }
 
     Surface(
@@ -368,20 +394,18 @@ fun getTitle(html: String?): String? {
 @Composable
 fun fetchHtml(url: String): String? {
     var html by remember { mutableStateOf<String?>(null) }
-    var fetchCompleted by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = url) {
         withContext(Dispatchers.IO) {
             try {
                 val doc = Jsoup.connect(url).get()
                 html = doc.toString()
-                fetchCompleted = true
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
-    return if (fetchCompleted) html else null
+    return html
 }
 
 /*
@@ -395,6 +419,7 @@ private fun ShowOgp(
 ) {
     val html = fetchHtml(image)
     val ogpImageUrl = getOgpImageUrl(html)
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -407,8 +432,11 @@ private fun ShowOgp(
                 .fillMaxWidth()
                 .height(200.dp),
         ) {
+            val painter = rememberImagePainter(data = ogpImageUrl, builder = {
+                error(R.drawable.loading)
+            })
             Image(
-                painter = rememberAsyncImagePainter(model = ogpImageUrl),
+                painter = painter,
                 contentDescription = contentDescription,
                 modifier = Modifier
                     .fillMaxSize()
