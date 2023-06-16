@@ -9,5 +9,5 @@ import java.util.Date
 data class CategoryEntity(
     @PrimaryKey val id: String,
     @ColumnInfo(name = "label") val label : String,
-    @ColumnInfo(name = "created_at") val created_at:Date,
+    @ColumnInfo(name = "created_at") val created_at: Long,
 )

@@ -4,8 +4,6 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
-import java.sql.RowId
-
 @Dao
 interface TsundokuDao {
     @Query("SELECT * FROM tsundoku")
@@ -15,8 +13,8 @@ interface TsundokuDao {
     fun observeById(id: String): Flow<TsundokuEntity>
 
     //カテゴリーから積読の取得
-    @Query("SELECT tsundoku.id, tsundoku.link, tsundoku.is_read, tsundoku.is_favorite, tsundoku.created_at, tsundoku.update_at, tsundoku.deleted_at FROM tsundoku INNER JOIN tsundoku_category ON tsundoku.id = tsundoku_category.tsundoku_id WHERE tsundoku_category.category_id = category_id")
-    fun observeTsundokuByCategoryId(id: String): Flow<List<TsundokuEntity>>
+    @Query("SELECT tsundoku.id, tsundoku.link, tsundoku.is_read, tsundoku.is_favorite, tsundoku.created_at, tsundoku.update_at, tsundoku.deleted_at FROM tsundoku INNER JOIN tsundoku_category ON tsundoku.id = tsundoku_category.tsundoku_id WHERE tsundoku_category.category_id = :category_id")
+    fun observeTsundokuByCategoryId(category_id:String): Flow<List<TsundokuEntity>>
 
     @Query("SELECT * FROM tsundoku")
     suspend fun getAll(): List<TsundokuEntity>
