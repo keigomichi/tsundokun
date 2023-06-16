@@ -1,5 +1,6 @@
 package com.example.tsundokun.ui.confirm
 
+import android.content.res.Resources.Theme
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,6 +20,7 @@ import androidx.compose.material.icons.filled.Attachment
 import androidx.compose.material.icons.outlined.Category
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Send
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -65,6 +67,16 @@ fun ConfirmScreen(navigator: DestinationsNavigator, link: String) {
     var fieldsAreValid by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
+    var isLoading by remember { mutableStateOf(true) }
+
+    val html = fetchHtml(link)
+    val ogpImageUrl = getOgpImageUrl(html)
+
+    LaunchedEffect(ogpImageUrl) {
+        if (ogpImageUrl != null) {
+            isLoading = false
+        }
+    }
 
     Surface(
         modifier = Modifier
@@ -98,6 +110,16 @@ fun ConfirmScreen(navigator: DestinationsNavigator, link: String) {
                         .padding(16.dp),
                     link = link,
                 )
+                if (isLoading) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Black.copy(alpha = 0.4f)),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        CircularProgressIndicator(color = Color(0xFF5DAAC9))
+                    }
+                }
             }
         }
     }
@@ -302,6 +324,7 @@ private fun SelectedShow(
 @Composable
 fun getOgpImageUrl(html: String?): String? {
     var imageUrl by remember { mutableStateOf<String?>(null) }
+    var fetchCompleted by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = html) {
         withContext(Dispatchers.IO) {
@@ -311,12 +334,13 @@ fun getOgpImageUrl(html: String?): String? {
                 if (ogImage != null) {
                     imageUrl = ogImage.attr("content")
                 }
+                fetchCompleted = true
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
-    return imageUrl
+    return if (fetchCompleted) imageUrl else null
 }
 
 /*
@@ -344,20 +368,20 @@ fun getTitle(html: String?): String? {
 @Composable
 fun fetchHtml(url: String): String? {
     var html by remember { mutableStateOf<String?>(null) }
-    var fetchError by remember { mutableStateOf(false) }
+    var fetchCompleted by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = url) {
         withContext(Dispatchers.IO) {
             try {
                 val doc = Jsoup.connect(url).get()
                 html = doc.toString()
+                fetchCompleted = true
             } catch (e: Exception) {
                 e.printStackTrace()
-                fetchError = true
             }
         }
     }
-    return html
+    return if (fetchCompleted) html else null
 }
 
 /*

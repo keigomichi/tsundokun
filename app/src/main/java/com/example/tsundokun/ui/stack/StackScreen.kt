@@ -98,6 +98,7 @@ fun StackScreen(navigator: DestinationsNavigator) {
                         .align(Alignment.TopCenter)
                         .padding(16.dp),
                 )
+
             }
         }
     }
