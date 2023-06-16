@@ -56,12 +56,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.tsundokun.R
+import com.example.tsundokun.data.local.TsundokuDao
+import com.example.tsundokun.data.local.TsundokuEntity
 import com.example.tsundokun.ui.destinations.SettingScreenDestination
 import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RootNavGraph(start = true)
@@ -418,3 +425,37 @@ private fun AddFabPreview() {
         AddFab()
     }
 }
+
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val tsundokuDao : TsundokuDao
+): ViewModel(){
+    val allTsundokus = tsundokuDao.observeAll()
+
+    fun observeTsundoku(id: String) = tsundokuDao.observeById(id)
+
+    fun observeTsundokuByCategoryId(categoryId: String) = tsundokuDao.observeTsundokuByCategoryId(categoryId)
+
+    fun upsert(tsundoku: TsundokuEntity) = viewModelScope.launch {
+        tsundokuDao.upsert(tsundoku)
+    }
+
+    fun upsertAll(tsundokus: List<TsundokuEntity>) = viewModelScope.launch {
+        tsundokuDao.upsertAll(tsundokus)
+    }
+
+    fun updateRead(id: String, isRead: Boolean) = viewModelScope.launch {
+        tsundokuDao.updateRead(id, isRead)
+    }
+
+    fun updateFavorite(id: String, isFavorite: Boolean) = viewModelScope.launch {
+        tsundokuDao.updateFavorite(id, isFavorite)
+    }
+
+    fun deleteById(id: String) = viewModelScope.launch {
+        tsundokuDao.deleteById(id)
+    }
+
+    fun deleteAll() = viewModelScope.launch {
+        tsundokuDao.deleteAll()
+    }}
