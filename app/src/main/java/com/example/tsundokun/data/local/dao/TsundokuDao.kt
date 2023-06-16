@@ -1,8 +1,9 @@
-package com.example.tsundokun.data.local
+package com.example.tsundokun.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
+import com.example.tsundokun.data.local.entities.TsundokuEntity
 import kotlinx.coroutines.flow.Flow
 @Dao
 interface TsundokuDao {
