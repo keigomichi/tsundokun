@@ -1,7 +1,6 @@
 package com.example.tsundokun
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -23,7 +22,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.example.tsundokun.R.string
 import com.example.tsundokun.ui.NavGraphs
-import com.example.tsundokun.ui.stack.StackScreen
 import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ConfigUpdate
