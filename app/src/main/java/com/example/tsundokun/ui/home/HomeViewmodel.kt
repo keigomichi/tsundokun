@@ -13,9 +13,9 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
 
-    private val tsundokuDao : TsundokuDao
+    private val tsundokuDao: TsundokuDao,
 
-): ViewModel(){
+) : ViewModel() {
 
 //    val tsundokuState : StateFlow<TsundokuUiState> =
     private val _uiState = MutableStateFlow(TsundokuUiState())
@@ -58,8 +58,8 @@ class HomeViewModel @Inject constructor(
 
     fun deleteAll() = viewModelScope.launch {
         tsundokuDao.deleteAll()
-    }}
+    } }
 
-data class TsundokuUiState (
-        val tsundoku:List<TsundokuEntity> = emptyList()
+data class TsundokuUiState(
+    val tsundoku: List<TsundokuEntity> = emptyList(),
 )

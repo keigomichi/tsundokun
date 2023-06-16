@@ -65,17 +65,15 @@ import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RootNavGraph(start = true)
 @Destination
 @Composable
-fun HomeScreen(navigator: DestinationsNavigator ,viewModel: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hiltViewModel()) {
     val tsundokuUiState by viewModel.uiState.collectAsState()
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -236,12 +234,12 @@ private fun TsundokunReportPreview() {
  * タブで表示を切り替えられる
  */
 @Composable
-fun WebPageListScreen(tsundokuEntityList:List<TsundokuEntity>) {
+fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>) {
     var tabName = mutableMapOf("ALL" to "すべて", "FAVORITE" to "お気に入り")
 
     var tabSelected by rememberSaveable { mutableStateOf(Screen.ALL) }
 
-    val tsundokuItem =  tsundokuEntityList.map {
+    val tsundokuItem = tsundokuEntityList.map {
         WebPage(
             getTitle(html = fetchHtml(url = it.link)),
             getOgpImageUrl(html = fetchHtml(url = it.link)),
@@ -541,13 +539,13 @@ private fun WebPageCardPreview() {
 /*
  * リスト全体のプレビュー
  */
-//@Preview(showBackground = true)
-//@Composable
-//fun WebPagePreview() {
+// @Preview(showBackground = true)
+// @Composable
+// fun WebPagePreview() {
 //    TsundokunTheme {
 //        WebPageListScreen()
 //    }
-//}
+// }
 
 /*
  * FAB(追加ボタン)
