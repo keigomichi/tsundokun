@@ -1,5 +1,6 @@
 package com.example.tsundokun.ui.stack
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +18,8 @@ import androidx.compose.material.icons.filled.Attachment
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Send
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -60,6 +63,7 @@ fun StackScreen(navigator: DestinationsNavigator) {
     var showError by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
+    var showDialog by remember { mutableStateOf(false) }
 
     Surface(
         modifier = Modifier
@@ -79,6 +83,7 @@ fun StackScreen(navigator: DestinationsNavigator) {
                     url = linkText,
                     fieldsAreValid = fieldsAreValid,
                     navigator,
+                    showDialog = { showDialog = it }
                 )
             },
         ) { innerPadding ->
@@ -98,7 +103,25 @@ fun StackScreen(navigator: DestinationsNavigator) {
                         .align(Alignment.TopCenter)
                         .padding(16.dp),
                 )
-
+            }
+        }
+        if (showDialog) {
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.4f)),
+            ) {
+                AlertDialog(
+                    onDismissRequest = { showDialog = false },
+                    text = { Text(text = stringResource(string.cant_add_url)) },
+                    dismissButton = {
+                        Button(onClick = { showDialog = false }) {
+                            Text(text = stringResource(string.button_close))
+                        }
+                    },
+                    confirmButton = {
+                    }
+                )
             }
         }
     }
@@ -113,6 +136,7 @@ private fun StackAppBar(
     url: String,
     fieldsAreValid: Boolean,
     navigator: DestinationsNavigator,
+    showDialog: (Boolean) -> Unit,
 ) {
     TopAppBar(title = {
         Text(
@@ -129,13 +153,22 @@ private fun StackAppBar(
         }
     }, actions = {
         if (fieldsAreValid) {
-            IconButton(onClick = {
-                navigator.navigate(ConfirmScreenDestination(url))
-            }) {
-                Icon(
-                    imageVector = Outlined.Send,
-                    contentDescription = stringResource(string.do_add),
-                )
+            if (url.startsWith("http")) {
+                IconButton(onClick = {
+                    navigator.navigate(ConfirmScreenDestination(url))
+                }) {
+                    Icon(
+                        imageVector = Outlined.Send,
+                        contentDescription = stringResource(string.do_add),
+                    )
+                }
+            } else {
+                IconButton(onClick = { showDialog(true) }) {
+                    Icon(
+                        imageVector = Outlined.Send,
+                        contentDescription = stringResource(string.do_add),
+                    )
+                }
             }
         } else {
             IconButton(onClick = { /* 追加出来ない状態 */ }) {

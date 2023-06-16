@@ -20,4 +20,5 @@
     <string name="add_url_text">追加したいURL入力してください</string>
     <string name="do_update">更新する</string>
     <string name="need_update_info">利用しているアプリのバージョンは古いため更新が必要です。</string>
+    <string name="cant_add_url">このURLは追加することが出来ません</string>
 </resources>
