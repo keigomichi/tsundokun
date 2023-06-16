@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -252,36 +253,44 @@ fun WebPageListScreen() {
             WebPage(
                 getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
                 getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
             ),
             WebPage(
                 getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
                 getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
             ),
             WebPage(
                 getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
                 getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
             ),
             WebPage(
                 getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
                 getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
             ),
         )
         var favoriteTsundoku = listOf<WebPage>(
             WebPage(
                 getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
                 getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
             ),
             WebPage(
                 getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
                 getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
             ),
             WebPage(
                 getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
                 getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
             ),
             WebPage(
                 getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
                 getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
             ),
         )
 
@@ -304,7 +313,8 @@ enum class Screen {
  */
 data class WebPage(
     val title: String?,
-    val image: String?,
+    val ogpImageUrl: String?,
+    val faviconImageUrl: String?,
 )
 
 /*
@@ -369,6 +379,29 @@ fun getOgpImageUrl(html: String?): String? {
 }
 
 /*
+ * htmlからfavicon画像のurlを取得
+ */
+@Composable
+fun getFaviconImageUrl(html: String?): String? {
+    var imageUrl by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(key1 = html) {
+        withContext(Dispatchers.IO) {
+            try {
+                val doc = html?.let { Jsoup.parse(it) }
+                val ogImage = doc?.selectFirst("[href~=.*\\.(ico|png)]")
+                if (ogImage != null) {
+                    imageUrl = ogImage.attr("href")
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+    return imageUrl
+}
+
+/*
  * htmlからタイトルを取得
  */
 @Composable
@@ -412,7 +445,7 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier) {
                     style = MaterialTheme.typography.bodyLarge,
                 )
                 Image(
-                    painter = rememberAsyncImagePainter(webpage.image),
+                    painter = rememberAsyncImagePainter(webpage.ogpImageUrl),
                     contentDescription = webpage.title,
                     modifier = Modifier
                         .padding(horizontal = 8.dp)
@@ -421,14 +454,20 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier) {
                 )
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painter = painterResource(R.drawable.ic_qiita),
-                    contentDescription = "qiita",
+                Box(
                     modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .clip(RoundedCornerShape(50))
+                        .fillMaxWidth()
+                        .height(24.dp)
                         .weight(1f),
-                )
+                ) {
+                    Image(
+                        painter = rememberAsyncImagePainter(model = webpage.faviconImageUrl),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(50)),
+                    )
+                }
                 Text(
                     text = LocalContext.current.getString(R.string.sample_web_page_type),
                     modifier = Modifier
@@ -479,6 +518,7 @@ private fun WebPageCardPreview() {
         WebPage(
             getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
             getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+            getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/"))
         )
     )
 }
