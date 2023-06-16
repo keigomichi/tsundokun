@@ -2,8 +2,8 @@ package com.example.tsundokun.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tsundokun.data.local.TsundokuDao
-import com.example.tsundokun.data.local.TsundokuEntity
+import com.example.tsundokun.data.local.dao.TsundokuDao
+import com.example.tsundokun.data.local.entities.TsundokuEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
