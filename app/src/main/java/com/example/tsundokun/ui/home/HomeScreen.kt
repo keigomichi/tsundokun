@@ -1,5 +1,7 @@
 package com.example.tsundokun.ui.home
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -59,6 +61,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.tsundokun.R
+import com.example.tsundokun.R.string
 import com.example.tsundokun.data.local.entities.TsundokuEntity
 import com.example.tsundokun.ui.destinations.SettingScreenDestination
 import com.example.tsundokun.ui.theme.TsundokunTheme
@@ -121,8 +124,7 @@ fun TopAppBar(navigator: DestinationsNavigator) {
 fun Dropdown(navigator: DestinationsNavigator) {
     var expanded by remember { mutableStateOf(false) }
     Box(
-        modifier = Modifier
-            .wrapContentSize(Alignment.TopStart),
+        modifier = Modifier.wrapContentSize(Alignment.TopStart),
     ) {
         IconButton(
             onClick = {
@@ -244,6 +246,7 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>) {
             getTitle(html = fetchHtml(url = it.link)),
             getOgpImageUrl(html = fetchHtml(url = it.link)),
             getFaviconImageUrl(html = fetchHtml(url = it.link)),
+            it.link,
         )
     }
 
@@ -289,21 +292,25 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>) {
                 getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
                 getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
                 getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                "https://www.yahoo.co.jp/",
             ),
             WebPage(
                 getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
                 getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
                 getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                "https://www.yahoo.co.jp/",
             ),
             WebPage(
                 getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
                 getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
                 getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                "https://www.yahoo.co.jp/",
             ),
             WebPage(
                 getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
                 getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
                 getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                "https://www.yahoo.co.jp/",
             ),
         )
 
@@ -328,6 +335,7 @@ data class WebPage(
     val title: String?,
     val ogpImageUrl: String?,
     val faviconImageUrl: String?,
+    val link: String?,
 )
 
 /*
@@ -441,6 +449,7 @@ fun getTitle(html: String?): String? {
  */
 @Composable
 fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(0.dp),
@@ -498,7 +507,7 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier) {
                             .width(20.dp),
                     )
                 }
-                IconButton(onClick = { /* TODO */ }) {
+                IconButton(onClick = { webpage.link?.let { ShareLink(context, it) } }) {
                     Icon(
                         imageVector = Filled.Share,
                         contentDescription = stringResource(R.string.button_share_description),
@@ -532,8 +541,17 @@ private fun WebPageCardPreview() {
             getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
             getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
             getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+            "https://www.yahoo.co.jp/",
         ),
     )
+}
+
+private fun ShareLink(context: Context, link: String) {
+    val intent = Intent(Intent.ACTION_SEND)
+    intent.type = "text/plain"
+    intent.putExtra(Intent.EXTRA_TEXT, link)
+    val chooserIntent = Intent.createChooser(intent, context.getString(string.share_link))
+    context.startActivity(chooserIntent)
 }
 
 /*

@@ -15,4 +15,5 @@
         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="do_update">更新する</string>
     <string name="need_update_info">利用しているアプリのバージョンは古いため更新が必要です。</string>
+    <string name="share_link">リンクを共有</string>
 </resources>
