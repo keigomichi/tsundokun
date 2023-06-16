@@ -6,6 +6,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.example.tsundokun.data.local.TsundokunDatabase
 import com.example.tsundokun.data.local.entities.TsundokuEntity
+import com.example.tsundokun.data.local.entities.TsundokuEntity
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import kotlinx.coroutines.ExperimentalCoroutinesApi
