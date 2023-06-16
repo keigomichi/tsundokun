@@ -1,10 +1,10 @@
-package com.example.tsundokun.data.local.TsundokuCategory
+package com.example.tsundokun.data.local.tsundokucategory
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import com.example.tsundokun.data.local.Category.CategoryEntity
+import com.example.tsundokun.data.local.category.CategoryEntity
 import com.example.tsundokun.data.local.TsundokuEntity
 
 @Entity(
