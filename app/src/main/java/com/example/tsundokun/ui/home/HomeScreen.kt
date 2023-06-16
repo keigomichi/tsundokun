@@ -516,8 +516,8 @@ private fun WebPageCardPreview() {
         WebPage(
             getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
             getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-            getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/"))
-        )
+            getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+        ),
     )
 }
 
