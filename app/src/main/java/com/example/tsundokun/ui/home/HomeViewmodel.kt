@@ -5,6 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.tsundokun.data.local.dao.TsundokuDao
 import com.example.tsundokun.data.local.entities.TsundokuEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,7 +21,11 @@ class HomeViewModel @Inject constructor(
 
 ): ViewModel(){
 
-    val allTsundokus =
+//    val tsundokuState : StateFlow<TsundokuUiState> =
+    private val _uiState = MutableStateFlow(TsundokuUiState())
+    val uiState = _uiState.asStateFlow()
+
+    fun observeAllTsundoku() =
         viewModelScope.launch {
             tsundokuDao.observeAll()
         }
@@ -53,3 +63,7 @@ class HomeViewModel @Inject constructor(
     fun deleteAll() = viewModelScope.launch {
         tsundokuDao.deleteAll()
     }}
+
+data class TsundokuUiState (
+        val tsundoku:List<TsundokuEntity> = emptyList()
+)
