@@ -23,5 +23,4 @@ object DatabaseModule {
 
     @Provides
     fun categoryDao(database: TsundokunDatabase) : CategoryDao = database.categoryDao()
-
 }
