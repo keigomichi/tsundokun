@@ -145,7 +145,8 @@ class MainActivity : ComponentActivity() {
             setContent {
                 TsundokunTheme {
                     // Launch the desired Composable with the shared URL
-                    StackScreen(url = Uri.parse(sharedText))
+//                    TODO: 一時的にコメントアウト
+//                    StackScreen(url = Uri.parse(sharedText))
                 }
             }
         }
