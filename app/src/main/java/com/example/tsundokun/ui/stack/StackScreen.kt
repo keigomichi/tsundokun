@@ -83,7 +83,7 @@ fun StackScreen(navigator: DestinationsNavigator) {
                     url = linkText,
                     fieldsAreValid = fieldsAreValid,
                     navigator,
-                    showDialog = { showDialog = it }
+                    showDialog = { showDialog = it },
                 )
             },
         ) { innerPadding ->
@@ -120,7 +120,7 @@ fun StackScreen(navigator: DestinationsNavigator) {
                         }
                     },
                     confirmButton = {
-                    }
+                    },
                 )
             }
         }

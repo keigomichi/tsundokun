@@ -92,7 +92,8 @@ fun ConfirmScreen(navigator: DestinationsNavigator, link: String) {
     }
 
     if (showTitleErrorDialog) {
-        AlertDialog(onDismissRequest = { },
+        AlertDialog(
+            onDismissRequest = { },
             text = { Text(stringResource(string.loading_error)) },
             dismissButton = {
                 Button(
@@ -101,7 +102,8 @@ fun ConfirmScreen(navigator: DestinationsNavigator, link: String) {
                     Text(stringResource(string.back_home))
                 }
             },
-            confirmButton = { })
+            confirmButton = { },
+        )
     }
 
     Surface(
