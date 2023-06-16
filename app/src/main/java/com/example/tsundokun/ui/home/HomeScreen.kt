@@ -1,7 +1,5 @@
 package com.example.tsundokun.ui.home
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -40,8 +38,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -56,12 +54,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.example.tsundokun.R
 import com.example.tsundokun.ui.destinations.SettingScreenDestination
 import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.example.tsundokun.ui.home.Screen.ALL
+import com.example.tsundokun.ui.home.Screen.FAVORITE
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.jsoup.Jsoup
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RootNavGraph(start = true)
@@ -229,7 +233,7 @@ private fun TsundokunReportPreview() {
 @Composable
 fun WebPageListScreen() {
     var tabName = mutableMapOf("ALL" to "すべて", "FAVORITE" to "お気に入り")
-    var tabSelected by rememberSaveable { mutableStateOf(Screen.ALL) }
+    var tabSelected by rememberSaveable { mutableStateOf(ALL) }
     Column {
         TabRow(
             selectedTabIndex = tabSelected.ordinal,
@@ -245,23 +249,45 @@ fun WebPageListScreen() {
 
         /* 以下は一時的に表示するダミーの情報 */
         var allTsundokus = listOf<WebPage>(
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+            WebPage(
+                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+            ),
+            WebPage(
+                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+            ),
+            WebPage(
+                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+            ),
+            WebPage(
+                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+            ),
         )
         var favoriteTsundoku = listOf<WebPage>(
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+            WebPage(
+                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+            ),
+            WebPage(
+                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+            ),
+            WebPage(
+                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+            ),
+            WebPage(
+                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+            ),
         )
 
         when (tabSelected) {
-            Screen.ALL -> WebPageList(webPageList = allTsundokus)
-            Screen.FAVORITE -> WebPageList(webPageList = favoriteTsundoku)
+            ALL -> WebPageList(webPageList = allTsundokus)
+            FAVORITE -> WebPageList(webPageList = favoriteTsundoku)
         }
     }
 }
@@ -277,8 +303,8 @@ enum class Screen {
  * Webページの情報のデータクラス
  */
 data class WebPage(
-    @StringRes val stringResourceId: Int,
-    @DrawableRes val imageResourceId: Int,
+    val title: String?,
+    val image: String?,
 )
 
 /*
@@ -298,6 +324,73 @@ fun WebPageList(webPageList: List<WebPage>, modifier: Modifier = Modifier) {
 }
 
 /*
+ * htmlを取得
+ */
+@Composable
+fun fetchHtml(url: String): String? {
+    var html by remember { mutableStateOf<String?>(null) }
+    var fetchError by remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = url) {
+        withContext(Dispatchers.IO) {
+            try {
+                val doc = Jsoup.connect(url).get()
+                html = doc.toString()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                fetchError = true
+            }
+        }
+    }
+    return html
+}
+
+/*
+ * htmlからogp画像のurlを取得
+ */
+@Composable
+fun getOgpImageUrl(html: String?): String? {
+    var imageUrl by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(key1 = html) {
+        withContext(Dispatchers.IO) {
+            try {
+                val doc = html?.let { Jsoup.parse(it) }
+                val ogImage = doc?.selectFirst("meta[property=og:image]")
+                if (ogImage != null) {
+                    imageUrl = ogImage.attr("content")
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+    return imageUrl
+}
+
+/*
+ * htmlからタイトルを取得
+ */
+@Composable
+fun getTitle(html: String?): String? {
+    var title by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(key1 = html) {
+        withContext(Dispatchers.IO) {
+            try {
+                val doc = html?.let { Jsoup.parse(it) }
+                if (doc != null) {
+                    title = doc.title()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+    return title
+}
+
+/*
  * リストの各要素であるカード
  */
 @Composable
@@ -312,15 +405,15 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier) {
         Column {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = LocalContext.current.getString(webpage.stringResourceId),
+                    text = webpage.title ?: "",
                     modifier = Modifier
                         .padding(8.dp)
                         .weight(5f),
                     style = MaterialTheme.typography.bodyLarge,
                 )
                 Image(
-                    painter = painterResource(webpage.imageResourceId),
-                    contentDescription = stringResource(webpage.stringResourceId),
+                    painter = rememberAsyncImagePainter(webpage.image),
+                    contentDescription = webpage.title,
                     modifier = Modifier
                         .padding(horizontal = 8.dp)
                         .height(96.dp)
@@ -382,7 +475,12 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun WebPageCardPreview() {
-    WebPageCard(WebPage(R.string.sample_web_page_title, R.drawable.sample_image))
+    WebPageCard(
+        WebPage(
+            getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+            getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+        )
+    )
 }
 
 /*
