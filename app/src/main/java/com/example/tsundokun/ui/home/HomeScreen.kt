@@ -40,7 +40,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -57,6 +56,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tsundokun.R
+import com.example.tsundokun.ui.home.component.AddTabTitleDialog
 import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -226,8 +226,9 @@ private fun TsundokunReportPreview() {
  */
 @Composable
 fun WebPageListScreen() {
-    var tabName = mutableMapOf("ALL" to "すべて", "FAVORITE" to "お気に入り")
+    var tabName = mutableMapOf( "ALL" to "すべて", "FAVORITE" to "お気に入り")
     var tabSelected by rememberSaveable { mutableStateOf(Screen.ALL) }
+    val showDialog =  remember { mutableStateOf(false) }
     Column {
         TabRow(
             selectedTabIndex = tabSelected.ordinal,
@@ -239,6 +240,11 @@ fun WebPageListScreen() {
                     onClick = { tabSelected = Screen.values()[index] },
                 )
             }
+            Tab(
+                text = { Text("+") },
+                selected = false,
+                onClick = {},
+            )
         }
 
         /* 以下は一時的に表示するダミーの情報 */
@@ -257,6 +263,7 @@ fun WebPageListScreen() {
             WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
         )
 
+//        if(showDialog.value) AddTabTitleDialog(setShowDialog = { showDialog.value = it})
         when (tabSelected) {
             Screen.ALL -> WebPageList(webPageList = allTsundokus)
             Screen.FAVORITE -> WebPageList(webPageList = favoriteTsundoku)
