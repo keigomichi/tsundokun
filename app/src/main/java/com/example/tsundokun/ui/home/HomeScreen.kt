@@ -62,8 +62,6 @@ import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.example.tsundokun.ui.home.Screen.ALL
-import com.example.tsundokun.ui.home.Screen.FAVORITE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
@@ -234,7 +232,7 @@ private fun TsundokunReportPreview() {
 @Composable
 fun WebPageListScreen() {
     var tabName = mutableMapOf("ALL" to "すべて", "FAVORITE" to "お気に入り")
-    var tabSelected by rememberSaveable { mutableStateOf(ALL) }
+    var tabSelected by rememberSaveable { mutableStateOf(Screen.ALL) }
     Column {
         TabRow(
             selectedTabIndex = tabSelected.ordinal,
@@ -251,24 +249,24 @@ fun WebPageListScreen() {
         /* 以下は一時的に表示するダミーの情報 */
         var allTsundokus = listOf<WebPage>(
             WebPage(
-                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getTitle(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
+                getOgpImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
+                getFaviconImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
             ),
             WebPage(
-                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getTitle(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
+                getOgpImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
+                getFaviconImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
             ),
             WebPage(
-                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getTitle(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
+                getOgpImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
+                getFaviconImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
             ),
             WebPage(
-                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getTitle(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
+                getOgpImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
+                getFaviconImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
             ),
         )
         var favoriteTsundoku = listOf<WebPage>(
@@ -295,8 +293,8 @@ fun WebPageListScreen() {
         )
 
         when (tabSelected) {
-            ALL -> WebPageList(webPageList = allTsundokus)
-            FAVORITE -> WebPageList(webPageList = favoriteTsundoku)
+            Screen.ALL -> WebPageList(webPageList = allTsundokus)
+            Screen.FAVORITE -> WebPageList(webPageList = favoriteTsundoku)
         }
     }
 }
