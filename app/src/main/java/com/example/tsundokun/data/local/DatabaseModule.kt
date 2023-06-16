@@ -2,6 +2,7 @@ package com.example.tsundokun.data.local
 
 import android.content.Context
 import androidx.room.Room
+import com.example.tsundokun.data.local.category.CategoryDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,4 +20,8 @@ object DatabaseModule {
 
     @Provides
     fun tsundokuDao(database: TsundokunDatabase): TsundokuDao = database.tsundokuDao()
+
+    @Provides
+    fun categoryDao(database: TsundokunDatabase) : CategoryDao = database.categoryDao()
+
 }
