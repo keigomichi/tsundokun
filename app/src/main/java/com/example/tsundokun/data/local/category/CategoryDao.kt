@@ -12,13 +12,13 @@ interface CategoryDao {
     fun observeAll(): Flow<List<CategoryEntity>>
 
     @Query("SELECT * FROM category WHERE id = :id")
-    fun observeById(id: String) : Flow<CategoryEntity>
+    fun observeById(id: String): Flow<CategoryEntity>
 
     @Query("SELECT * FROM category")
-    suspend fun getAll() : List<CategoryEntity>
+    suspend fun getAll(): List<CategoryEntity>
 
     @Query("SELECT * FROM category WHERE id = :id")
-    suspend fun getById(id: String) : CategoryEntity
+    suspend fun getById(id: String): CategoryEntity
 
     @Upsert
     suspend fun upsert(category: CategoryEntity)
@@ -28,5 +28,4 @@ interface CategoryDao {
 
     @Query("DELETE FROM category")
     suspend fun deleteAll()
-
 }

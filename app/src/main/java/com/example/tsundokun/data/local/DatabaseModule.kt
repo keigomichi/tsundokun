@@ -22,5 +22,5 @@ object DatabaseModule {
     fun tsundokuDao(database: TsundokunDatabase): TsundokuDao = database.tsundokuDao()
 
     @Provides
-    fun categoryDao(database: TsundokunDatabase) : CategoryDao = database.categoryDao()
+    fun categoryDao(database: TsundokunDatabase): CategoryDao = database.categoryDao()
 }
