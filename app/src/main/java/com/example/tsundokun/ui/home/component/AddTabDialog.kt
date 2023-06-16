@@ -45,7 +45,7 @@ fun AddTabTitleDialog(setShowDialog: (Boolean) -> Unit){
 
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
-            shape = RoundedCornerShape(16.dp),
+            shape = RoundedCornerShape(5.dp),
             color = Color.White
         ) {
             Box(
@@ -59,10 +59,9 @@ fun AddTabTitleDialog(setShowDialog: (Boolean) -> Unit){
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "タブの新規作成",
+                            text = "リストの新規作成",
                             style = TextStyle(
                                 fontSize = 24.sp,
-                                fontFamily = FontFamily.Default,
                                 fontWeight = FontWeight.Bold
                             )
                         )
