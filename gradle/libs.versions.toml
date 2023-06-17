@@ -17,8 +17,8 @@ ksp = "1.8.10-1.0.9"
 ktor = "2.3.1"
 room = "2.5.0"
 spotless = "6.19.0"
-supabase = "1.0.3"
 jsoup = "1.16.1"
+supabase = "1.0.3"
 
 
 [libraries]
@@ -30,6 +30,7 @@ androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-juni
 androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
@@ -40,11 +41,11 @@ compose-destinations-core = { group = "io.github.raamcosta.compose-destinations"
 compose-destinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "composeDestinations" }
 coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+jsoup = { module = "org.jsoup:jsoup", name = "jsoup", version.ref = "jsoup" }
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
-jsoup = { module = "org.jsoup:jsoup", name = "jsoup", version.ref = "jsoup" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ktor-client-cio = { group = "io.ktor" , name = "ktor-client-cio" , version.ref = "ktor"}
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }

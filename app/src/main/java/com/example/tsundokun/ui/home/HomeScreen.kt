@@ -64,6 +64,7 @@ import com.example.tsundokun.R
 import com.example.tsundokun.R.string
 import com.example.tsundokun.data.local.entities.TsundokuEntity
 import com.example.tsundokun.ui.destinations.SettingScreenDestination
+import com.example.tsundokun.ui.destinations.StackScreenDestination
 import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -84,7 +85,7 @@ fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hilt
     ) {
         Scaffold(
             topBar = { TopAppBar(navigator) },
-            floatingActionButton = { AddFab() },
+            floatingActionButton = { AddFab(navigator) },
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
                 TsundokunReport()
@@ -569,11 +570,11 @@ private fun ShareLink(context: Context, link: String) {
  * FAB(追加ボタン)
  */
 @Composable
-fun AddFab() {
+fun AddFab(navigator: DestinationsNavigator) {
     ExtendedFloatingActionButton(
         text = { Text(text = stringResource(R.string.fab_add)) },
         icon = { Icon(Filled.Add, contentDescription = stringResource(R.string.fab_add)) },
-        onClick = { /*TODO*/ },
+        onClick = { navigator.navigate(StackScreenDestination()) },
     )
 }
 
@@ -584,6 +585,6 @@ fun AddFab() {
 @Composable
 private fun AddFabPreview() {
     TsundokunTheme() {
-        AddFab()
+//        AddFab()
     }
 }

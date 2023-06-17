@@ -86,6 +86,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.compose.destinations.core)
+    implementation(libs.androidx.compose.material.iconsExtended)
     implementation(libs.coil.kt)
     implementation(libs.coil.compose)
     implementation(libs.jsoup)
