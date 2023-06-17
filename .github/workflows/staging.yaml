@@ -26,6 +26,10 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+      - name: copy google-service
+        env:
+          GOOGLE_SERVICE: ${{ secrets.GOOGLE_SERVICE_JSON }}
+        run: echo $GOOGLE_SERVICE | base64 --decode > ./app/google-services.json
       - name: Build With Gradle
         run: ./gradlew assembleDebug
       - name: Deploy To Firebase App Distribution
