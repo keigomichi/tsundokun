@@ -92,7 +92,7 @@ fun AddTabTitleDialog(setShowDialog: (Boolean) -> Unit , tabList: MutableList<St
                     Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-                                tabList.add("追加できた？")
+                                tabList.add(txtField.value)
                                 setShowDialog(false)
                             },
                             shape = RoundedCornerShape(50.dp),
