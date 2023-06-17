@@ -70,6 +70,7 @@ import com.example.tsundokun.data.local.entities.TsundokuEntity
 import com.example.tsundokun.ui.destinations.OpenWebViewDestination
 import com.example.tsundokun.ui.destinations.SettingScreenDestination
 import com.example.tsundokun.ui.destinations.StackScreenDestination
+import com.example.tsundokun.ui.home.component.AddTabTitleDialog
 import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -232,9 +233,14 @@ private fun TsundokunReportPreview() {
  * Webページのリスト
  * タブで表示を切り替えられる
  */
+
 @Composable
 fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: DestinationsNavigator) {
-    var tabName = mutableMapOf("ALL" to "すべて", "FAVORITE" to "お気に入り")
+    var tabName by remember {
+        mutableStateOf(
+            mutableListOf("すべて", "お気に入り"),
+        )
+    }
 
     var tabSelected by rememberSaveable { mutableStateOf(Screen.ALL) }
 
@@ -247,17 +253,24 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: Desti
         )
     }
 
+    val showDialog = remember { mutableStateOf(false) }
     Column {
         TabRow(
             selectedTabIndex = tabSelected.ordinal,
         ) {
-            Screen.values().map { it.name }.forEachIndexed { index, title ->
+            tabName.forEachIndexed { index, title ->
                 Tab(
-                    text = { Text(text = tabName[title].toString()) },
+                    text = { Text(text = tabName[index].toString()) },
                     selected = tabSelected.ordinal == index,
                     onClick = { tabSelected = Screen.values()[index] },
+
                 )
             }
+            Tab(
+                text = { Text("+") },
+                selected = false,
+                onClick = { showDialog.value = true },
+            )
         }
 
         /* 以下は一時的に表示するダミーの情報 */
@@ -289,12 +302,12 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: Desti
                 "https://www.yahoo.co.jp/",
             ),
         )
-
         when (tabSelected) {
             Screen.ALL -> WebPageList(webPageList = allTsundokus, navigator = navigator)
             Screen.FAVORITE -> WebPageList(webPageList = favoriteTsundoku, navigator = navigator)
         }
     }
+    if (showDialog.value) AddTabTitleDialog(setShowDialog = { showDialog.value = it }, tabList = tabName)
 }
 
 /*
@@ -535,23 +548,14 @@ private fun ShareLink(context: Context, link: String) {
  * FAB(追加ボタン)
  */
 @Composable
+@Destination
 fun AddFab(navigator: DestinationsNavigator) {
     ExtendedFloatingActionButton(
         text = { Text(text = stringResource(R.string.fab_add)) },
         icon = { Icon(Filled.Add, contentDescription = stringResource(R.string.fab_add)) },
         onClick = { navigator.navigate(StackScreenDestination()) },
+//    onClick = {}
     )
-}
-
-/*
- * FAB(追加ボタン)のプレビュー
- */
-@Preview
-@Composable
-private fun AddFabPreview() {
-    TsundokunTheme() {
-//        AddFab()
-    }
 }
 
 @Composable
