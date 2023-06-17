@@ -540,9 +540,9 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: Dest
 /*
  * リストの各要素であるカードのプレビュー
  */
-//@Preview
-//@Composable
-//private fun WebPageCardPreview() {
+// @Preview
+// @Composable
+// private fun WebPageCardPreview() {
 //    WebPageCard(
 //        WebPage(
 //            getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
@@ -551,7 +551,7 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: Dest
 //            "https://www.yahoo.co.jp/",
 //        ),
 //    )
-//}
+// }
 
 private fun ShareLink(context: Context, link: String) {
     val intent = Intent(Intent.ACTION_SEND)
@@ -614,10 +614,3 @@ fun OpenWebView(url: String) {
         webView.loadUrl(url)
     }
 }
-
-
-
-
-
-
-
