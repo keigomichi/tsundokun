@@ -2,6 +2,7 @@ package com.example.tsundokun.ui.home
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -90,6 +91,7 @@ fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hilt
             Column(modifier = Modifier.padding(innerPadding)) {
                 TsundokunReport()
                 WebPageListScreen(tsundokuUiState.tsundoku)
+                Log.d("HomeScreen", "tsundokuUiState.tsundoku = ${tsundokuUiState.tsundoku}")
             }
         }
     }
@@ -265,7 +267,7 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>) {
         }
 
         /* 以下は一時的に表示するダミーの情報 */
-        val allTsundokus = tsundokuItem
+        val allTsundokus = tsundokuItem.reversed()
 //        var allTsundokus = listOf<>(
 //            WebPage(
 //                getTitle(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
@@ -492,7 +494,7 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier) {
                     )
                 }
                 Text(
-                    text = LocalContext.current.getString(R.string.sample_web_page_type),
+                    text = "",
                     modifier = Modifier
                         .padding(8.dp)
                         .weight(3f),

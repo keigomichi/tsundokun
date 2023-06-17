@@ -52,6 +52,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberImagePainter
 import com.example.tsundokun.R
 import com.example.tsundokun.R.string
@@ -60,19 +61,28 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 
+data class ConfirmScreenNavArgs(
+    val link: String,
+)
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
-@Destination
+@Destination(navArgsDelegate = ConfirmScreenNavArgs::class)
 @Composable
-fun ConfirmScreen(navigator: DestinationsNavigator, link: String) {
+fun ConfirmScreen(
+    navigator: DestinationsNavigator,
+//    link: String,
+    viewModel: ConfirmViewModel = hiltViewModel(),
+) {
     var fieldsAreValid by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     var isLoading by remember { mutableStateOf(true) }
 
-    val html = fetchHtml(link)
+    val html = fetchHtml(viewModel.navArgs.link)
     val ogpImageUrl = getOgpImageUrl(html)
 
     LaunchedEffect(ogpImageUrl) {
@@ -123,6 +133,9 @@ fun ConfirmScreen(navigator: DestinationsNavigator, link: String) {
                 StackAppBar(
                     fieldsAreValid = fieldsAreValid,
                     navigator,
+                    addTsundoku = {
+                        viewModel.addTsundoku()
+                    },
                 )
             },
         ) { innerPadding ->
@@ -136,7 +149,7 @@ fun ConfirmScreen(navigator: DestinationsNavigator, link: String) {
                     modifier = Modifier
                         .align(Alignment.TopCenter)
                         .padding(16.dp),
-                    link = link,
+                    link = viewModel.navArgs.link,
                 )
                 if (isLoading) {
                     Box(
@@ -158,7 +171,11 @@ fun ConfirmScreen(navigator: DestinationsNavigator, link: String) {
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun StackAppBar(fieldsAreValid: Boolean, navigator: DestinationsNavigator) {
+private fun StackAppBar(
+    fieldsAreValid: Boolean,
+    navigator: DestinationsNavigator,
+    addTsundoku: () -> Unit,
+) {
     TopAppBar(title = {
         Text(
             text = stringResource(string.add),
@@ -174,7 +191,10 @@ private fun StackAppBar(fieldsAreValid: Boolean, navigator: DestinationsNavigato
         }
     }, actions = {
         if (fieldsAreValid) {
-            IconButton(onClick = { /* つんどくを追加する */ }) {
+            IconButton(onClick = {
+                runBlocking { addTsundoku() }
+                navigator.navigate(HomeScreenDestination())
+            }) {
                 Icon(
                     imageVector = Outlined.Send,
                     contentDescription = stringResource(string.do_add),
