@@ -1,6 +1,5 @@
 package com.example.tsundokun.ui.home.component
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,39 +30,36 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddTabTitleDialog(setShowDialog: (Boolean) -> Unit , tabList: MutableList<String> ){
+fun AddTabTitleDialog(setShowDialog: (Boolean) -> Unit, tabList: MutableList<String>) {
 //    val txtFieldError = remember { mutableStateOf("") }
     val txtField = remember { mutableStateOf("") }
-
 
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
             shape = RoundedCornerShape(5.dp),
-            color = Color.White
+            color = Color.White,
         ) {
             Box(
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center,
             ) {
                 Column(modifier = Modifier.padding(20.dp)) {
-
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
                             text = "リストの新規作成",
                             style = TextStyle(
                                 fontSize = 24.sp,
-                                fontWeight = FontWeight.Bold
-                            )
+                                fontWeight = FontWeight.Bold,
+                            ),
                         )
                         Icon(
                             imageVector = Filled.Close,
@@ -72,7 +68,7 @@ fun AddTabTitleDialog(setShowDialog: (Boolean) -> Unit , tabList: MutableList<St
                             modifier = Modifier
                                 .width(30.dp)
                                 .height(30.dp)
-                                .clickable { setShowDialog(false) }
+                                .clickable { setShowDialog(false) },
                         )
                     }
 
@@ -85,7 +81,8 @@ fun AddTabTitleDialog(setShowDialog: (Boolean) -> Unit , tabList: MutableList<St
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                         onValueChange = {
                             txtField.value = it.take(10)
-                        })
+                        },
+                    )
 
                     Spacer(modifier = Modifier.height(20.dp))
 
@@ -98,7 +95,7 @@ fun AddTabTitleDialog(setShowDialog: (Boolean) -> Unit , tabList: MutableList<St
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(50.dp)
+                                .height(50.dp),
                         ) {
                             Text(text = "追加")
                         }
@@ -108,4 +105,3 @@ fun AddTabTitleDialog(setShowDialog: (Boolean) -> Unit , tabList: MutableList<St
         }
     }
 }
-

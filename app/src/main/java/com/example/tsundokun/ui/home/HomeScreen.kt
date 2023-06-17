@@ -61,11 +61,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.tsundokun.R
-import com.example.tsundokun.ui.home.component.AddTabTitleDialog
 import com.example.tsundokun.R.string
 import com.example.tsundokun.data.local.entities.TsundokuEntity
 import com.example.tsundokun.ui.destinations.SettingScreenDestination
 import com.example.tsundokun.ui.destinations.StackScreenDestination
+import com.example.tsundokun.ui.home.component.AddTabTitleDialog
 import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -238,12 +238,11 @@ private fun TsundokunReportPreview() {
  * タブで表示を切り替えられる
  */
 
-
 @Composable
 fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>) {
     var tabName by remember {
         mutableStateOf(
-            mutableListOf("すべて","お気に入り")
+            mutableListOf("すべて", "お気に入り"),
         )
     }
 
@@ -251,30 +250,30 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>) {
 
     val tsundokuItem = tsundokuEntityList.map {
         WebPage(
-                getTitle(html = fetchHtml(url = it.link)),
-                getOgpImageUrl(html = fetchHtml(url = it.link)),
-                getFaviconImageUrl(html = fetchHtml(url = it.link)),
-                it.link,
+            getTitle(html = fetchHtml(url = it.link)),
+            getOgpImageUrl(html = fetchHtml(url = it.link)),
+            getFaviconImageUrl(html = fetchHtml(url = it.link)),
+            it.link,
         )
     }
 
-    val showDialog =  remember { mutableStateOf(false) }
+    val showDialog = remember { mutableStateOf(false) }
     Column {
         TabRow(
             selectedTabIndex = tabSelected.ordinal,
         ) {
-            tabName.forEachIndexed{index ,title->
+            tabName.forEachIndexed { index, title ->
                 Tab(
-                    text = { Text(text = tabName[index].toString())},
+                    text = { Text(text = tabName[index].toString()) },
                     selected = tabSelected.ordinal == index,
                     onClick = { tabSelected = Screen.values()[index] },
-                    
+
                 )
             }
             Tab(
                 text = { Text("+") },
                 selected = false,
-                onClick = {showDialog.value = true},
+                onClick = { showDialog.value = true },
             )
         }
 
@@ -334,7 +333,7 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>) {
             Screen.NEW_SCREEN -> null
         }
     }
-    if(showDialog.value) AddTabTitleDialog(setShowDialog = { showDialog.value = it},tabList = tabName)
+    if (showDialog.value) AddTabTitleDialog(setShowDialog = { showDialog.value = it }, tabList = tabName)
 }
 
 /*
@@ -581,7 +580,6 @@ fun WebPagePreview() {
     }
 }
 
-
 /*
  * FAB(追加ボタン)
  */
@@ -591,7 +589,7 @@ fun AddFab(navigator: DestinationsNavigator) {
     ExtendedFloatingActionButton(
         text = { Text(text = stringResource(R.string.fab_add)) },
         icon = { Icon(Filled.Add, contentDescription = stringResource(R.string.fab_add)) },
-        onClick ={ navigator.navigate(StackScreenDestination())},
+        onClick = { navigator.navigate(StackScreenDestination()) },
 //    onClick = {}
     )
 }
@@ -599,10 +597,10 @@ fun AddFab(navigator: DestinationsNavigator) {
 /*
  * FAB(追加ボタン)のプレビュー
  */
-//@Preview
-//@Composable
-//private fun AddFabPreview() {
+// @Preview
+// @Composable
+// private fun AddFabPreview() {
 //    TsundokunTheme() {
-////        AddFab()
+// //        AddFab()
 //    }
-//}
+// }
