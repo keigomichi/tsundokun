@@ -16,5 +16,6 @@ buildscript {
     }
     dependencies {
         classpath(libs.google.services)
+        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.5")
     }
 }
