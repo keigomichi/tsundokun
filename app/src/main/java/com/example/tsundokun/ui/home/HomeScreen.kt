@@ -226,9 +226,15 @@ private fun TsundokunReportPreview() {
  * Webページのリスト
  * タブで表示を切り替えられる
  */
+
+
 @Composable
 fun WebPageListScreen() {
-    var tabName = mutableMapOf( "ALL" to "すべて", "FAVORITE" to "お気に入り")
+    var tabName by remember {
+        mutableStateOf(
+            mutableListOf("すべて","お気に入り")
+        )
+    }
     var tabSelected by rememberSaveable { mutableStateOf(Screen.ALL) }
     val showDialog =  remember { mutableStateOf(false) }
     Column {
@@ -237,7 +243,7 @@ fun WebPageListScreen() {
         ) {
             Screen.values().map { it.name }.forEachIndexed { index, title ->
                 Tab(
-                    text = { Text(text = tabName[title].toString()) },
+                    text = { Text(text = tabName[index].toString()) },
                     selected = tabSelected.ordinal == index,
                     onClick = { tabSelected = Screen.values()[index] },
                 )
@@ -269,7 +275,7 @@ fun WebPageListScreen() {
             Screen.FAVORITE -> WebPageList(webPageList = favoriteTsundoku)
         }
     }
-    if(showDialog.value) AddTabTitleDialog(setShowDialog = { showDialog.value = it})
+    if(showDialog.value) AddTabTitleDialog(setShowDialog = { showDialog.value = it},tabList = tabName)
 }
 
 /*

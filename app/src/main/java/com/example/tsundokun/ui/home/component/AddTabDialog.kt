@@ -1,5 +1,6 @@
 package com.example.tsundokun.ui.home.component
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,7 +40,7 @@ import io.github.jan.supabase.gotrue.mfa.FactorType.TOTP.value
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddTabTitleDialog(setShowDialog: (Boolean) -> Unit){
+fun AddTabTitleDialog(setShowDialog: (Boolean) -> Unit , tabList: MutableList<String> ){
     val txtFieldError = remember { mutableStateOf("") }
     val txtField = remember { mutableStateOf(value) }
 
@@ -96,7 +97,7 @@ fun AddTabTitleDialog(setShowDialog: (Boolean) -> Unit){
                                     txtFieldError.value = "Field can not be empty"
                                     return@Button
                                 }
-//                                setValue(txtField.value)
+                                tabList.add("追加できた？")
                                 setShowDialog(false)
                             },
                             shape = RoundedCornerShape(50.dp),
@@ -113,8 +114,8 @@ fun AddTabTitleDialog(setShowDialog: (Boolean) -> Unit){
     }
 }
 
-@Preview
-@Composable
-fun previewTab(){
-    AddTabTitleDialog(setShowDialog = { /**/ })
-}
+//@Preview
+//@Composable
+//fun previewTab(){
+//    AddTabTitleDialog(setShowDialog = { /**/ })
+//}
