@@ -56,6 +56,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tsundokun.R
+import com.example.tsundokun.ui.destinations.HomeScreenDestination
 import com.example.tsundokun.ui.destinations.SettingScreenDestination
 import com.example.tsundokun.ui.home.component.AddTabTitleDialog
 import com.example.tsundokun.ui.theme.TsundokunTheme
@@ -78,7 +79,7 @@ fun HomeScreen(navigator: DestinationsNavigator) {
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
                 TsundokunReport()
-                WebPageListScreen()
+                WebPageListScreen(navigator)
             }
         }
     }
@@ -227,7 +228,7 @@ private fun TsundokunReportPreview() {
  * タブで表示を切り替えられる
  */
 @Composable
-fun WebPageListScreen() {
+fun WebPageListScreen(navigator: DestinationsNavigator) {
     var tabName = mutableMapOf( "ALL" to "すべて", "FAVORITE" to "お気に入り")
     var tabSelected by rememberSaveable { mutableStateOf(Screen.ALL) }
     val showDialog =  remember { mutableStateOf(false) }
@@ -267,16 +268,31 @@ fun WebPageListScreen() {
         when (tabSelected) {
             Screen.ALL -> WebPageList(webPageList = allTsundokus)
             Screen.FAVORITE -> WebPageList(webPageList = favoriteTsundoku)
+            Screen.NEW_SCREEN -> null
         }
     }
-    if(showDialog.value) AddTabTitleDialog(setShowDialog = { showDialog.value = it})
+    if(showDialog.value) {
+        AddTabTitleDialog(setShowDialog = { showDialog.value = it},
+        onTitleEntered = { newTabTitle ->
+            val newTabScreen = Screen.values().find { it.name !in tabName.keys }
+            println("1: $newTabScreen")
+            println("2: $newTabTitle")
+            if (newTabScreen != null) {
+                println("New tab screen found: $newTabScreen")
+                tabName[newTabScreen.name] = newTabTitle
+                navigator.navigate(HomeScreenDestination())
+            }else {
+                println("No new tab screen found")
+            }
+        })
+    }
 }
 
 /*
  * タブの種類
  */
 enum class Screen {
-    ALL, FAVORITE
+    ALL, FAVORITE, NEW_SCREEN
 }
 
 /*
@@ -398,7 +414,7 @@ private fun WebPageCardPreview() {
 @Composable
 fun WebPagePreview() {
     TsundokunTheme {
-        WebPageListScreen()
+//        WebPageListScreen()
     }
 }
 

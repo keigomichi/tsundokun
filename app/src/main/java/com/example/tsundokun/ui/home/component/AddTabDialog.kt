@@ -28,20 +28,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import io.github.jan.supabase.gotrue.mfa.FactorType.TOTP.value
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddTabTitleDialog(setShowDialog: (Boolean) -> Unit){
-    val txtFieldError = remember { mutableStateOf("") }
-    val txtField = remember { mutableStateOf(value) }
+fun AddTabTitleDialog(setShowDialog: (Boolean) -> Unit, onTitleEntered: (String) -> Unit){
+    val txtField = remember { mutableStateOf("") }
 
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
@@ -92,11 +89,9 @@ fun AddTabTitleDialog(setShowDialog: (Boolean) -> Unit){
                     Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-                                if (txtField.value.isEmpty()) {
-                                    txtFieldError.value = "Field can not be empty"
-                                    return@Button
-                                }
-//                                setValue(txtField.value)
+                                if (txtField.value.isEmpty()) return@Button
+                                println(txtField.value)
+                                onTitleEntered(txtField.value)
                                 setShowDialog(false)
                             },
                             shape = RoundedCornerShape(50.dp),
@@ -116,5 +111,5 @@ fun AddTabTitleDialog(setShowDialog: (Boolean) -> Unit){
 @Preview
 @Composable
 fun previewTab(){
-    AddTabTitleDialog(setShowDialog = { /**/ })
+    AddTabTitleDialog(setShowDialog = { /**/ }, onTitleEntered = {/**/})
 }
