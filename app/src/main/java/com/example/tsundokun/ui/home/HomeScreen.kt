@@ -56,6 +56,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tsundokun.R
+import com.example.tsundokun.ui.destinations.HomeScreenDestination
 import com.example.tsundokun.ui.destinations.SettingScreenDestination
 import com.example.tsundokun.ui.home.component.AddTabTitleDialog
 import com.example.tsundokun.ui.theme.TsundokunTheme
@@ -78,7 +79,7 @@ fun HomeScreen(navigator: DestinationsNavigator) {
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
                 TsundokunReport()
-                WebPageListScreen()
+                WebPageListScreen(navigator)
             }
         }
     }
@@ -229,23 +230,25 @@ private fun TsundokunReportPreview() {
 
 
 @Composable
-fun WebPageListScreen() {
+fun WebPageListScreen(navigator: DestinationsNavigator) {
     var tabName by remember {
         mutableStateOf(
             mutableListOf("すべて","お気に入り")
         )
     }
+
     var tabSelected by rememberSaveable { mutableStateOf(Screen.ALL) }
     val showDialog =  remember { mutableStateOf(false) }
     Column {
         TabRow(
             selectedTabIndex = tabSelected.ordinal,
         ) {
-            Screen.values().map { it.name }.forEachIndexed { index, title ->
+            tabName.forEachIndexed{index ,title->
                 Tab(
-                    text = { Text(text = tabName[index].toString()) },
+                    text = { Text(text = tabName[index].toString())},
                     selected = tabSelected.ordinal == index,
                     onClick = { tabSelected = Screen.values()[index] },
+                    
                 )
             }
             Tab(
@@ -273,6 +276,7 @@ fun WebPageListScreen() {
         when (tabSelected) {
             Screen.ALL -> WebPageList(webPageList = allTsundokus)
             Screen.FAVORITE -> WebPageList(webPageList = favoriteTsundoku)
+            Screen.NEW_SCREEN -> null
         }
     }
     if(showDialog.value) AddTabTitleDialog(setShowDialog = { showDialog.value = it},tabList = tabName)
@@ -282,7 +286,7 @@ fun WebPageListScreen() {
  * タブの種類
  */
 enum class Screen {
-    ALL, FAVORITE
+    ALL, FAVORITE, NEW_SCREEN
 }
 
 /*
@@ -404,7 +408,7 @@ private fun WebPageCardPreview() {
 @Composable
 fun WebPagePreview() {
     TsundokunTheme {
-        WebPageListScreen()
+//        WebPageListScreen()
     }
 }
 
