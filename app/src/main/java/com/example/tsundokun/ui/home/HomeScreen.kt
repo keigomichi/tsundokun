@@ -3,7 +3,6 @@ package com.example.tsundokun.ui.home
 import android.content.Context
 import android.content.Intent
 import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -519,23 +518,6 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: Dest
         }
     }
 }
-
-/*
- * リストの各要素であるカードのプレビュー
- */
-// @Preview
-// @Composable
-// private fun WebPageCardPreview() {
-//    WebPageCard(
-//        WebPage(
-//            getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-//            getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-//            getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-//            "https://www.yahoo.co.jp/",
-//        ),
-//    )
-// }
-
 private fun ShareLink(context: Context, link: String) {
     val intent = Intent(Intent.ACTION_SEND)
     intent.type = "text/plain"
@@ -554,18 +536,6 @@ fun AddFab(navigator: DestinationsNavigator) {
         text = { Text(text = stringResource(R.string.fab_add)) },
         icon = { Icon(Filled.Add, contentDescription = stringResource(R.string.fab_add)) },
         onClick = { navigator.navigate(StackScreenDestination()) },
-//    onClick = {}
-    )
-}
-
-@Composable
-fun MyWebClient(url: String) {
-    AndroidView(
-        factory = ::WebView,
-        update = { webView ->
-            webView.webViewClient = WebViewClient()
-            webView.loadUrl(url)
-        },
     )
 }
 
