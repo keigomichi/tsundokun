@@ -2,9 +2,12 @@ package com.example.tsundokun.ui.home
 
 import android.content.Context
 import android.content.Intent
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -58,11 +61,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.tsundokun.R
 import com.example.tsundokun.R.string
 import com.example.tsundokun.data.local.entities.TsundokuEntity
+import com.example.tsundokun.ui.destinations.OpenWebViewDestination
 import com.example.tsundokun.ui.destinations.SettingScreenDestination
 import com.example.tsundokun.ui.destinations.StackScreenDestination
 import com.example.tsundokun.ui.theme.TsundokunTheme
@@ -89,7 +94,7 @@ fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hilt
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
                 TsundokunReport()
-                WebPageListScreen(tsundokuUiState.tsundoku)
+                WebPageListScreen(tsundokuUiState.tsundoku, navigator)
             }
         }
     }
@@ -237,7 +242,7 @@ private fun TsundokunReportPreview() {
  * タブで表示を切り替えられる
  */
 @Composable
-fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>) {
+fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: DestinationsNavigator) {
     var tabName = mutableMapOf("ALL" to "すべて", "FAVORITE" to "お気に入り")
 
     var tabSelected by rememberSaveable { mutableStateOf(Screen.ALL) }
@@ -316,8 +321,8 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>) {
         )
 
         when (tabSelected) {
-            Screen.ALL -> WebPageList(webPageList = allTsundokus)
-            Screen.FAVORITE -> WebPageList(webPageList = favoriteTsundoku)
+            Screen.ALL -> WebPageList(webPageList = allTsundokus, navigator = navigator)
+            Screen.FAVORITE -> WebPageList(webPageList = favoriteTsundoku, navigator = navigator)
         }
     }
 }
@@ -343,12 +348,13 @@ data class WebPage(
  * Webページのリスト(Lazy Column)の作成
  */
 @Composable
-fun WebPageList(webPageList: List<WebPage>, modifier: Modifier = Modifier) {
+fun WebPageList(webPageList: List<WebPage>, modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
     LazyColumn(modifier = modifier) {
         items(webPageList) { webPage ->
             WebPageCard(
                 webpage = webPage,
                 modifier = Modifier.padding(8.dp),
+                navigator = navigator,
             )
             Divider(color = Color.Gray) // 区切り線
         }
@@ -449,10 +455,11 @@ fun getTitle(html: String?): String? {
  * リストの各要素であるカード
  */
 @Composable
-fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier) {
+fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
     val context = LocalContext.current
     Card(
-        modifier = modifier,
+        modifier = modifier.clickable { navigator.navigate(OpenWebViewDestination(url = "https://github.com/keigomichi/tsundokun")) },
+//        modifier = modifier.clickable { OpenWebView(url = "https://kaleidot.net") },
         shape = RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background,
@@ -534,18 +541,18 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier) {
 /*
  * リストの各要素であるカードのプレビュー
  */
-@Preview
-@Composable
-private fun WebPageCardPreview() {
-    WebPageCard(
-        WebPage(
-            getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-            getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-            getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-            "https://www.yahoo.co.jp/",
-        ),
-    )
-}
+//@Preview
+//@Composable
+//private fun WebPageCardPreview() {
+//    WebPageCard(
+//        WebPage(
+//            getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+//            getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+//            getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+//            "https://www.yahoo.co.jp/",
+//        ),
+//    )
+//}
 
 private fun ShareLink(context: Context, link: String) {
     val intent = Intent(Intent.ACTION_SEND)
@@ -588,3 +595,30 @@ private fun AddFabPreview() {
 //        AddFab()
     }
 }
+
+@Composable
+fun MyWebClient(url: String) {
+    AndroidView(
+        factory = ::WebView,
+        update = { webView ->
+            webView.webViewClient = WebViewClient()
+            webView.loadUrl(url)
+        },
+    )
+}
+
+@Destination
+@Composable
+fun OpenWebView(url: String) {
+    AndroidView(factory = { WebView(it) }) { webView ->
+        webView.settings.javaScriptEnabled = true
+        webView.loadUrl(url)
+    }
+}
+
+
+
+
+
+
+

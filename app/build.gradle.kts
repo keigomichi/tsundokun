@@ -99,6 +99,7 @@ dependencies {
     implementation(libs.supabase.postgrest.kt)
     implementation(libs.ktor.client.cio)
     implementation(libs.hilt.android)
+    implementation("com.google.android.gms:play-services-fido:18.1.0")
 
     annotationProcessor(libs.room.compiler)
 
