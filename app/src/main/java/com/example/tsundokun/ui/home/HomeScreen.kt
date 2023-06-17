@@ -1,7 +1,7 @@
 package com.example.tsundokun.ui.home
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -41,6 +42,8 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,31 +58,39 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberAsyncImagePainter
 import com.example.tsundokun.R
-import com.example.tsundokun.ui.destinations.HomeScreenDestination
-import com.example.tsundokun.ui.destinations.SettingScreenDestination
 import com.example.tsundokun.ui.home.component.AddTabTitleDialog
+import com.example.tsundokun.R.string
+import com.example.tsundokun.data.local.entities.TsundokuEntity
+import com.example.tsundokun.ui.destinations.SettingScreenDestination
+import com.example.tsundokun.ui.destinations.StackScreenDestination
 import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.jsoup.Jsoup
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RootNavGraph(start = true)
 @Destination
 @Composable
-fun HomeScreen(navigator: DestinationsNavigator) {
+fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hiltViewModel()) {
+    val tsundokuUiState by viewModel.uiState.collectAsState()
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
     ) {
         Scaffold(
             topBar = { TopAppBar(navigator) },
-            floatingActionButton = { AddFab() },
+            floatingActionButton = { AddFab(navigator) },
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
                 TsundokunReport()
-                WebPageListScreen(navigator)
+                WebPageListScreen(tsundokuUiState.tsundoku)
             }
         }
     }
@@ -115,8 +126,7 @@ fun TopAppBar(navigator: DestinationsNavigator) {
 fun Dropdown(navigator: DestinationsNavigator) {
     var expanded by remember { mutableStateOf(false) }
     Box(
-        modifier = Modifier
-            .wrapContentSize(Alignment.TopStart),
+        modifier = Modifier.wrapContentSize(Alignment.TopStart),
     ) {
         IconButton(
             onClick = {
@@ -230,7 +240,7 @@ private fun TsundokunReportPreview() {
 
 
 @Composable
-fun WebPageListScreen(navigator: DestinationsNavigator) {
+fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>) {
     var tabName by remember {
         mutableStateOf(
             mutableListOf("すべて","お気に入り")
@@ -238,6 +248,16 @@ fun WebPageListScreen(navigator: DestinationsNavigator) {
     }
 
     var tabSelected by rememberSaveable { mutableStateOf(Screen.ALL) }
+
+    val tsundokuItem = tsundokuEntityList.map {
+        WebPage(
+                getTitle(html = fetchHtml(url = it.link)),
+                getOgpImageUrl(html = fetchHtml(url = it.link)),
+                getFaviconImageUrl(html = fetchHtml(url = it.link)),
+                it.link,
+        )
+    }
+
     val showDialog =  remember { mutableStateOf(false) }
     Column {
         TabRow(
@@ -259,19 +279,54 @@ fun WebPageListScreen(navigator: DestinationsNavigator) {
         }
 
         /* 以下は一時的に表示するダミーの情報 */
-        var allTsundokus = listOf<WebPage>(
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
-        )
+        val allTsundokus = tsundokuItem
+//        var allTsundokus = listOf<>(
+//            WebPage(
+//                getTitle(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
+//                getOgpImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
+//                getFaviconImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
+//            ),
+//            WebPage(
+//                getTitle(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
+//                getOgpImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
+//                getFaviconImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
+//            ),
+//            WebPage(
+//                getTitle(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
+//                getOgpImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
+//                getFaviconImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
+//            ),
+//            WebPage(
+//                getTitle(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
+//                getOgpImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
+//                getFaviconImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
+//            ),
+//        )
         var favoriteTsundoku = listOf<WebPage>(
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
-            WebPage(R.string.sample_web_page_title, R.drawable.sample_image),
+            WebPage(
+                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                "https://www.yahoo.co.jp/",
+            ),
+            WebPage(
+                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                "https://www.yahoo.co.jp/",
+            ),
+            WebPage(
+                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                "https://www.yahoo.co.jp/",
+            ),
+            WebPage(
+                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+                "https://www.yahoo.co.jp/",
+            ),
         )
         when (tabSelected) {
             Screen.ALL -> WebPageList(webPageList = allTsundokus)
@@ -293,8 +348,10 @@ enum class Screen {
  * Webページの情報のデータクラス
  */
 data class WebPage(
-    @StringRes val stringResourceId: Int,
-    @DrawableRes val imageResourceId: Int,
+    val title: String?,
+    val ogpImageUrl: String?,
+    val faviconImageUrl: String?,
+    val link: String?,
 )
 
 /*
@@ -314,10 +371,101 @@ fun WebPageList(webPageList: List<WebPage>, modifier: Modifier = Modifier) {
 }
 
 /*
+ * htmlを取得
+ */
+@Composable
+fun fetchHtml(url: String): String? {
+    var html by remember { mutableStateOf<String?>(null) }
+    var fetchError by remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = url) {
+        withContext(Dispatchers.IO) {
+            try {
+                val doc = Jsoup.connect(url).get()
+                html = doc.toString()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                fetchError = true
+            }
+        }
+    }
+    return html
+}
+
+/*
+ * htmlからogp画像のurlを取得
+ */
+@Composable
+fun getOgpImageUrl(html: String?): String? {
+    var imageUrl by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(key1 = html) {
+        withContext(Dispatchers.IO) {
+            try {
+                val doc = html?.let { Jsoup.parse(it) }
+                val ogImage = doc?.selectFirst("meta[property=og:image]")
+                if (ogImage != null) {
+                    imageUrl = ogImage.attr("content")
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+    return imageUrl
+}
+
+/*
+ * htmlからfavicon画像のurlを取得
+ */
+@Composable
+fun getFaviconImageUrl(html: String?): String? {
+    var imageUrl by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(key1 = html) {
+        withContext(Dispatchers.IO) {
+            try {
+                val doc = html?.let { Jsoup.parse(it) }
+                val ogImage = doc?.selectFirst("[href~=.*\\.(ico|png)]")
+                if (ogImage != null) {
+                    imageUrl = ogImage.attr("href")
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+    return imageUrl
+}
+
+/*
+ * htmlからタイトルを取得
+ */
+@Composable
+fun getTitle(html: String?): String? {
+    var title by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(key1 = html) {
+        withContext(Dispatchers.IO) {
+            try {
+                val doc = html?.let { Jsoup.parse(it) }
+                if (doc != null) {
+                    title = doc.title()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+    return title
+}
+
+/*
  * リストの各要素であるカード
  */
 @Composable
 fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(0.dp),
@@ -328,15 +476,15 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier) {
         Column {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = LocalContext.current.getString(webpage.stringResourceId),
+                    text = webpage.title ?: "",
                     modifier = Modifier
                         .padding(8.dp)
                         .weight(5f),
                     style = MaterialTheme.typography.bodyLarge,
                 )
                 Image(
-                    painter = painterResource(webpage.imageResourceId),
-                    contentDescription = stringResource(webpage.stringResourceId),
+                    painter = rememberAsyncImagePainter(webpage.ogpImageUrl),
+                    contentDescription = webpage.title,
                     modifier = Modifier
                         .padding(horizontal = 8.dp)
                         .height(96.dp)
@@ -344,14 +492,20 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier) {
                 )
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painter = painterResource(R.drawable.ic_qiita),
-                    contentDescription = "qiita",
+                Box(
                     modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .clip(RoundedCornerShape(50))
+                        .fillMaxWidth()
+                        .height(24.dp)
                         .weight(1f),
-                )
+                ) {
+                    Image(
+                        painter = rememberAsyncImagePainter(model = webpage.faviconImageUrl),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(50)),
+                    )
+                }
                 Text(
                     text = LocalContext.current.getString(R.string.sample_web_page_type),
                     modifier = Modifier
@@ -369,7 +523,7 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier) {
                             .width(20.dp),
                     )
                 }
-                IconButton(onClick = { /* TODO */ }) {
+                IconButton(onClick = { webpage.link?.let { ShareLink(context, it) } }) {
                     Icon(
                         imageVector = Filled.Share,
                         contentDescription = stringResource(R.string.button_share_description),
@@ -398,7 +552,22 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun WebPageCardPreview() {
-    WebPageCard(WebPage(R.string.sample_web_page_title, R.drawable.sample_image))
+    WebPageCard(
+        WebPage(
+            getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+            getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+            getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+            "https://www.yahoo.co.jp/",
+        ),
+    )
+}
+
+private fun ShareLink(context: Context, link: String) {
+    val intent = Intent(Intent.ACTION_SEND)
+    intent.type = "text/plain"
+    intent.putExtra(Intent.EXTRA_TEXT, link)
+    val chooserIntent = Intent.createChooser(intent, context.getString(string.share_link))
+    context.startActivity(chooserIntent)
 }
 
 /*
@@ -412,15 +581,18 @@ fun WebPagePreview() {
     }
 }
 
+
 /*
  * FAB(追加ボタン)
  */
 @Composable
-fun AddFab() {
+@Destination
+fun AddFab(navigator: DestinationsNavigator) {
     ExtendedFloatingActionButton(
         text = { Text(text = stringResource(R.string.fab_add)) },
         icon = { Icon(Filled.Add, contentDescription = stringResource(R.string.fab_add)) },
-        onClick = { /*TODO*/ },
+        onClick ={ navigator.navigate(StackScreenDestination())},
+//    onClick = {}
     )
 }
 
@@ -431,6 +603,6 @@ fun AddFab() {
 @Composable
 private fun AddFabPreview() {
     TsundokunTheme() {
-        AddFab()
+//        AddFab()
     }
 }

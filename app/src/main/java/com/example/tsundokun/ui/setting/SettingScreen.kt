@@ -43,7 +43,11 @@ fun SettingItem(title: String, description: String) {
             .padding(horizontal = 20.dp)
             .clickable { /*TODO*/ },
     ) {
-        Text(text = title, style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.weight(1f),
+        )
         Text(text = description, style = MaterialTheme.typography.labelSmall)
     }
 }

@@ -2,7 +2,8 @@ package com.example.tsundokun.data.local
 
 import android.content.Context
 import androidx.room.Room
-import com.example.tsundokun.data.local.category.CategoryDao
+import com.example.tsundokun.data.local.dao.CategoryDao
+import com.example.tsundokun.data.local.dao.TsundokuDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
