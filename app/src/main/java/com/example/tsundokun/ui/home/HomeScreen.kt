@@ -458,8 +458,7 @@ fun getTitle(html: String?): String? {
 fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
     val context = LocalContext.current
     Card(
-        modifier = modifier.clickable { navigator.navigate(OpenWebViewDestination(url = "https://github.com/keigomichi/tsundokun")) },
-//        modifier = modifier.clickable { OpenWebView(url = "https://kaleidot.net") },
+        modifier = modifier.clickable { navigator.navigate(OpenWebViewDestination(url = webpage.link!!)) },
         shape = RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background,
