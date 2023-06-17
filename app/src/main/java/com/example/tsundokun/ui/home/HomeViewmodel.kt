@@ -7,6 +7,7 @@ import com.example.tsundokun.data.local.entities.TsundokuEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,6 +21,17 @@ class HomeViewModel @Inject constructor(
 //    val tsundokuState : StateFlow<TsundokuUiState> =
     private val _uiState = MutableStateFlow(TsundokuUiState())
     val uiState = _uiState.asStateFlow()
+
+    init {
+        try {
+            viewModelScope.launch {
+                tsundokuDao.observeAll().collectLatest {
+                    _uiState.value = TsundokuUiState(tsundoku = it)
+                }
+            }
+        } catch (_: Exception) {
+        }
+    }
 
     fun observeAllTsundoku() =
         viewModelScope.launch {

@@ -270,7 +270,7 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: Desti
         }
 
         /* 以下は一時的に表示するダミーの情報 */
-        val allTsundokus = tsundokuItem
+        val allTsundokus = tsundokuItem.reversed()
 //        var allTsundokus = listOf<>(
 //            WebPage(
 //                getTitle(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
@@ -498,7 +498,7 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: Dest
                     )
                 }
                 Text(
-                    text = LocalContext.current.getString(R.string.sample_web_page_type),
+                    text = "",
                     modifier = Modifier
                         .padding(8.dp)
                         .weight(3f),
