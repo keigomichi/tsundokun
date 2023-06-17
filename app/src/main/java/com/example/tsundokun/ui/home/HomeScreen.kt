@@ -164,15 +164,6 @@ fun Dropdown(navigator: DestinationsNavigator) {
 }
 
 /*
- * アプリバーのプレビュー
- */
-@Preview
-@Composable
-private fun TopAppBarPreview() {
-//    TopAppBar()
-}
-
-/*
  * つんどくんのレポートを表示するカード
  * 閉じるボタンを押したら非表示になる
  */
@@ -271,28 +262,7 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: Desti
 
         /* 以下は一時的に表示するダミーの情報 */
         val allTsundokus = tsundokuItem.reversed()
-//        var allTsundokus = listOf<>(
-//            WebPage(
-//                getTitle(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//                getOgpImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//                getFaviconImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//            ),
-//            WebPage(
-//                getTitle(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//                getOgpImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//                getFaviconImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//            ),
-//            WebPage(
-//                getTitle(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//                getOgpImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//                getFaviconImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//            ),
-//            WebPage(
-//                getTitle(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//                getOgpImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//                getFaviconImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//            ),
-//        )
+
         var favoriteTsundoku = listOf<WebPage>(
             WebPage(
                 getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
@@ -560,17 +530,6 @@ private fun ShareLink(context: Context, link: String) {
     val chooserIntent = Intent.createChooser(intent, context.getString(string.share_link))
     context.startActivity(chooserIntent)
 }
-
-/*
- * リスト全体のプレビュー
- */
-// @Preview(showBackground = true)
-// @Composable
-// fun WebPagePreview() {
-//    TsundokunTheme {
-//        WebPageListScreen()
-//    }
-// }
 
 /*
  * FAB(追加ボタン)
