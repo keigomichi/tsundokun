@@ -2,10 +2,11 @@ package com.example.tsundokun.ui.home
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
+import android.webkit.WebView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -59,15 +60,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.tsundokun.R
 import com.example.tsundokun.R.string
 import com.example.tsundokun.data.local.entities.TsundokuEntity
+import com.example.tsundokun.ui.destinations.OpenWebViewDestination
 import com.example.tsundokun.ui.destinations.SettingScreenDestination
 import com.example.tsundokun.ui.destinations.StackScreenDestination
 import com.example.tsundokun.ui.home.component.AddTabTitleDialog
-import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -91,8 +93,7 @@ fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hilt
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
                 TsundokunReport()
-                WebPageListScreen(tsundokuUiState.tsundoku)
-                Log.d("HomeScreen", "tsundokuUiState.tsundoku = ${tsundokuUiState.tsundoku}")
+                WebPageListScreen(tsundokuUiState.tsundoku, navigator)
             }
         }
     }
@@ -159,15 +160,6 @@ fun Dropdown(navigator: DestinationsNavigator) {
             )
         }
     }
-}
-
-/*
- * アプリバーのプレビュー
- */
-@Preview
-@Composable
-private fun TopAppBarPreview() {
-//    TopAppBar()
 }
 
 /*
@@ -241,7 +233,7 @@ private fun TsundokunReportPreview() {
  */
 
 @Composable
-fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>) {
+fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: DestinationsNavigator) {
     var tabName by remember {
         mutableStateOf(
             mutableListOf("すべて", "お気に入り"),
@@ -281,28 +273,7 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>) {
 
         /* 以下は一時的に表示するダミーの情報 */
         val allTsundokus = tsundokuItem.reversed()
-//        var allTsundokus = listOf<>(
-//            WebPage(
-//                getTitle(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//                getOgpImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//                getFaviconImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//            ),
-//            WebPage(
-//                getTitle(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//                getOgpImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//                getFaviconImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//            ),
-//            WebPage(
-//                getTitle(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//                getOgpImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//                getFaviconImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//            ),
-//            WebPage(
-//                getTitle(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//                getOgpImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//                getFaviconImageUrl(html = fetchHtml(url = "https://qiita.com/xrxoxcxox/items/912420a0afda4f39cd36")),
-//            ),
-//        )
+
         var favoriteTsundoku = listOf<WebPage>(
             WebPage(
                 getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
@@ -330,9 +301,8 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>) {
             ),
         )
         when (tabSelected) {
-            Screen.ALL -> WebPageList(webPageList = allTsundokus)
-            Screen.FAVORITE -> WebPageList(webPageList = favoriteTsundoku)
-            Screen.NEW_SCREEN -> null
+            Screen.ALL -> WebPageList(webPageList = allTsundokus, navigator = navigator)
+            Screen.FAVORITE -> WebPageList(webPageList = favoriteTsundoku, navigator = navigator)
         }
     }
     if (showDialog.value) AddTabTitleDialog(setShowDialog = { showDialog.value = it }, tabList = tabName)
@@ -342,7 +312,7 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>) {
  * タブの種類
  */
 enum class Screen {
-    ALL, FAVORITE, NEW_SCREEN
+    ALL, FAVORITE
 }
 
 /*
@@ -359,12 +329,13 @@ data class WebPage(
  * Webページのリスト(Lazy Column)の作成
  */
 @Composable
-fun WebPageList(webPageList: List<WebPage>, modifier: Modifier = Modifier) {
+fun WebPageList(webPageList: List<WebPage>, modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
     LazyColumn(modifier = modifier) {
         items(webPageList) { webPage ->
             WebPageCard(
                 webpage = webPage,
                 modifier = Modifier.padding(8.dp),
+                navigator = navigator,
             )
             Divider(color = Color.Gray) // 区切り線
         }
@@ -465,10 +436,10 @@ fun getTitle(html: String?): String? {
  * リストの各要素であるカード
  */
 @Composable
-fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier) {
+fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
     val context = LocalContext.current
     Card(
-        modifier = modifier,
+        modifier = modifier.clickable { navigator.navigate(OpenWebViewDestination(url = webpage.link!!)) },
         shape = RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background,
@@ -546,40 +517,12 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier) {
         }
     }
 }
-
-/*
- * リストの各要素であるカードのプレビュー
- */
-@Preview
-@Composable
-private fun WebPageCardPreview() {
-    WebPageCard(
-        WebPage(
-            getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-            getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-            getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-            "https://www.yahoo.co.jp/",
-        ),
-    )
-}
-
 private fun ShareLink(context: Context, link: String) {
     val intent = Intent(Intent.ACTION_SEND)
     intent.type = "text/plain"
     intent.putExtra(Intent.EXTRA_TEXT, link)
     val chooserIntent = Intent.createChooser(intent, context.getString(string.share_link))
     context.startActivity(chooserIntent)
-}
-
-/*
- * リスト全体のプレビュー
- */
-@Preview(showBackground = true)
-@Composable
-fun WebPagePreview() {
-    TsundokunTheme {
-//        WebPageListScreen()
-    }
 }
 
 /*
@@ -592,17 +535,14 @@ fun AddFab(navigator: DestinationsNavigator) {
         text = { Text(text = stringResource(R.string.fab_add)) },
         icon = { Icon(Filled.Add, contentDescription = stringResource(R.string.fab_add)) },
         onClick = { navigator.navigate(StackScreenDestination()) },
-//    onClick = {}
     )
 }
 
-/*
- * FAB(追加ボタン)のプレビュー
- */
-// @Preview
-// @Composable
-// private fun AddFabPreview() {
-//    TsundokunTheme() {
-// //        AddFab()
-//    }
-// }
+@Destination
+@Composable
+fun OpenWebView(url: String) {
+    AndroidView(factory = { WebView(it) }) { webView ->
+        webView.settings.javaScriptEnabled = true
+        webView.loadUrl(url)
+    }
+}
