@@ -1,7 +1,10 @@
 package com.example.tsundokun.ui.home
 
+import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tsundokun.R.string
 import com.example.tsundokun.data.local.dao.TsundokuDao
 import com.example.tsundokun.data.local.entities.TsundokuEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -71,6 +74,14 @@ class HomeViewModel @Inject constructor(
     fun deleteAll() = viewModelScope.launch {
         tsundokuDao.deleteAll()
     } }
+
+fun ShareLink(context: Context, link: String) {
+    val intent = Intent(Intent.ACTION_SEND)
+    intent.type = "text/plain"
+    intent.putExtra(Intent.EXTRA_TEXT, link)
+    val chooserIntent = Intent.createChooser(intent, context.getString(string.share_link))
+    context.startActivity(chooserIntent)
+}
 
 data class TsundokuUiState(
     val tsundoku: List<TsundokuEntity> = emptyList(),
