@@ -5,7 +5,6 @@ import android.content.Intent
 import android.webkit.WebView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,7 +21,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
@@ -56,9 +54,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -70,6 +66,7 @@ import com.example.tsundokun.ui.destinations.OpenWebViewDestination
 import com.example.tsundokun.ui.destinations.SettingScreenDestination
 import com.example.tsundokun.ui.destinations.StackScreenDestination
 import com.example.tsundokun.ui.home.component.AddTabTitleDialog
+import com.example.tsundokun.ui.home.component.TsundokunReport
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -92,7 +89,7 @@ fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hilt
             floatingActionButton = { AddFab(navigator) },
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
-                TsundokunReport()
+                TsundokunReport(Modifier, 4)
                 WebPageListScreen(tsundokuUiState.tsundoku, navigator)
             }
         }
@@ -160,71 +157,6 @@ fun Dropdown(navigator: DestinationsNavigator) {
             )
         }
     }
-}
-
-/*
- * つんどくんのレポートを表示するカード
- * 閉じるボタンを押したら非表示になる
- */
-@Composable
-fun TsundokunReport(modifier: Modifier = Modifier) {
-    val visible = remember { mutableStateOf(true) }
-    if (visible.value) {
-        Card(
-            modifier = modifier
-                .padding(16.dp)
-                .border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(8.dp)),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.background,
-            ),
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painter = painterResource(R.drawable.tsundokun),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .weight(1f),
-                )
-                Column(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .weight(3f),
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = stringResource(id = R.string.tsundokun_report, 10),
-                            style = MaterialTheme.typography.bodyLarge,
-                            modifier = modifier.weight(10f),
-                        )
-                        IconButton(onClick = { visible.value = false }) {
-                            Icon(
-                                imageVector = Filled.Close,
-                                contentDescription = stringResource(R.string.button_close),
-                                Modifier
-                                    .width(16.dp)
-                                    .weight(1f),
-                            )
-                        }
-                    }
-                    Text(
-                        text = stringResource(id = R.string.tsundokun_report_detail),
-                        style = MaterialTheme.typography.bodySmall,
-                        modifier = modifier.padding(bottom = 8.dp),
-                    )
-                }
-            }
-        }
-    }
-}
-
-/*
- * つんどくんのレポートを表示するカードのプレビュー
- */
-@Preview
-@Composable
-private fun TsundokunReportPreview() {
-    TsundokunReport()
 }
 
 /*
