@@ -152,7 +152,7 @@ class MainActivity : ComponentActivity() {
                     if (showStackDialog.value) {
                         StackDialog(
                             onDismiss = { showStackDialog.value = false },
-                            linkText = sharedLinkText
+                            linkText = sharedLinkText,
                         )
                     }
                     MainScreen()
@@ -161,4 +161,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-

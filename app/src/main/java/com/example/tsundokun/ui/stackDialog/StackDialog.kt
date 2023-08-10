@@ -48,7 +48,7 @@ import com.example.tsundokun.ui.confirm.getTitle
 fun StackDialog(
     onDismiss: () -> Unit,
     linkText: String,
-    viewModel: ConfirmDialogViewModel = hiltViewModel()
+    viewModel: ConfirmDialogViewModel = hiltViewModel(),
 ) {
     var selectedOptionText by remember { mutableStateOf("") }
     val enableClickButton = selectedOptionText != ""
@@ -56,8 +56,8 @@ fun StackDialog(
     Dialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties(
-            usePlatformDefaultWidth = false  // widthを自由に設定する
-        )
+            usePlatformDefaultWidth = false, // widthを自由に設定する
+        ),
     ) {
         Surface(
             modifier = Modifier
@@ -86,7 +86,7 @@ fun StackDialog(
                     linkText = linkText,
                     enableClickButton = enableClickButton,
                     viewModel = viewModel,
-                    onDismiss = onDismiss
+                    onDismiss = onDismiss,
                 )
             }
         }
@@ -143,7 +143,7 @@ private fun OgpAndTitleField(
                 Builder(LocalContext.current).data(data = ogpImageUrl)
                     .apply(block = fun Builder.() {
                         error(drawable.loading)
-                    }).build()
+                    }).build(),
             )
             Image(
                 painter = painter,
@@ -169,7 +169,7 @@ private fun AddButton(
     linkText: String,
     enableClickButton: Boolean,
     viewModel: ConfirmDialogViewModel,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     Box(
         modifier = Modifier
