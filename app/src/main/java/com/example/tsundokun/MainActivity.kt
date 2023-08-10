@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.example.tsundokun.R.string
 import com.example.tsundokun.ui.NavGraphs
+import com.example.tsundokun.ui.stackDialog.StackDialog
 import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ConfigUpdate
@@ -130,23 +131,34 @@ class MainActivity : ComponentActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
-        if (Intent.ACTION_SEND.equals(intent?.action) && intent?.type != null) {
-            if ("text/plain".equals(intent?.type)) {
-                handleSendText(intent); // Handle text being sent
+        setContent {
+            TsundokunTheme {
+                var showStackDialog = remember { mutableStateOf(true) }
+                if (Intent.ACTION_SEND == intent?.action && intent.type != null) {
+                    showStackDialog.value = true
+                    if ("text/plain" == intent.type) {
+                        handleSendLinkText(intent, showStackDialog)
+                    }
+                }
             }
         }
     }
 
-    private fun handleSendText(intent: Intent?) {
-        val sharedText = intent!!.getStringExtra(Intent.EXTRA_TEXT)
-        if (sharedText != null) {
+    private fun handleSendLinkText(intent: Intent?, showStackDialog: MutableState<Boolean>) {
+        val sharedLinkText = intent!!.getStringExtra(Intent.EXTRA_TEXT)
+        if (sharedLinkText != null) {
             setContent {
                 TsundokunTheme {
-                    // Launch the desired Composable with the shared URL
-//                    TODO: 一時的にコメントアウト
-//                    StackScreen(url = Uri.parse(sharedText))
+                    if (showStackDialog.value) {
+                        StackDialog(
+                            onDismiss = { showStackDialog.value = false },
+                            linkText = sharedLinkText
+                        )
+                    }
+                    MainScreen()
                 }
             }
         }
     }
 }
+
