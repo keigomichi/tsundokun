@@ -2,7 +2,10 @@ package com.example.tsundokun.ui.home
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build.VERSION_CODES
+import android.util.Log
 import android.webkit.WebView
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -73,7 +76,9 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
+import java.time.LocalDate
 
+@RequiresApi(VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @RootNavGraph(start = true)
 @Destination
@@ -89,7 +94,10 @@ fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hilt
             floatingActionButton = { AddFab(navigator) },
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
-                TsundokunReport(Modifier, 4)
+                val currentDate = LocalDate.now();
+                Log.e("today", currentDate.toString())
+
+                TsundokunReport(Modifier, tsundokuUiState.tsundoku.size)
                 WebPageListScreen(tsundokuUiState.tsundoku, navigator)
             }
         }
