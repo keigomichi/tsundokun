@@ -94,9 +94,6 @@ fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hilt
             floatingActionButton = { AddFab(navigator) },
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
-                val currentDate = LocalDate.now();
-                Log.e("today", currentDate.toString())
-
                 TsundokunReport(Modifier, tsundokuUiState.tsundoku.size)
                 WebPageListScreen(tsundokuUiState.tsundoku, navigator)
             }

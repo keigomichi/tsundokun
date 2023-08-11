@@ -26,7 +26,7 @@ class ConfirmViewModel @Inject constructor(
                     link = navArgs.link,
                     isRead = false,
                     isFavorite = false,
-                    createdAt = "",
+                    createdAt = navArgs.createdAt,
                     updatedAt = "",
                     deletedAt = "",
                 ),
