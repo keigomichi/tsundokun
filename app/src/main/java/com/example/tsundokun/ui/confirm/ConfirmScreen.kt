@@ -66,11 +66,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
-import java.time.LocalDateTime
 
 data class ConfirmScreenNavArgs(
     val link: String,
-    var createdAt: String
+    var createdAt: String,
 )
 
 @RequiresApi(VERSION_CODES.O)

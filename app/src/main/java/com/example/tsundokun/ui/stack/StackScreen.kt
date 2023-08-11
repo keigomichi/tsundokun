@@ -143,7 +143,6 @@ private fun StackAppBar(
     navigator: DestinationsNavigator,
     showDialog: (Boolean) -> Unit,
 ) {
-
     TopAppBar(title = {
         Text(
             text = stringResource(string.add),
