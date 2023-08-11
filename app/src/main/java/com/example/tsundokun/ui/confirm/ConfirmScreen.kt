@@ -340,7 +340,7 @@ private fun SelectedField(
  * アイコンとカテゴリ選択
  */
 @Composable
-private fun SelectedShow(
+fun SelectedShow(
     modifier: Modifier = Modifier,
     icon: ImageVector,
     contentDescription: String? = null,
