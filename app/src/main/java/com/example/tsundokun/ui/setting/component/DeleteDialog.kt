@@ -68,11 +68,11 @@ fun DeleteDialog(viewModel: SettingViewModel, setShowDialog: (Boolean) -> Unit) 
                             onClick = {
                                 setShowDialog(false)
                                 viewModel.deleteAll()
-                                      },
+                            },
                             shape = RoundedCornerShape(30.dp),
                             modifier = Modifier
                                 .height(40.dp)
-                                .fillMaxWidth()
+                                .fillMaxWidth(),
                         ) {
                             Text(text = "削除")
                         }

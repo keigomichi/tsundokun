@@ -35,7 +35,7 @@ fun SettingScreen(navigator: DestinationsNavigator) {
         "アカウント設定" to "アカウント情報を設定します",
         "通知設定" to "通知のオン・オフを設定します",
         "データの削除" to "",
-        "ログアウト" to ""
+        "ログアウト" to "",
     )
     Column() {
         TopSettingBar(navigator)

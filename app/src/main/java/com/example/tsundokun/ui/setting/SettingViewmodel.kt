@@ -7,7 +7,6 @@ import com.example.tsundokun.data.local.entities.TsundokuEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,11 +15,10 @@ class SettingViewModel @Inject constructor(
 
     private val tsundokuDao: TsundokuDao,
 
-    ) : ViewModel() {
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(TsundokuUiState())
     val uiState = _uiState.asStateFlow()
-
 
     fun deleteAll() = viewModelScope.launch {
         tsundokuDao.deleteAll()
