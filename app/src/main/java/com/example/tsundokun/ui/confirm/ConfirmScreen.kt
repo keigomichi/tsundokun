@@ -1,5 +1,7 @@
 package com.example.tsundokun.ui.confirm
 
+import android.os.Build.VERSION_CODES
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -67,14 +69,15 @@ import org.jsoup.Jsoup
 
 data class ConfirmScreenNavArgs(
     val link: String,
+    var createdAt: String,
 )
 
+@RequiresApi(VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Destination(navArgsDelegate = ConfirmScreenNavArgs::class)
 @Composable
 fun ConfirmScreen(
     navigator: DestinationsNavigator,
-//    link: String,
     viewModel: ConfirmViewModel = hiltViewModel(),
 ) {
     var fieldsAreValid by remember { mutableStateOf(false) }

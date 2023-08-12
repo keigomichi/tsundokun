@@ -1,5 +1,7 @@
 package com.example.tsundokun.ui.stack
 
+import android.os.Build.VERSION_CODES
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -49,7 +51,9 @@ import com.example.tsundokun.ui.destinations.ConfirmScreenDestination
 import com.example.tsundokun.ui.destinations.HomeScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import java.time.LocalDateTime
 
+@RequiresApi(VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Destination
 @Composable
@@ -130,6 +134,7 @@ fun StackScreen(navigator: DestinationsNavigator) {
 /*
  * つんどく追加画面のアプリバー
  */
+@RequiresApi(VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun StackAppBar(
@@ -155,7 +160,7 @@ private fun StackAppBar(
         if (fieldsAreValid) {
             if (url.startsWith("http")) {
                 IconButton(onClick = {
-                    navigator.navigate(ConfirmScreenDestination(url))
+                    navigator.navigate(ConfirmScreenDestination(url, LocalDateTime.now().toString()))
                 }) {
                     Icon(
                         imageVector = Outlined.Send,
