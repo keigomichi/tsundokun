@@ -93,7 +93,7 @@ dependencies {
     implementation(libs.jsoup)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    implementation(platform("com.google.firebase:firebase-bom:32.1.0"))
+    implementation(platform("com.google.firebase:firebase-bom:32.2.2"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-config-ktx")
     implementation("com.google.firebase:firebase-crashlytics-ktx")
