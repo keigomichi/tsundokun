@@ -443,8 +443,9 @@ fun WebPageCard(index: Int, webpage: WebPage, modifier: Modifier = Modifier, nav
                 IconButton(onClick = {
                     viewModel.updateFavorite(tsundokuUiState.tsundoku[index].id, !tsundokuUiState.tsundoku[index].isFavorite)
                 }) {
-                    if(tsundokuUiState.tsundoku[index].isFavorite) { favoriteIconColor = Pink80 }
-                    else{ favoriteIconColor = Color.DarkGray }
+                    favoriteIconColor =
+                        if(tsundokuUiState.tsundoku[index].isFavorite) { Pink80 }
+                        else{ Color.DarkGray }
                     Icon(
                         imageVector = Filled.FavoriteBorder,
                         contentDescription = stringResource(R.string.button_favorite_description),
