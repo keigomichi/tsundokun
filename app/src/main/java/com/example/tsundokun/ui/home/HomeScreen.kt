@@ -61,25 +61,6 @@ fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hilt
     }
 }
 
-
-/*
- * Webページのリスト(Lazy Column)の作成
- */
-@Composable
-fun WebPageList(webPageList: List<WebPage>, modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
-    LazyColumn(modifier = modifier) {
-        items(webPageList) { webPage ->
-            WebPageCard(
-                webpage = webPage,
-                modifier = Modifier.padding(8.dp),
-                navigator = navigator,
-            )
-            Divider(color = Color.Gray) // 区切り線
-        }
-    }
-}
-
-
 /*
  * FAB(追加ボタン)
  */

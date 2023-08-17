@@ -34,7 +34,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.tsundokun.R.string
 import com.example.tsundokun.ui.destinations.OpenWebViewDestination
-import com.example.tsundokun.ui.home.WebPage
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 /*

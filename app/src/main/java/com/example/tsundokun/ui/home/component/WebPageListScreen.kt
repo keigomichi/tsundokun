@@ -11,11 +11,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.example.tsundokun.data.local.entities.TsundokuEntity
-import com.example.tsundokun.ui.home.Screen
-import com.example.tsundokun.ui.home.Screen.ALL
-import com.example.tsundokun.ui.home.Screen.FAVORITE
-import com.example.tsundokun.ui.home.WebPage
-import com.example.tsundokun.ui.home.WebPageList
+import com.example.tsundokun.ui.home.component.Screen.ALL
+import com.example.tsundokun.ui.home.component.Screen.FAVORITE
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 /*
@@ -91,8 +88,8 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: Desti
             ),
         )
         when (tabSelected) {
-            ALL -> WebPageList(webPageList = allTsundokus, navigator = navigator)
-            FAVORITE -> WebPageList(webPageList = favoriteTsundoku, navigator = navigator)
+            ALL -> WebPageListCard(webPageList = allTsundokus, navigator = navigator)
+            FAVORITE -> WebPageListCard(webPageList = favoriteTsundoku, navigator = navigator)
         }
     }
     if (showDialog.value) AddTabTitleDialog(setShowDialog = { showDialog.value = it }, tabList = tabName)
