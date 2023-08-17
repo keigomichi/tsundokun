@@ -3,6 +3,7 @@ package com.example.tsundokun.ui.home
 import android.content.Context
 import android.content.Intent
 import android.os.Build.VERSION_CODES
+import android.util.Log
 import android.webkit.WebView
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
@@ -75,8 +76,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
-import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
+import java.time.LocalDate
 
 @RequiresApi(VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -85,12 +85,6 @@ import java.time.temporal.ChronoUnit
 @Composable
 fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hiltViewModel()) {
     val tsundokuUiState by viewModel.uiState.collectAsState()
-    val now = LocalDateTime.now()
-    val oneWeekAgo = now.minus(1, ChronoUnit.WEEKS)
-    val recentTsundokuData = tsundokuUiState.tsundoku.filter { tsundoku ->
-        val date = LocalDateTime.parse(tsundoku.createdAt)
-        date.isAfter(oneWeekAgo) && date.isBefore(now)
-    }
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
@@ -100,7 +94,7 @@ fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hilt
             floatingActionButton = { AddFab(navigator) },
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
-                TsundokunReport(Modifier, recentTsundokuData.size)
+                TsundokunReport(Modifier, tsundokuUiState.tsundoku.size)
                 WebPageListScreen(tsundokuUiState.tsundoku, navigator)
             }
         }
@@ -205,7 +199,7 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: Desti
                     selected = tabSelected.ordinal == index,
                     onClick = { tabSelected = Screen.values()[index] },
 
-                )
+                    )
             }
             Tab(
                 text = { Text("+") },
