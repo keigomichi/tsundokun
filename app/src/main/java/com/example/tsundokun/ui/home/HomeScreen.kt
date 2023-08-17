@@ -102,7 +102,7 @@ fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hilt
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
                 TsundokunReport(Modifier, recentTsundokuData.size)
-                WebPageListScreen(tsundokuUiState,tsundokuUiState.tsundoku, navigator)
+                WebPageListScreen(tsundokuUiState.tsundoku, navigator)
             }
         }
     }
@@ -177,7 +177,7 @@ fun Dropdown(navigator: DestinationsNavigator) {
  */
 
 @Composable
-fun WebPageListScreen(tsundokuUiState: TsundokuUiState, tsundokuEntityList: List<TsundokuEntity>, navigator: DestinationsNavigator) {
+fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: DestinationsNavigator) {
     var tabName by remember {
         mutableStateOf(
             mutableListOf("すべて", "お気に入り"),
