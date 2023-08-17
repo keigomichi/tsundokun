@@ -31,6 +31,7 @@ import com.example.tsundokun.R
 import com.example.tsundokun.ui.destinations.StackScreenDestination
 import com.example.tsundokun.ui.home.component.TopAppBar
 import com.example.tsundokun.ui.home.component.TsundokunReport
+import com.example.tsundokun.ui.home.component.WebPage
 import com.example.tsundokun.ui.home.component.WebPageCard
 import com.example.tsundokun.ui.home.component.WebPageListScreen
 import com.ramcosta.composedestinations.annotation.Destination
@@ -60,22 +61,6 @@ fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hilt
     }
 }
 
-/*
- * タブの種類
- */
-enum class Screen {
-    ALL, FAVORITE
-}
-
-/*
- * Webページの情報のデータクラス
- */
-data class WebPage(
-    val title: String?,
-    val ogpImageUrl: String?,
-    val faviconImageUrl: String?,
-    val link: String?,
-)
 
 /*
  * Webページのリスト(Lazy Column)の作成
