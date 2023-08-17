@@ -3,6 +3,7 @@ package com.example.tsundokun.ui.home
 import android.content.Context
 import android.content.Intent
 import android.os.Build.VERSION_CODES
+import android.util.Log
 import android.webkit.WebView
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
@@ -20,6 +21,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.Add
@@ -60,6 +62,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.tsundokun.R
 import com.example.tsundokun.R.string
@@ -69,6 +72,9 @@ import com.example.tsundokun.ui.destinations.SettingScreenDestination
 import com.example.tsundokun.ui.destinations.StackScreenDestination
 import com.example.tsundokun.ui.home.component.AddTabTitleDialog
 import com.example.tsundokun.ui.home.component.TsundokunReport
+import com.example.tsundokun.ui.theme.Pink40
+import com.example.tsundokun.ui.theme.Pink80
+import com.example.tsundokun.ui.theme.TsundokunTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -218,30 +224,30 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: Desti
         val allTsundokus = tsundokuItem.reversed()
 
         var favoriteTsundoku = listOf<WebPage>(
-            WebPage(
-                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                "https://www.yahoo.co.jp/",
-            ),
-            WebPage(
-                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                "https://www.yahoo.co.jp/",
-            ),
-            WebPage(
-                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                "https://www.yahoo.co.jp/",
-            ),
-            WebPage(
-                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                "https://www.yahoo.co.jp/",
-            ),
+//            WebPage(
+//                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+//                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+//                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+//                "https://www.yahoo.co.jp/",
+//            ),
+//            WebPage(
+//                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+//                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+//                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+//                "https://www.yahoo.co.jp/",
+//            ),
+//            WebPage(
+//                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+//                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+//                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+//                "https://www.yahoo.co.jp/",
+//            ),
+//            WebPage(
+//                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+//                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+//                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
+//                "https://www.yahoo.co.jp/",
+//            ),
         )
         when (tabSelected) {
             Screen.ALL -> WebPageList(webPageList = allTsundokus, navigator = navigator)
@@ -274,8 +280,9 @@ data class WebPage(
 @Composable
 fun WebPageList(webPageList: List<WebPage>, modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
     LazyColumn(modifier = modifier) {
-        items(webPageList) { webPage ->
+        itemsIndexed(webPageList) { index, webPage ->
             WebPageCard(
+                index,
                 webpage = webPage,
                 modifier = Modifier.padding(8.dp),
                 navigator = navigator,
@@ -379,8 +386,12 @@ fun getTitle(html: String?): String? {
  * リストの各要素であるカード
  */
 @Composable
-fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
+fun WebPageCard(index: Int, webpage: WebPage, modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
+    val viewModel: HomeViewModel = hiltViewModel()
+    val tsundokuUiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
+    var favoriteIconColor: Color = Color.DarkGray
+
     Card(
         modifier = modifier.clickable { navigator.navigate(OpenWebViewDestination(url = webpage.link!!)) },
         shape = RoundedCornerShape(0.dp),
@@ -429,14 +440,20 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: Dest
                     style = MaterialTheme.typography.bodyMedium,
                 )
                 Spacer(modifier = modifier.weight(2f))
-                IconButton(onClick = { /* TODO */ }) {
+                IconButton(onClick = {
+                    viewModel.updateFavorite(tsundokuUiState.tsundoku[index].id, !tsundokuUiState.tsundoku[index].isFavorite)
+                }) {
+                    if(tsundokuUiState.tsundoku[index].isFavorite) { favoriteIconColor = Pink80 }
+                    else{ favoriteIconColor = Color.DarkGray }
                     Icon(
                         imageVector = Filled.FavoriteBorder,
                         contentDescription = stringResource(R.string.button_favorite_description),
                         modifier = modifier
                             .weight(1f)
                             .width(20.dp),
-                    )
+                        tint = favoriteIconColor
+                        )
+
                 }
                 IconButton(onClick = { webpage.link?.let { ShareLink(context, it) } }) {
                     Icon(
@@ -460,6 +477,7 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: Dest
         }
     }
 }
+
 private fun ShareLink(context: Context, link: String) {
     val intent = Intent(Intent.ACTION_SEND)
     intent.type = "text/plain"
