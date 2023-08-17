@@ -217,9 +217,8 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: Desti
         }
 
         /* 以下は一時的に表示するダミーの情報 */
-        val allTsundokus = tsundokuItem.reversed()
-        var favoriteTsundoku = tsundokuItem.filter { it.isFavorite }
-
+        val allTsundokus = tsundokuItem
+        var favoriteTsundoku = allTsundokus.filter { it.isFavorite }
         when (tabSelected) {
             Screen.ALL -> WebPageList(webPageList = allTsundokus, navigator = navigator)
             Screen.FAVORITE -> WebPageList(webPageList = favoriteTsundoku, navigator = navigator)
@@ -252,9 +251,10 @@ data class WebPage(
 @Composable
 fun WebPageList(webPageList: List<WebPage>, modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
     LazyColumn(modifier = modifier) {
-        itemsIndexed(webPageList) { index, webPage ->
+        itemsIndexed(webPageList) { _, webPage->
+            val index = webPageList.indexOf(webPage)
             WebPageCard(
-                index,
+                index = index,
                 webpage = webPage,
                 modifier = Modifier.padding(8.dp),
                 navigator = navigator,
@@ -362,7 +362,11 @@ fun WebPageCard(index: Int, webpage: WebPage, modifier: Modifier = Modifier, nav
     val viewModel: HomeViewModel = hiltViewModel()
     val tsundokuUiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
-    var favoriteIconColor: Color = Color.DarkGray
+    var favoriteIconColor: Color
+    favoriteIconColor = if(webpage.isFavorite) { Pink80 }
+    else{ Color.DarkGray }
+
+
 
     Card(
         modifier = modifier.clickable { navigator.navigate(OpenWebViewDestination(url = webpage.link!!)) },
@@ -416,7 +420,7 @@ fun WebPageCard(index: Int, webpage: WebPage, modifier: Modifier = Modifier, nav
                     viewModel.updateFavorite(tsundokuUiState.tsundoku[index].id, !tsundokuUiState.tsundoku[index].isFavorite)
                 }) {
                     favoriteIconColor =
-                        if(tsundokuUiState.tsundoku[index].isFavorite) { Pink80 }
+                        if(webpage.isFavorite) { Pink80 }
                         else{ Color.DarkGray }
                     Icon(
                         imageVector = Filled.FavoriteBorder,
