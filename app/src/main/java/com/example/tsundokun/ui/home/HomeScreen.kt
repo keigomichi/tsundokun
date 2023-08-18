@@ -79,19 +79,13 @@ import org.jsoup.Jsoup
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
-@RequiresApi(VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
+@RequiresApi(VERSION_CODES.O)
 @RootNavGraph(start = true)
 @Destination
 @Composable
 fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hiltViewModel()) {
     val tsundokuUiState by viewModel.uiState.collectAsState()
-    val now = LocalDateTime.now()
-    val oneWeekAgo = now.minus(1, ChronoUnit.WEEKS)
-    val recentTsundokuData = tsundokuUiState.tsundoku.filter { tsundoku ->
-        val date = LocalDateTime.parse(tsundoku.createdAt)
-        date.isAfter(oneWeekAgo) && date.isBefore(now)
-    }
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
@@ -101,11 +95,25 @@ fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hilt
             floatingActionButton = { AddFab(navigator) },
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
-                TsundokunReport(Modifier, recentTsundokuData.size)
+                TsundokunReport(Modifier, recentTsundokuData(tsundokuUiState))
                 WebPageListScreen(tsundokuUiState.tsundoku, navigator)
             }
         }
     }
+}
+
+/*
+* 今週の積読した数の算出
+*/
+@RequiresApi(VERSION_CODES.O)
+fun recentTsundokuData(tsundokuUiState: TsundokuUiState): Int {
+    val now = LocalDateTime.now()
+    val oneWeekAgo = now.minus(1, ChronoUnit.WEEKS)
+    val recentTsundokuData = tsundokuUiState.tsundoku.filter { tsundoku ->
+        val date = LocalDateTime.parse(tsundoku.createdAt)
+        date.isAfter(oneWeekAgo) && date.isBefore(now)
+    }
+    return recentTsundokuData.size
 }
 
 /*
@@ -216,6 +224,7 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: Desti
         }
         val allTsundokus = tsundokuItem
         var favoriteTsundoku = allTsundokus.filter { it.isFavorite }
+
         when (tabSelected) {
             Screen.ALL -> WebPageList(webPageList = allTsundokus, navigator = navigator)
             Screen.FAVORITE -> WebPageList(webPageList = favoriteTsundoku, navigator = navigator)
@@ -357,7 +366,7 @@ fun getTitle(html: String?): String? {
 @Composable
 fun WebPageCard(index: Int, webpage: WebPage, modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
     val viewModel: HomeViewModel = hiltViewModel()
-    val tsundokuUiState by viewModel.uiState.collectAsState()
+    val tsundoku = viewModel.uiState.collectAsState().value.tsundoku[index]
     val context = LocalContext.current
     var favoriteIconColor: Color
     favoriteIconColor = if (webpage.isFavorite) { Pink80 } else { Color.DarkGray }
@@ -411,7 +420,7 @@ fun WebPageCard(index: Int, webpage: WebPage, modifier: Modifier = Modifier, nav
                 )
                 Spacer(modifier = modifier.weight(2f))
                 IconButton(onClick = {
-                    viewModel.updateFavorite(tsundokuUiState.tsundoku[index].id, !tsundokuUiState.tsundoku[index].isFavorite)
+                    viewModel.updateFavorite(tsundoku.id, !tsundoku.isFavorite)
                 }) {
                     favoriteIconColor =
                         if (webpage.isFavorite) { Pink80 } else { Color.DarkGray }
