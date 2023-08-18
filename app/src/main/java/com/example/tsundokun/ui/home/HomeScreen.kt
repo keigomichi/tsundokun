@@ -206,7 +206,6 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: Desti
                     text = { Text(text = tabName[index].toString()) },
                     selected = tabSelected.ordinal == index,
                     onClick = { tabSelected = Screen.values()[index] },
-
                 )
             }
             Tab(
@@ -215,8 +214,6 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: Desti
                 onClick = { showDialog.value = true },
             )
         }
-
-        /* 以下は一時的に表示するダミーの情報 */
         val allTsundokus = tsundokuItem
         var favoriteTsundoku = allTsundokus.filter { it.isFavorite }
         when (tabSelected) {
@@ -251,7 +248,7 @@ data class WebPage(
 @Composable
 fun WebPageList(webPageList: List<WebPage>, modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
     LazyColumn(modifier = modifier) {
-        itemsIndexed(webPageList) { _, webPage->
+        itemsIndexed(webPageList) { _, webPage ->
             val index = webPageList.indexOf(webPage)
             WebPageCard(
                 index = index,
@@ -363,10 +360,7 @@ fun WebPageCard(index: Int, webpage: WebPage, modifier: Modifier = Modifier, nav
     val tsundokuUiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
     var favoriteIconColor: Color
-    favoriteIconColor = if(webpage.isFavorite) { Pink80 }
-    else{ Color.DarkGray }
-
-
+    favoriteIconColor = if (webpage.isFavorite) { Pink80 } else { Color.DarkGray }
 
     Card(
         modifier = modifier.clickable { navigator.navigate(OpenWebViewDestination(url = webpage.link!!)) },
@@ -420,17 +414,15 @@ fun WebPageCard(index: Int, webpage: WebPage, modifier: Modifier = Modifier, nav
                     viewModel.updateFavorite(tsundokuUiState.tsundoku[index].id, !tsundokuUiState.tsundoku[index].isFavorite)
                 }) {
                     favoriteIconColor =
-                        if(webpage.isFavorite) { Pink80 }
-                        else{ Color.DarkGray }
+                        if (webpage.isFavorite) { Pink80 } else { Color.DarkGray }
                     Icon(
                         imageVector = Filled.FavoriteBorder,
                         contentDescription = stringResource(R.string.button_favorite_description),
                         modifier = modifier
                             .weight(1f)
                             .width(20.dp),
-                        tint = favoriteIconColor
-                        )
-
+                        tint = favoriteIconColor,
+                    )
                 }
                 IconButton(onClick = { webpage.link?.let { ShareLink(context, it) } }) {
                     Icon(
