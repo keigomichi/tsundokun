@@ -45,6 +45,7 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -68,6 +69,7 @@ import com.example.tsundokun.ui.destinations.OpenWebViewDestination
 import com.example.tsundokun.ui.destinations.SettingScreenDestination
 import com.example.tsundokun.ui.destinations.StackScreenDestination
 import com.example.tsundokun.ui.home.component.AddTabTitleDialog
+import com.example.tsundokun.ui.home.component.CardDropdown
 import com.example.tsundokun.ui.home.component.TsundokunReport
 import com.example.tsundokun.ui.theme.Pink80
 import com.ramcosta.composedestinations.annotation.Destination
@@ -369,6 +371,7 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: Dest
     val context = LocalContext.current
     var favoriteIconColor: Color
     favoriteIconColor = if (webpage.isFavorite) { Pink80 } else { Color.DarkGray }
+    val expandedState = remember { mutableStateOf(false) }
     Card(
         modifier = modifier.clickable { navigator.navigate(OpenWebViewDestination(url = webpage.link!!)) },
         shape = RoundedCornerShape(0.dp),
@@ -440,7 +443,7 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: Dest
                             .width(20.dp),
                     )
                 }
-                IconButton(onClick = { /* TODO */ }) {
+                IconButton(onClick = { expandedState.value = !expandedState.value }) {
                     Icon(
                         imageVector = Filled.MoreVert,
                         contentDescription = stringResource(R.string.button_morevert_description),
@@ -448,6 +451,9 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: Dest
                             .weight(1f)
                             .width(20.dp),
                     )
+                    if (expandedState.value) {
+                        CardDropdown(expandedState, viewModel, webpage.id)
+                    }
                 }
             }
         }
@@ -483,3 +489,4 @@ fun OpenWebView(url: String) {
         webView.loadUrl(url)
     }
 }
+
