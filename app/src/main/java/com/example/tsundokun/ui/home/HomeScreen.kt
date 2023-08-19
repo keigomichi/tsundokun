@@ -45,7 +45,6 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -203,7 +202,7 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: Desti
             getFaviconImageUrl(html = fetchHtml(url = it.link)),
             it.link,
             it.isFavorite,
-            it.id
+            it.id,
         )
     }
 
@@ -489,4 +488,3 @@ fun OpenWebView(url: String) {
         webView.loadUrl(url)
     }
 }
-

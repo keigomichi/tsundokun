@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.example.tsundokun.ui.home.HomeViewModel
 
 @Composable
-fun CardDropdown(expandedState: MutableState<Boolean>, viewModel: HomeViewModel, webpageId: String){
+fun CardDropdown(expandedState: MutableState<Boolean>, viewModel: HomeViewModel, webpageId: String) {
     DropdownMenu(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background)
