@@ -201,6 +201,7 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: Desti
             getFaviconImageUrl(html = fetchHtml(url = it.link)),
             it.link,
             it.isFavorite,
+            it.id
         )
     }
 
@@ -249,6 +250,7 @@ data class WebPage(
     val faviconImageUrl: String?,
     val link: String?,
     val isFavorite: Boolean,
+    val id: String,
 )
 
 /*
@@ -258,9 +260,7 @@ data class WebPage(
 fun WebPageList(webPageList: List<WebPage>, modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
     LazyColumn(modifier = modifier) {
         itemsIndexed(webPageList) { _, webPage ->
-            val index = webPageList.indexOf(webPage)
             WebPageCard(
-                index = index,
                 webpage = webPage,
                 modifier = Modifier.padding(8.dp),
                 navigator = navigator,
@@ -364,13 +364,11 @@ fun getTitle(html: String?): String? {
  * リストの各要素であるカード
  */
 @Composable
-fun WebPageCard(index: Int, webpage: WebPage, modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
+fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
     val viewModel: HomeViewModel = hiltViewModel()
-    val tsundoku = viewModel.uiState.collectAsState().value.tsundoku[index]
     val context = LocalContext.current
     var favoriteIconColor: Color
     favoriteIconColor = if (webpage.isFavorite) { Pink80 } else { Color.DarkGray }
-
     Card(
         modifier = modifier.clickable { navigator.navigate(OpenWebViewDestination(url = webpage.link!!)) },
         shape = RoundedCornerShape(0.dp),
@@ -420,7 +418,7 @@ fun WebPageCard(index: Int, webpage: WebPage, modifier: Modifier = Modifier, nav
                 )
                 Spacer(modifier = modifier.weight(2f))
                 IconButton(onClick = {
-                    viewModel.updateFavorite(tsundoku.id, !tsundoku.isFavorite)
+                    viewModel.updateFavorite(webpage.id, !webpage.isFavorite)
                 }) {
                     favoriteIconColor =
                         if (webpage.isFavorite) { Pink80 } else { Color.DarkGray }
