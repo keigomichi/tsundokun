@@ -213,7 +213,7 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: Desti
         ) {
             tabName.forEachIndexed { index, title ->
                 Tab(
-                    text = { Text(text = tabName[index].toString()) },
+                    text = { Text(text = tabName[index]) },
                     selected = tabSelected.ordinal == index,
                     onClick = { tabSelected = Screen.values()[index] },
                 )
@@ -225,7 +225,7 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: Desti
             )
         }
         val allTsundokus = tsundokuItem
-        var favoriteTsundoku = allTsundokus.filter { it.isFavorite }
+        val favoriteTsundoku = allTsundokus.filter { it.isFavorite }
 
         when (tabSelected) {
             Screen.ALL -> WebPageList(webPageList = allTsundokus, navigator = navigator)
