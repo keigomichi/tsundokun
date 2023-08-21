@@ -19,7 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.Add
@@ -68,7 +68,9 @@ import com.example.tsundokun.ui.destinations.OpenWebViewDestination
 import com.example.tsundokun.ui.destinations.SettingScreenDestination
 import com.example.tsundokun.ui.destinations.StackScreenDestination
 import com.example.tsundokun.ui.home.component.AddTabTitleDialog
+import com.example.tsundokun.ui.home.component.CardDropdown
 import com.example.tsundokun.ui.home.component.TsundokunReport
+import com.example.tsundokun.ui.theme.Pink80
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -78,19 +80,13 @@ import org.jsoup.Jsoup
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
-@RequiresApi(VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
+@RequiresApi(VERSION_CODES.O)
 @RootNavGraph(start = true)
 @Destination
 @Composable
 fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hiltViewModel()) {
     val tsundokuUiState by viewModel.uiState.collectAsState()
-    val now = LocalDateTime.now()
-    val oneWeekAgo = now.minus(1, ChronoUnit.WEEKS)
-    val recentTsundokuData = tsundokuUiState.tsundoku.filter { tsundoku ->
-        val date = LocalDateTime.parse(tsundoku.createdAt)
-        date.isAfter(oneWeekAgo) && date.isBefore(now)
-    }
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
@@ -100,11 +96,25 @@ fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hilt
             floatingActionButton = { AddFab(navigator) },
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
-                TsundokunReport(Modifier, recentTsundokuData.size)
+                TsundokunReport(Modifier, recentTsundokuData(tsundokuUiState))
                 WebPageListScreen(tsundokuUiState.tsundoku, navigator)
             }
         }
     }
+}
+
+/*
+* 今週の積読した数の算出
+*/
+@RequiresApi(VERSION_CODES.O)
+fun recentTsundokuData(tsundokuUiState: TsundokuUiState): Int {
+    val now = LocalDateTime.now()
+    val oneWeekAgo = now.minus(1, ChronoUnit.WEEKS)
+    val recentTsundokuData = tsundokuUiState.tsundoku.filter { tsundoku ->
+        val date = LocalDateTime.parse(tsundoku.createdAt)
+        date.isAfter(oneWeekAgo) && date.isBefore(now)
+    }
+    return recentTsundokuData.size
 }
 
 /*
@@ -191,6 +201,8 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: Desti
             getOgpImageUrl(html = fetchHtml(url = it.link)),
             getFaviconImageUrl(html = fetchHtml(url = it.link)),
             it.link,
+            it.isFavorite,
+            it.id,
         )
     }
 
@@ -201,10 +213,9 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: Desti
         ) {
             tabName.forEachIndexed { index, title ->
                 Tab(
-                    text = { Text(text = tabName[index].toString()) },
+                    text = { Text(text = tabName[index]) },
                     selected = tabSelected.ordinal == index,
                     onClick = { tabSelected = Screen.values()[index] },
-
                 )
             }
             Tab(
@@ -213,36 +224,9 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: Desti
                 onClick = { showDialog.value = true },
             )
         }
+        val allTsundokus = tsundokuItem
+        val favoriteTsundoku = allTsundokus.filter { it.isFavorite }
 
-        /* 以下は一時的に表示するダミーの情報 */
-        val allTsundokus = tsundokuItem.reversed()
-
-        var favoriteTsundoku = listOf<WebPage>(
-            WebPage(
-                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                "https://www.yahoo.co.jp/",
-            ),
-            WebPage(
-                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                "https://www.yahoo.co.jp/",
-            ),
-            WebPage(
-                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                "https://www.yahoo.co.jp/",
-            ),
-            WebPage(
-                getTitle(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getOgpImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                getFaviconImageUrl(html = fetchHtml(url = "https://www.yahoo.co.jp/")),
-                "https://www.yahoo.co.jp/",
-            ),
-        )
         when (tabSelected) {
             Screen.ALL -> WebPageList(webPageList = allTsundokus, navigator = navigator)
             Screen.FAVORITE -> WebPageList(webPageList = favoriteTsundoku, navigator = navigator)
@@ -266,6 +250,8 @@ data class WebPage(
     val ogpImageUrl: String?,
     val faviconImageUrl: String?,
     val link: String?,
+    val isFavorite: Boolean,
+    val id: String,
 )
 
 /*
@@ -274,7 +260,7 @@ data class WebPage(
 @Composable
 fun WebPageList(webPageList: List<WebPage>, modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
     LazyColumn(modifier = modifier) {
-        items(webPageList) { webPage ->
+        itemsIndexed(webPageList) { _, webPage ->
             WebPageCard(
                 webpage = webPage,
                 modifier = Modifier.padding(8.dp),
@@ -380,7 +366,11 @@ fun getTitle(html: String?): String? {
  */
 @Composable
 fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
+    val viewModel: HomeViewModel = hiltViewModel()
     val context = LocalContext.current
+    var favoriteIconColor: Color
+    favoriteIconColor = if (webpage.isFavorite) { Pink80 } else { Color.DarkGray }
+    val expandedState = remember { mutableStateOf(false) }
     Card(
         modifier = modifier.clickable { navigator.navigate(OpenWebViewDestination(url = webpage.link!!)) },
         shape = RoundedCornerShape(0.dp),
@@ -429,13 +419,18 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: Dest
                     style = MaterialTheme.typography.bodyMedium,
                 )
                 Spacer(modifier = modifier.weight(2f))
-                IconButton(onClick = { /* TODO */ }) {
+                IconButton(onClick = {
+                    viewModel.updateFavorite(webpage.id, !webpage.isFavorite)
+                }) {
+                    favoriteIconColor =
+                        if (webpage.isFavorite) { Pink80 } else { Color.DarkGray }
                     Icon(
                         imageVector = Filled.FavoriteBorder,
                         contentDescription = stringResource(R.string.button_favorite_description),
                         modifier = modifier
                             .weight(1f)
                             .width(20.dp),
+                        tint = favoriteIconColor,
                     )
                 }
                 IconButton(onClick = { webpage.link?.let { ShareLink(context, it) } }) {
@@ -447,7 +442,7 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: Dest
                             .width(20.dp),
                     )
                 }
-                IconButton(onClick = { /* TODO */ }) {
+                IconButton(onClick = { expandedState.value = !expandedState.value }) {
                     Icon(
                         imageVector = Filled.MoreVert,
                         contentDescription = stringResource(R.string.button_morevert_description),
@@ -455,11 +450,15 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: Dest
                             .weight(1f)
                             .width(20.dp),
                     )
+                    if (expandedState.value) {
+                        CardDropdown(expandedState, viewModel, webpage.id)
+                    }
                 }
             }
         }
     }
 }
+
 private fun ShareLink(context: Context, link: String) {
     val intent = Intent(Intent.ACTION_SEND)
     intent.type = "text/plain"
