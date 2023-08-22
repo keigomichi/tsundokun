@@ -52,7 +52,7 @@ fun WebPageListScreen(tsundokuEntityList: List<TsundokuEntity>, navigator: Desti
         TabRow(
             selectedTabIndex = tabSelected.ordinal,
         ) {
-            tabName.forEachIndexed { index, title ->
+            tabName.forEachIndexed { index, _ ->
                 Tab(
                     text = { Text(text = tabName[index]) },
                     selected = tabSelected.ordinal == index,
