@@ -15,7 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tsundokun.ui.home.component.AddFab
-import com.example.tsundokun.ui.home.component.TopAppBar.TopAppBar
+import com.example.tsundokun.ui.home.component.topAppBar.TopAppBar
 import com.example.tsundokun.ui.home.component.tsundokunReport.TsundokunReport
 import com.example.tsundokun.ui.home.component.webPageList.WebPageListScreen
 import com.example.tsundokun.ui.home.component.tsundokunReport.RecentTsundokuData

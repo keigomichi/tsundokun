@@ -1,4 +1,4 @@
-package com.example.tsundokun.ui.home.component.TopAppBar
+package com.example.tsundokun.ui.home.component.topAppBar
 
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.Search
