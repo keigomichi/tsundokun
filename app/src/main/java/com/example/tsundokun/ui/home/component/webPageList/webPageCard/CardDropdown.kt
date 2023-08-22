@@ -1,4 +1,4 @@
-package com.example.tsundokun.ui.home.component
+package com.example.tsundokun.ui.home.component.webPageList.webPageCard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.RoundedCornerShape

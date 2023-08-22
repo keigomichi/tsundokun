@@ -37,7 +37,6 @@ import androidx.compose.ui.window.Dialog
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddTabTitleDialog(setShowDialog: (Boolean) -> Unit, tabList: MutableList<String>) {
-//    val txtFieldError = remember { mutableStateOf("") }
     val txtField = remember { mutableStateOf("") }
 
     Dialog(onDismissRequest = { setShowDialog(false) }) {
