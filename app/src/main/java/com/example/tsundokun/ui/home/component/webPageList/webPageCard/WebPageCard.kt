@@ -37,20 +37,9 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.tsundokun.R
 import com.example.tsundokun.ui.destinations.OpenWebViewDestination
 import com.example.tsundokun.ui.home.HomeViewModel
+import com.example.tsundokun.ui.home.component.data.WebPage
 import com.example.tsundokun.ui.theme.Pink80
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-
-/*
- * Webページの情報のデータクラス
- */
-data class WebPage(
-    val title: String?,
-    val ogpImageUrl: String?,
-    val faviconImageUrl: String?,
-    val link: String?,
-    val isFavorite: Boolean,
-    val id: String,
-)
 
 /*
  * リストの各要素であるカード

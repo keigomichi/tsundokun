@@ -12,21 +12,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.example.tsundokun.data.local.entities.TsundokuEntity
 import com.example.tsundokun.ui.home.component.AddTabTitleDialog
+import com.example.tsundokun.ui.home.component.data.Screen
+import com.example.tsundokun.ui.home.component.data.Screen.ALL
+import com.example.tsundokun.ui.home.component.data.Screen.FAVORITE
 import com.example.tsundokun.ui.home.component.webPageList.webPageCard.WebPage
-import com.example.tsundokun.ui.home.component.webPageList.Screen.ALL
-import com.example.tsundokun.ui.home.component.webPageList.Screen.FAVORITE
 import com.example.tsundokun.ui.home.component.webPageList.webPageCard.fetchHtml
 import com.example.tsundokun.ui.home.component.webPageList.webPageCard.getFaviconImageUrl
 import com.example.tsundokun.ui.home.component.webPageList.webPageCard.getOgpImageUrl
 import com.example.tsundokun.ui.home.component.webPageList.webPageCard.getTitle
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-
-/*
- * タブの種類
- */
-enum class Screen {
-    ALL, FAVORITE
-}
 
 /*
  * Webページのリスト
