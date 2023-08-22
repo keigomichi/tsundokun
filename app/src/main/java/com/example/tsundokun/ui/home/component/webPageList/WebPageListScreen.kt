@@ -15,7 +15,7 @@ import com.example.tsundokun.ui.home.component.AddTabTitleDialog
 import com.example.tsundokun.ui.home.component.data.Screen
 import com.example.tsundokun.ui.home.component.data.Screen.ALL
 import com.example.tsundokun.ui.home.component.data.Screen.FAVORITE
-import com.example.tsundokun.ui.home.component.webPageList.webPageCard.WebPage
+import com.example.tsundokun.ui.home.component.data.WebPage
 import com.example.tsundokun.ui.home.component.webPageList.webPageCard.fetchHtml
 import com.example.tsundokun.ui.home.component.webPageList.webPageCard.getFaviconImageUrl
 import com.example.tsundokun.ui.home.component.webPageList.webPageCard.getOgpImageUrl

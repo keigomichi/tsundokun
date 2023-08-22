@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.tsundokun.ui.home.component.webPageList.webPageCard.WebPage
+import com.example.tsundokun.ui.home.component.data.WebPage
 import com.example.tsundokun.ui.home.component.webPageList.webPageCard.WebPageCard
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 

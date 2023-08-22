@@ -15,7 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tsundokun.ui.home.component.AddFab
-import com.example.tsundokun.ui.home.component.topAppBar.TopAppBar
+import com.example.tsundokun.ui.home.component.topAppHomeBar.TopAppHomeBar
 import com.example.tsundokun.ui.home.component.tsundokunReport.RecentTsundokuData
 import com.example.tsundokun.ui.home.component.tsundokunReport.TsundokunReport
 import com.example.tsundokun.ui.home.component.webPageList.WebPageListScreen
@@ -35,7 +35,7 @@ fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hilt
         color = MaterialTheme.colorScheme.background,
     ) {
         Scaffold(
-            topBar = { TopAppBar(navigator = navigator) },
+            topBar = { TopAppHomeBar(navigator = navigator) },
             floatingActionButton = { AddFab(navigator) },
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {

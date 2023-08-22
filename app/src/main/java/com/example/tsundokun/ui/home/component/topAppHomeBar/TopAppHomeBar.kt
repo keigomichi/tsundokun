@@ -1,4 +1,4 @@
-package com.example.tsundokun.ui.home.component.topAppBar
+package com.example.tsundokun.ui.home.component.topAppHomeBar
 
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.Search
@@ -17,7 +17,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBar(navigator: DestinationsNavigator) {
+fun TopAppHomeBar(navigator: DestinationsNavigator) {
     CenterAlignedTopAppBar(
         title = { Text(stringResource(id = string.app_name)) },
         navigationIcon = {
