@@ -1,4 +1,4 @@
-package com.example.tsundokun.ui.home.component
+package com.example.tsundokun.ui.home.component.tsundokunReport
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
