@@ -13,23 +13,23 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.example.tsundokun.ui.home.HomeViewModel
 
-@Composable
-fun CardDropdown(expandedState: MutableState<Boolean>, viewModel: HomeViewModel, webpageId: String) {
-    DropdownMenu(
-        modifier = Modifier
-            .background(MaterialTheme.colorScheme.background)
-            // タップされた時の背景を円にする
-            .clip(RoundedCornerShape(16.dp)),
-        expanded = expandedState.value,
-        // メニューの外がタップされた時に閉じる
-        onDismissRequest = { expandedState.value = false },
-    ) {
-        DropdownMenuItem(
-            text = { Text(text = "削除") },
-            onClick = {
-                viewModel.deleteById(webpageId)
-                expandedState.value = false
-            },
-        )
-    }
-}
+//@Composable
+//fun CardDropdown(expandedState: MutableState<Boolean>, viewModel: HomeViewModel, webpageId: String) {
+//    DropdownMenu(
+//        modifier = Modifier
+//            .background(MaterialTheme.colorScheme.background)
+//            // タップされた時の背景を円にする
+//            .clip(RoundedCornerShape(16.dp)),
+//        expanded = expandedState.value,
+//        // メニューの外がタップされた時に閉じる
+//        onDismissRequest = { expandedState.value = false },
+//    ) {
+//        DropdownMenuItem(
+//            text = { Text(text = "削除") },
+//            onClick = {
+//                viewModel.deleteById(webpageId)
+//                expandedState.value = false
+//            },
+//        )
+//    }
+//}

@@ -14,11 +14,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.tsundokun.ui.home.category.tab.CategoryTab
 import com.example.tsundokun.ui.home.component.AddFab
 import com.example.tsundokun.ui.home.component.topAppHomeBar.TopAppHomeBar
-import com.example.tsundokun.ui.home.component.tsundokunReport.RecentTsundokuData
-import com.example.tsundokun.ui.home.component.tsundokunReport.TsundokunReport
-import com.example.tsundokun.ui.home.component.webPageList.WebPageListScreen
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -39,8 +37,8 @@ fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hilt
             floatingActionButton = { AddFab(navigator) },
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
-                TsundokunReport(Modifier, RecentTsundokuData(tsundokuUiState))
-                WebPageListScreen(tsundokuUiState.tsundoku, navigator)
+//                TsundokunReport(Modifier, RecentTsundokuData(tsundokuUiState))
+                CategoryTab(navigator = navigator, categories = tsundokuUiState.category, webPageList = tsundokuUiState.tsundoku)
             }
         }
     }
