@@ -5,11 +5,11 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.example.tsundokun.data.local.entities.TsundokuEntity
+import com.example.tsundokun.domain.models.Tsundoku
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
-fun TsundokuListScreen(selectedCategoryTsundokuList: List<TsundokuEntity>,navigator: DestinationsNavigator){
+fun TsundokuListScreen(selectedCategoryTsundokuList: List<Tsundoku>, navigator: DestinationsNavigator){
     LazyColumn(){
         itemsIndexed(selectedCategoryTsundokuList) { _, tsundoku ->
 //            WebPageCard(
