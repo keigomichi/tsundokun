@@ -7,4 +7,5 @@ data class Tsundoku(
     val faviconImageUrl: String?,
     val link: String?,
     val isFavorite: Boolean,
+    val createdAt: String?,
 )

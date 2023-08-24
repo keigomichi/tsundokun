@@ -107,6 +107,7 @@ suspend fun List<TsundokuEntity>.toDomainModel(): List<Tsundoku>
         faviconImageUrl = getFaviconImageUrl(html = fetchHtml(url = it.link)),
         link = it.link,
         isFavorite = it.isFavorite,
+        createdAt = it.createdAt,
     )
 }
 
