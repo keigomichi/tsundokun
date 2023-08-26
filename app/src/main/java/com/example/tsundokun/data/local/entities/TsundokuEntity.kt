@@ -108,6 +108,24 @@ suspend fun List<TsundokuEntity>.toDomainModel(): List<Tsundoku>
         link = it.link,
         isFavorite = it.isFavorite,
         createdAt = it.createdAt,
+        isRead = it.isRead,
+        updatedAt = it.updatedAt,
+        deletedAt = it.deletedAt,
+    )
+}
+
+/*
+ * TsundokuをTsundokuEntityに変換
+ */
+suspend fun Tsundoku.toEntity(): TsundokuEntity {
+    return TsundokuEntity(
+        id = id,
+        link = link,
+        isRead = isRead,
+        isFavorite = isFavorite,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
+        deletedAt = deletedAt
     )
 }
 

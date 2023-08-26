@@ -133,7 +133,7 @@ fun WebPageCard(tsundoku: Tsundoku, modifier: Modifier = Modifier, navigator: De
                             .width(20.dp),
                     )
                     if (expandedState.value) {
-//                        CardDropdown(expandedState, viewModel, webpage.id)
+                        CardDropdown(expandedState, viewModel, tsundoku)
                     }
                 }
             }

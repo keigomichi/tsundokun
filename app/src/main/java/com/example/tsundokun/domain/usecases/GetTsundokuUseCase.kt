@@ -8,4 +8,6 @@ class GetTsundokuUseCase @Inject constructor(
 ) {
     val observeAllTsundoku = tsundokuRepository.observeAllTsundoku()
     val observeAllCategory = tsundokuRepository.observeAllCategory()
+
+
 }

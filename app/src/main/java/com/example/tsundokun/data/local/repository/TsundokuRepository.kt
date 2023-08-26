@@ -16,6 +16,8 @@ class TsundokuRepository @Inject constructor(
         }
     fun observeAllCategory() = categoryDao.observeAll()
 
+    suspend fun deleteTsundokuById(id: String) = tsundokuDao.deleteById(id)
     }
+
 
 
