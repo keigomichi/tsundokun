@@ -17,6 +17,7 @@ data class TsundokuEntity(
     @ColumnInfo(name = "created_at") var createdAt: String,
     @ColumnInfo(name = "update_at") val updatedAt: String,
     @ColumnInfo(name = "deleted_at") val deletedAt: String,
+    @ColumnInfo(name = "categoryId") val categoryId: String,
 )
 
 /*
@@ -111,6 +112,7 @@ suspend fun List<TsundokuEntity>.toDomainModel(): List<Tsundoku>
         isRead = it.isRead,
         updatedAt = it.updatedAt,
         deletedAt = it.deletedAt,
+        categoryId = it.categoryId,
     )
 }
 
@@ -125,7 +127,8 @@ suspend fun Tsundoku.toEntity(): TsundokuEntity {
         isFavorite = isFavorite,
         createdAt = createdAt,
         updatedAt = updatedAt,
-        deletedAt = deletedAt
+        deletedAt = deletedAt,
+        categoryId = categoryId,
     )
 }
 

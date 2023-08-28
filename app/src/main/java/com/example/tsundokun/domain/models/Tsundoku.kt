@@ -11,4 +11,5 @@ data class Tsundoku(
     val isRead: Boolean,
     val updatedAt: String,
     val deletedAt: String,
+    val categoryId: String,
 )

@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.tsundokun.data.local.dao.CategoryDao
 import com.example.tsundokun.data.local.dao.TsundokuDao
 import com.example.tsundokun.data.local.entities.CategoryEntity
+import com.example.tsundokun.data.local.entities.TsundokuEntity
 import com.example.tsundokun.data.local.entities.toDomainModel
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -21,6 +22,8 @@ class TsundokuRepository @Inject constructor(
     suspend fun deleteTsundokuById(id: String) = tsundokuDao.deleteById(id)
 
      suspend fun addCategory(category: CategoryEntity) = categoryDao.upsert(category)
+
+    suspend fun addTsundoku(tsundoku: TsundokuEntity) = tsundokuDao.upsert(tsundoku)
 
     suspend fun initializeDatabaseWithDefaultData(){
         val count = categoryDao.getCount()

@@ -42,7 +42,7 @@ import com.example.tsundokun.R.string
 import com.example.tsundokun.ui.confirm.SelectedShow
 import com.example.tsundokun.ui.confirm.fetchHtml
 import com.example.tsundokun.ui.confirm.getOgpImageUrl
-import com.example.tsundokun.ui.confirm.getTitle
+import com.example.tsundokun.ui.confirm.GetTitle
 
 @Composable
 fun StackDialog(
@@ -125,7 +125,7 @@ private fun OgpAndTitleField(
 ) {
     val html = fetchHtml(linkText)
     val ogpImageUrl = getOgpImageUrl(html)
-    val title = getTitle(html)
+    val title = GetTitle(html)
 
     Column(
         modifier = Modifier

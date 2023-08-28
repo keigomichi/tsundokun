@@ -2,25 +2,13 @@ package com.example.tsundokun.ui.confirm
 
 import android.os.Build.VERSION_CODES
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons.Filled
-import androidx.compose.material.icons.Icons.Outlined
-import androidx.compose.material.icons.filled.Attachment
-import androidx.compose.material.icons.outlined.Category
-import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -28,14 +16,11 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -45,32 +30,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberImagePainter
-import com.example.tsundokun.R
 import com.example.tsundokun.R.string
+import com.example.tsundokun.data.local.entities.CategoryEntity
+import com.example.tsundokun.ui.confirm.component.AllInputFields
+import com.example.tsundokun.ui.confirm.component.jsoup.FetchHtml
+import com.example.tsundokun.ui.confirm.component.jsoup.GetTitle
+import com.example.tsundokun.ui.confirm.component.stackappbar.StackAppBar
+import com.example.tsundokun.ui.confirm.component.data.ConfirmScreenNavArgs
+import com.example.tsundokun.ui.confirm.component.jsoup.getOgpImageUrl
 import com.example.tsundokun.ui.destinations.HomeScreenDestination
+import com.example.tsundokun.ui.home.HomeViewModel.TsundokuUiState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
-import org.jsoup.Jsoup
 
-data class ConfirmScreenNavArgs(
-    val link: String,
-    var createdAt: String,
-)
 
 @RequiresApi(VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
@@ -79,13 +58,14 @@ data class ConfirmScreenNavArgs(
 fun ConfirmScreen(
     navigator: DestinationsNavigator,
     viewModel: ConfirmViewModel = hiltViewModel(),
+    uiState: TsundokuUiState
 ) {
     var fieldsAreValid by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     var isLoading by remember { mutableStateOf(true) }
 
-    val html = fetchHtml(viewModel.navArgs.link)
+    val html = FetchHtml(viewModel.navArgs.link)
     val ogpImageUrl = getOgpImageUrl(html)
 
     LaunchedEffect(ogpImageUrl) {
@@ -94,7 +74,7 @@ fun ConfirmScreen(
         }
     }
 
-    val title = getTitle(html)
+    val title = GetTitle(html)
     var showTitleErrorDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(title) {
@@ -170,134 +150,11 @@ fun ConfirmScreen(
 }
 
 /*
- * つんどく追加画面のアプリバー
- */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun StackAppBar(
-    fieldsAreValid: Boolean,
-    navigator: DestinationsNavigator,
-    addTsundoku: () -> Unit,
-) {
-    TopAppBar(title = {
-        Text(
-            text = stringResource(string.add),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
-    }, navigationIcon = {
-        IconButton(onClick = { navigator.navigate(HomeScreenDestination()) }) {
-            Icon(
-                imageVector = Outlined.Close,
-                contentDescription = stringResource(string.button_close),
-            )
-        }
-    }, actions = {
-        if (fieldsAreValid) {
-            IconButton(onClick = {
-                runBlocking { addTsundoku() }
-                navigator.navigate(HomeScreenDestination())
-            }) {
-                Icon(
-                    imageVector = Outlined.Send,
-                    contentDescription = stringResource(string.do_add),
-                )
-            }
-        } else {
-            IconButton(onClick = { /* 追加出来ない状態 */ }) {
-                Icon(
-                    imageVector = Outlined.Send,
-                    contentDescription = stringResource(string.do_add),
-                    tint = Color.Gray,
-                )
-            }
-        }
-    })
-}
-
-/*
- * つんどく追加画面の入力欄
- */
-@Composable
-private fun AllInputFields(
-    modifier: Modifier = Modifier,
-    onFieldsValidated: (Boolean) -> Unit,
-    link: String,
-) {
-    var selectedOptionText by remember { mutableStateOf("") }
-
-    val html = fetchHtml(link)
-    val title = getTitle(html)
-
-    val fieldsAreValid = selectedOptionText.isNotBlank()
-    onFieldsValidated(fieldsAreValid)
-
-    Column(
-        modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.SpaceEvenly,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        ShowOgp(
-            modifier = Modifier.padding(0.dp, 20.dp),
-            image = link,
-        )
-        if (title != null) {
-            Text(
-                text = title,
-                modifier = Modifier.padding(0.dp, 5.dp),
-                textAlign = TextAlign.Center,
-            )
-        } else {
-            Text(text = "", modifier = Modifier.padding(0.dp, 5.dp))
-        }
-
-        ShowText(
-            icon = Filled.Attachment,
-            title = link,
-        )
-        SelectedShow(
-            text = selectedOptionText,
-            onTextChange = { selectedOptionText = it },
-            icon = Outlined.Category,
-            title = stringResource(string.category),
-            modifier = Modifier.padding(0.dp, 5.dp),
-        )
-    }
-}
-
-/*
- * タイトル表示
- */
-@Composable
-private fun ShowText(
-    modifier: Modifier = Modifier,
-    icon: ImageVector,
-    contentDescription: String? = null,
-    title: String = "",
-) {
-    Row(
-        modifier = modifier.padding(0.dp, 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = contentDescription,
-            modifier = Modifier.padding(end = 8.dp),
-        )
-        Text(
-            text = title,
-            overflow = TextOverflow.Ellipsis,
-            maxLines = 2,
-        )
-    }
-}
-
-/*
  * カテゴリ選択
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SelectedField(
+fun SelectedField(
     modifier: Modifier = Modifier,
     title: String = "",
     text: String,
@@ -335,138 +192,6 @@ private fun SelectedField(
                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                 )
             }
-        }
-    }
-}
-
-/*
- * アイコンとカテゴリ選択
- */
-@Composable
-fun SelectedShow(
-    modifier: Modifier = Modifier,
-    icon: ImageVector,
-    contentDescription: String? = null,
-    title: String = "",
-    text: String,
-    onTextChange: (String) -> Unit,
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier,
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = contentDescription,
-            modifier = Modifier.padding(end = 8.dp),
-        )
-        SelectedField(
-            modifier = Modifier.weight(1f),
-            title = title,
-            text = text,
-            onTextChange = onTextChange,
-        )
-    }
-}
-
-/*
- * htmlからogp画像のurlを取得
- */
-@Composable
-fun getOgpImageUrl(html: String?): String? {
-    var imageUrl by remember { mutableStateOf<String?>(null) }
-    var fetchCompleted by remember { mutableStateOf(false) }
-
-    LaunchedEffect(key1 = html) {
-        withContext(Dispatchers.IO) {
-            try {
-                val doc = html?.let { Jsoup.parse(it) }
-                val ogImage = doc?.selectFirst("meta[property=og:image]")
-                if (ogImage != null) {
-                    imageUrl = ogImage.attr("content")
-                }
-                fetchCompleted = true
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-    return if (fetchCompleted) imageUrl else null
-}
-
-/*
- * htmlからタイトルを取得
- */
-@Composable
-fun getTitle(html: String?): String? {
-    var title by remember { mutableStateOf<String?>(null) }
-
-    LaunchedEffect(key1 = html) {
-        withContext(Dispatchers.IO) {
-            try {
-                val doc = html?.let { Jsoup.parse(it) }
-                if (doc != null) {
-                    title = doc.title()
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-    return title
-}
-
-@Composable
-fun fetchHtml(url: String): String? {
-    var html by remember { mutableStateOf<String?>(null) }
-
-    LaunchedEffect(key1 = url) {
-        withContext(Dispatchers.IO) {
-            try {
-                val doc = Jsoup.connect(url).get()
-                html = doc.toString()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-    return html
-}
-
-/*
- * OGP表示
- */
-@Composable
-private fun ShowOgp(
-    modifier: Modifier = Modifier,
-    contentDescription: String? = null,
-    image: String,
-) {
-    val html = fetchHtml(image)
-    val ogpImageUrl = getOgpImageUrl(html)
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(30.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp),
-        ) {
-            val painter = rememberImagePainter(data = ogpImageUrl, builder = {
-                error(R.drawable.loading)
-            })
-            Image(
-                painter = painter,
-                contentDescription = contentDescription,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(RoundedCornerShape(16.dp)),
-            )
         }
     }
 }
