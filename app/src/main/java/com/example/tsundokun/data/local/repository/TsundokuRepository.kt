@@ -31,6 +31,8 @@ class TsundokuRepository @Inject constructor(
         }
         Log.d("TsundokuRepository", "initializeDatabaseWithDefaultData: ${categoryDao.getCount()}" )
     }
+
+    suspend fun updateFavorite(id: String, isFavorite: Boolean) = tsundokuDao.updateFavorite(id, isFavorite)
     }
 
 

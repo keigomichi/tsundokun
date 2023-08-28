@@ -100,7 +100,7 @@ fun WebPageCard(tsundoku: Tsundoku, modifier: Modifier = Modifier, navigator: De
                 )
                 Spacer(modifier = modifier.weight(2f))
                 IconButton(onClick = {
-//                    viewModel.updateFavorite(webpage.id, !webpage.isFavorite)
+                    viewModel.updateFavorite(tsundoku.id, !tsundoku.isFavorite)
                 }) {
                     favoriteIconColor =
                         if (tsundoku.isFavorite) { Pink80 } else { Color.DarkGray }

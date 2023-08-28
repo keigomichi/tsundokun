@@ -50,6 +50,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun updateFavorite(id: String, isFavorite: Boolean) = viewModelScope.launch {
+        tsundokuRepository.updateFavorite(id, isFavorite)
+    }
+
 data class TsundokuUiState(
     val tsundoku: List<Tsundoku> = emptyList(),
     val category: List<CategoryEntity> = emptyList()
