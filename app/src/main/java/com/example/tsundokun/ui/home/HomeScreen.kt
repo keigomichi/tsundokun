@@ -1,6 +1,7 @@
 package com.example.tsundokun.ui.home
 
 import android.os.Build.VERSION_CODES
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +23,7 @@ import com.example.tsundokun.ui.home.component.tsundokunReport.TsundokunReport
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(VERSION_CODES.O)
@@ -40,7 +42,14 @@ fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hilt
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
                 TsundokunReport(Modifier,RecentTsundokuData(viewModel))
-                CategoryTab(navigator = navigator, categories = tsundokuUiState.category, webPageList = tsundokuUiState.tsundoku)
+                if (tsundokuUiState.category.isNotEmpty())
+                {
+                    CategoryTab(navigator = navigator, categories = tsundokuUiState.category, webPageList = tsundokuUiState.tsundoku)
+                }
+                else{
+                    Log.d("HomeScreen", "HomeScreen: ${tsundokuUiState.category}")
+                    Log.d("HomeScreen", "HomeScreen: ${tsundokuUiState.tsundoku}")
+                }
             }
         }
     }

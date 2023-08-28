@@ -3,7 +3,6 @@ package com.example.tsundokun.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tsundokun.data.local.entities.CategoryEntity
-import com.example.tsundokun.data.local.entities.TsundokuEntity
 import com.example.tsundokun.data.local.repository.TsundokuRepository
 import com.example.tsundokun.domain.models.Tsundoku
 import com.example.tsundokun.domain.usecases.GetTsundokuUseCase
@@ -24,6 +23,9 @@ class HomeViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(TsundokuUiState())
     val uiState = _uiState.asStateFlow()
     init {
+        viewModelScope.launch {
+            tsundokuRepository.initializeDatabaseWithDefaultData()
+        }
         try {
             val categoryState = tsundokuUsecase.observeAllCategory
             val tsundokuState = tsundokuUsecase.observeAllTsundoku
@@ -39,6 +41,12 @@ class HomeViewModel @Inject constructor(
     fun deleteTsundoku(tsundoku: Tsundoku){
         viewModelScope.launch {
             tsundokuRepository.deleteTsundokuById(tsundoku.id)
+        }
+    }
+
+    fun addCategory(category: CategoryEntity){
+        viewModelScope.launch {
+            tsundokuRepository.addCategory(category)
         }
     }
 
