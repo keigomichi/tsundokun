@@ -25,6 +25,7 @@ class ConfirmViewModel @Inject constructor(
     val navArgs: ConfirmScreenNavArgs = savedStateHandle.navArgs()
     private val _uiState = MutableStateFlow(TsundokuUiState())
     val uiState = _uiState.asStateFlow()
+
     init {
         try {
             val categoryState = tsundokuUseCase.observeAllCategory
@@ -35,21 +36,21 @@ class ConfirmViewModel @Inject constructor(
         }
     }
 
-
-
     fun addTsundoku() {
         viewModelScope.launch {
+            val uuid = UUID.randomUUID().toString()
             tsundokuRepository.addTsundoku(
                 TsundokuEntity(
-                    id = UUID.randomUUID().toString(),
+                    id = uuid,
                     link = navArgs.link,
                     isRead = false,
                     isFavorite = false,
                     createdAt = navArgs.createdAt,
                     updatedAt = "",
                     deletedAt = "",
-                    categoryId = navArgs.categoryId,
                 ),
+                uuid,
+                navArgs.categoryId
             )
         }
     }
