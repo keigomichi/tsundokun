@@ -7,17 +7,28 @@ import com.example.tsundokun.domain.models.Tsundoku
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
+import java.util.UUID
 
 @Entity(tableName = "tsundoku")
 data class TsundokuEntity(
-    @PrimaryKey val id: String,
-    @ColumnInfo(name = "link") val link: String,
-    @ColumnInfo(name = "is_read") val isRead: Boolean,
-    @ColumnInfo(name = "is_favorite") var isFavorite: Boolean,
-    @ColumnInfo(name = "created_at") var createdAt: String,
-    @ColumnInfo(name = "update_at") val updatedAt: String,
-    @ColumnInfo(name = "deleted_at") val deletedAt: String,
-)
+    @PrimaryKey val id: String = UUID.randomUUID().toString(),
+    @ColumnInfo(name = "link") val link: String = "",
+    @ColumnInfo(name = "is_read") val isRead: Boolean = false,
+    @ColumnInfo(name = "is_favorite") var isFavorite: Boolean = false,
+    @ColumnInfo(name = "created_at") var createdAt: String = "",
+    @ColumnInfo(name = "update_at") val updatedAt: String = "",
+    @ColumnInfo(name = "deleted_at") val deletedAt: String = "",
+) {
+    companion object {
+        fun fromTsundoku(tsundoku: Tsundoku) = TsundokuEntity(
+            link = tsundoku.link,
+        )
+
+        fun fromLink(link: String) = TsundokuEntity(
+            link = link,
+        )
+    }
+}
 
 /*
  * htmlからogp画像のurlを取得

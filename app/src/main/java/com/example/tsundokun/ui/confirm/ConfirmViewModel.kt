@@ -1,9 +1,9 @@
 package com.example.tsundokun.ui.confirm
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tsundokun.data.local.entities.TsundokuEntity
 import com.example.tsundokun.data.repository.CategoryRepository
 import com.example.tsundokun.data.repository.TsundokuRepository
 import com.example.tsundokun.ui.confirm.component.data.ConfirmScreenNavArgs
@@ -13,7 +13,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,20 +36,11 @@ class ConfirmViewModel @Inject constructor(
     }
 
     fun addTsundoku() {
+        Log.d("ConfirmViewModel", "addTsundoku: ${navArgs.categoryId}")
         viewModelScope.launch {
-            val uuid = UUID.randomUUID().toString()
             tsundokuRepository.addTsundoku(
-                TsundokuEntity(
-                    id = uuid,
-                    link = navArgs.link,
-                    isRead = false,
-                    isFavorite = false,
-                    createdAt = navArgs.createdAt,
-                    updatedAt = "",
-                    deletedAt = "",
-                ),
-                uuid,
-                navArgs.categoryId
+                link = navArgs.link,
+                categoryId = navArgs.categoryId
             )
         }
     }

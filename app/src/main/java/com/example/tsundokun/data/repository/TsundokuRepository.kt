@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.Flow
 interface TsundokuRepository {
     fun observeAllTsundoku(): Flow<List<Tsundoku>>
     suspend fun deleteTsundokuById(id: String)
-    suspend fun addTsundoku(tsundoku: TsundokuEntity, uuid: String, categoryId: String)
+    suspend fun addTsundoku(link: String, categoryId: String)
     suspend fun updateFavorite(id: String)
 }

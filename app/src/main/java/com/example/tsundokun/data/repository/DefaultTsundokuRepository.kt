@@ -21,16 +21,17 @@ class DefaultTsundokuRepository @Inject constructor(
 
     override suspend fun deleteTsundokuById(id: String) = tsundokuDao.deleteById(id)
 
-    override suspend fun addTsundoku(tsundoku: TsundokuEntity, uuid: String, categoryId: String) {
+    override suspend fun addTsundoku(link: String, categoryId: String) {
         withContext(Dispatchers.IO) {
+            val tsundokuEntity = TsundokuEntity.fromLink(link)
             //最初に、tsundokuテーブルに追加
-            tsundokuDao.upsert(tsundoku)
+            tsundokuDao.upsert(tsundokuEntity)
             //次に、tsundoku_categoryテーブルに追加する。supabaseとか、firebaseとかのように、
             //外部キー制約を設定できないので、ここで制約を設ける。
             //usecaseにしないのは、単に、外部キー制約を設けるためだけの処理のため。
             tsundokuCategoryDao.upsert(
                 TsundokuCategoryEntity(
-                    tsundokuId = uuid,
+                    tsundokuId = tsundokuEntity.id,
                     categoryId = categoryId
                 )
             )

@@ -1,6 +1,7 @@
 package com.example.tsundokun.ui.confirm
 
 import android.os.Build.VERSION_CODES
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -38,17 +39,16 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tsundokun.R.string
 import com.example.tsundokun.ui.confirm.component.AllInputFields
+import com.example.tsundokun.ui.confirm.component.data.ConfirmScreenNavArgs
 import com.example.tsundokun.ui.confirm.component.jsoup.FetchHtml
 import com.example.tsundokun.ui.confirm.component.jsoup.GetTitle
-import com.example.tsundokun.ui.confirm.component.stackappbar.StackAppBar
-import com.example.tsundokun.ui.confirm.component.data.ConfirmScreenNavArgs
 import com.example.tsundokun.ui.confirm.component.jsoup.getOgpImageUrl
+import com.example.tsundokun.ui.confirm.component.stackappbar.StackAppBar
 import com.example.tsundokun.ui.destinations.HomeScreenDestination
 import com.example.tsundokun.ui.home.HomeViewModel.TsundokuUiState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.delay
-
 
 @RequiresApi(VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
@@ -115,6 +115,7 @@ fun ConfirmScreen(
                     fieldsAreValid = fieldsAreValid,
                     navigator,
                     addTsundoku = {
+                        Log.d("ConfirmScreen", "addTsundoku")
                         viewModel.addTsundoku()
                     },
                 )
