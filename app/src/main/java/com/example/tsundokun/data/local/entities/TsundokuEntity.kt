@@ -17,7 +17,6 @@ data class TsundokuEntity(
     @ColumnInfo(name = "created_at") var createdAt: String,
     @ColumnInfo(name = "update_at") val updatedAt: String,
     @ColumnInfo(name = "deleted_at") val deletedAt: String,
-    @ColumnInfo(name = "categoryId") val categoryId: String,
 )
 
 /*
@@ -25,7 +24,7 @@ data class TsundokuEntity(
  */
 suspend fun getOgpImageUrl(html: String?): String? {
     var imageUrl: String? = null
-    withContext(Dispatchers.IO){
+    withContext(Dispatchers.IO) {
         try {
             val doc = html?.let { Jsoup.parse(it) }
             val ogImage = doc?.selectFirst("meta[property=og:image]")
@@ -44,7 +43,7 @@ suspend fun getOgpImageUrl(html: String?): String? {
  */
 suspend fun getFaviconImageUrl(html: String?): String? {
     var imageUrl: String? = null
-    withContext(Dispatchers.IO){
+    withContext(Dispatchers.IO) {
         try {
             val doc = html?.let { Jsoup.parse(it) }
             val ogImage = doc?.selectFirst("[href~=.*\\.(ico|png)]")
@@ -63,7 +62,7 @@ suspend fun getFaviconImageUrl(html: String?): String? {
  */
 suspend fun fetchHtml(url: String): String? {
     var html: String? = null
-    withContext(Dispatchers.IO){
+    withContext(Dispatchers.IO) {
         try {
             val doc = Jsoup.connect(url).get()
             html = doc.toString()
@@ -74,33 +73,31 @@ suspend fun fetchHtml(url: String): String? {
     return html
 }
 
-
 /*
  * htmlからタイトルを取得
  */
 
-suspend fun getTitle(html: String?):String? {
-    var title:String? = null
+suspend fun getTitle(html: String?): String? {
+    var title: String? = null
 
-    withContext(Dispatchers.IO){
+    withContext(Dispatchers.IO) {
         val doc = html?.let { Jsoup.parse(it) }
         try {
             val doc = html?.let { Jsoup.parse(it) }
             if (doc != null) {
                 title = doc.title()
             }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+    }
     return title
 }
 
 /*
  * TsundokuEntityをTsundokuに変換
  */
-suspend fun List<TsundokuEntity>.toDomainModel(): List<Tsundoku>
-        = map {
+suspend fun List<TsundokuEntity>.toDomainModel(): List<Tsundoku> = map {
     Tsundoku(
         id = it.id,
         title = getTitle(html = fetchHtml(url = it.link)),
@@ -112,7 +109,6 @@ suspend fun List<TsundokuEntity>.toDomainModel(): List<Tsundoku>
         isRead = it.isRead,
         updatedAt = it.updatedAt,
         deletedAt = it.deletedAt,
-        categoryId = it.categoryId,
     )
 }
 
@@ -128,7 +124,6 @@ suspend fun Tsundoku.toEntity(): TsundokuEntity {
         createdAt = createdAt,
         updatedAt = updatedAt,
         deletedAt = deletedAt,
-        categoryId = categoryId,
     )
 }
 
