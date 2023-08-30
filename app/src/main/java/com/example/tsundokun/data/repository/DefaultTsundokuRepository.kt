@@ -13,15 +13,15 @@ import javax.inject.Inject
 class DefaultTsundokuRepository @Inject constructor(
     private val tsundokuDao: TsundokuDao,
     private val tsundokuCategoryDao: TsundokuCategoryDao
-) {
+) : TsundokuRepository {
 
-    fun observeAllTsundoku() = tsundokuDao.observeAll().map {
+    override fun observeAllTsundoku() = tsundokuDao.observeAll().map {
         it.toTsundoku()
     }
 
-    suspend fun deleteTsundokuById(id: String) = tsundokuDao.deleteById(id)
+    override suspend fun deleteTsundokuById(id: String) = tsundokuDao.deleteById(id)
 
-    suspend fun addTsundoku(tsundoku: TsundokuEntity, uuid: String, categoryId: String) {
+    override suspend fun addTsundoku(tsundoku: TsundokuEntity, uuid: String, categoryId: String) {
         withContext(Dispatchers.IO) {
             //最初に、tsundokuテーブルに追加
             tsundokuDao.upsert(tsundoku)
@@ -38,6 +38,6 @@ class DefaultTsundokuRepository @Inject constructor(
     }
 //    = tsundokuDao.upsert(tsundoku)
 
-    suspend fun updateFavorite(id: String) =
+    override suspend fun updateFavorite(id: String) =
         tsundokuDao.updateFavorite(id)
 }

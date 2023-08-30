@@ -14,4 +14,10 @@ abstract class RepositoryModule {
     abstract fun bindCategoryRepository(
         defaultCategoryRepository: DefaultCategoryRepository
     ): CategoryRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindTsundokuRepository(
+        defaultTsundokuRepository: DefaultTsundokuRepository
+    ): TsundokuRepository
 }
