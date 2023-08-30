@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tsundokun.data.local.entities.TsundokuEntity
 import com.example.tsundokun.data.repository.CategoryRepository
-import com.example.tsundokun.data.repository.DefaultTsundokuRepository
+import com.example.tsundokun.data.repository.TsundokuRepository
 import com.example.tsundokun.ui.confirm.component.data.ConfirmScreenNavArgs
 import com.example.tsundokun.ui.home.HomeViewModel.TsundokuUiState
 import com.example.tsundokun.ui.navArgs
@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ConfirmViewModel @Inject constructor(
-    private val tsundokuRepository: DefaultTsundokuRepository,
+    private val tsundokuRepository: TsundokuRepository,
     categoryRepository: CategoryRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
