@@ -39,10 +39,11 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest.Builder
 import com.example.tsundokun.R.drawable
 import com.example.tsundokun.R.string
-import com.example.tsundokun.ui.confirm.SelectedShow
-import com.example.tsundokun.ui.confirm.fetchHtml
-import com.example.tsundokun.ui.confirm.getOgpImageUrl
-import com.example.tsundokun.ui.confirm.GetTitle
+import com.example.tsundokun.data.local.entities.fetchHtml
+import com.example.tsundokun.ui.confirm.component.SelectedShow
+import com.example.tsundokun.ui.confirm.component.jsoup.FetchHtml
+import com.example.tsundokun.ui.confirm.component.jsoup.GetTitle
+import com.example.tsundokun.ui.confirm.component.jsoup.getOgpImageUrl
 
 @Composable
 fun StackDialog(
@@ -123,7 +124,7 @@ private fun LinkField(
 private fun OgpAndTitleField(
     linkText: String,
 ) {
-    val html = fetchHtml(linkText)
+    val html = FetchHtml(linkText)
     val ogpImageUrl = getOgpImageUrl(html)
     val title = GetTitle(html)
 

@@ -37,7 +37,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tsundokun.R.string
-import com.example.tsundokun.data.local.entities.CategoryEntity
 import com.example.tsundokun.ui.confirm.component.AllInputFields
 import com.example.tsundokun.ui.confirm.component.jsoup.FetchHtml
 import com.example.tsundokun.ui.confirm.component.jsoup.GetTitle
@@ -58,7 +57,6 @@ import kotlinx.coroutines.delay
 fun ConfirmScreen(
     navigator: DestinationsNavigator,
     viewModel: ConfirmViewModel = hiltViewModel(),
-    uiState: TsundokuUiState
 ) {
     var fieldsAreValid by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
@@ -160,7 +158,8 @@ fun SelectedField(
     text: String,
     onTextChange: (String) -> Unit,
 ) {
-    val options = listOf("Option 1", "Option 2", "Option 3", "Option 4", "Option 5")
+    val uiState = TsundokuUiState()
+    val options = uiState.category.map { it.label }
     var expanded by remember { mutableStateOf(false) }
 
     ExposedDropdownMenuBox(
