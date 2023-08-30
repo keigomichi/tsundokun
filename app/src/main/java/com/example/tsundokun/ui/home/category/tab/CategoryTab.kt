@@ -57,7 +57,9 @@ fun CategoryTab(navigator: DestinationsNavigator, categories: List<CategoryEntit
             TsundokuListScreen(selectedCategoryTsundokuList = webPageList.filter { it.isFavorite }, navigator = navigator)
         }
         else -> {
-            TsundokuListScreen(selectedCategoryTsundokuList = webPageList.filter { it.categoryId.equals(tabSelected) }, navigator = navigator)
+            TsundokuListScreen(selectedCategoryTsundokuList = webPageList
+//                .filter { it.categoryId.equals(tabSelected) }
+                , navigator = navigator)
         }
     }
     TsundokuListScreen(selectedCategoryTsundokuList = webPageList, navigator = navigator)
