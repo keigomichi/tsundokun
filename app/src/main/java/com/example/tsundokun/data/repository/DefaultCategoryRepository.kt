@@ -1,4 +1,4 @@
-package com.example.tsundokun.data.local.repository
+package com.example.tsundokun.data.repository
 
 import com.example.tsundokun.data.local.dao.CategoryDao
 import com.example.tsundokun.data.local.entities.CategoryEntity

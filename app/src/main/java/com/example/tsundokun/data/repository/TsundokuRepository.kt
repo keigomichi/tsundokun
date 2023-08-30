@@ -1,4 +1,4 @@
-package com.example.tsundokun.data.local.repository
+package com.example.tsundokun.data.repository
 
 import android.util.Log
 import com.example.tsundokun.data.local.dao.CategoryDao

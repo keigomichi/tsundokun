@@ -3,7 +3,9 @@ package com.example.tsundokun.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tsundokun.data.local.entities.CategoryEntity
-import com.example.tsundokun.data.local.repository.TsundokuRepository
+import com.example.tsundokun.data.repository.CategoryRepository
+import com.example.tsundokun.data.repository.TsundokuRepository
+import com.example.tsundokun.domain.models.Category
 import com.example.tsundokun.domain.models.Tsundoku
 import com.example.tsundokun.domain.usecases.GetTsundokuUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,19 +18,21 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
 
-    private val tsundokuUsecase: GetTsundokuUseCase,
-    private val tsundokuRepository: TsundokuRepository
+    getTsundokuUseCase: GetTsundokuUseCase,
+    private val tsundokuRepository: TsundokuRepository,
+    private val categoryRepository: CategoryRepository
 
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(TsundokuUiState())
     val uiState = _uiState.asStateFlow()
+
     init {
         viewModelScope.launch {
             tsundokuRepository.initializeDatabaseWithDefaultData()
         }
         try {
-            val categoryState = tsundokuUsecase.observeAllCategory
-            val tsundokuState = tsundokuUsecase.observeAllTsundoku
+            val categoryState = getTsundokuUseCase.observeAllCategory
+            val tsundokuState = getTsundokuUseCase.observeAllTsundoku
             viewModelScope.launch {
                 combine(tsundokuState, categoryState) { tsundoku, category ->
                     TsundokuUiState(tsundoku, category)
@@ -38,15 +42,15 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun deleteTsundoku(tsundoku: Tsundoku){
+    fun deleteTsundoku(tsundoku: Tsundoku) {
         viewModelScope.launch {
             tsundokuRepository.deleteTsundokuById(tsundoku.id)
         }
     }
 
-    fun addCategory(category: CategoryEntity){
+    fun addCategory(category: Category) {
         viewModelScope.launch {
-            tsundokuRepository.addCategory(category)
+            categoryRepository.addCategory(category)
         }
     }
 
@@ -54,8 +58,8 @@ class HomeViewModel @Inject constructor(
         tsundokuRepository.updateFavorite(id, isFavorite)
     }
 
-data class TsundokuUiState(
-    val tsundoku: List<Tsundoku> = emptyList(),
-    val category: List<CategoryEntity> = emptyList()
-)
+    data class TsundokuUiState(
+        val tsundoku: List<Tsundoku> = emptyList(),
+        val category: List<CategoryEntity> = emptyList()
+    )
 }

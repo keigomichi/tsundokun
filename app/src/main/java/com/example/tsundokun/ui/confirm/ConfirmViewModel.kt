@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tsundokun.data.local.entities.TsundokuEntity
-import com.example.tsundokun.data.local.repository.TsundokuRepository
+import com.example.tsundokun.data.repository.TsundokuRepository
 import com.example.tsundokun.domain.usecases.GetTsundokuUseCase
 import com.example.tsundokun.ui.confirm.component.data.ConfirmScreenNavArgs
 import com.example.tsundokun.ui.home.HomeViewModel.TsundokuUiState

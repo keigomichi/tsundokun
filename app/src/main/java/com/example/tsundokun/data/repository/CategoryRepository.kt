@@ -1,4 +1,4 @@
-package com.example.tsundokun.data.local.repository
+package com.example.tsundokun.data.repository
 
 import com.example.tsundokun.domain.models.Category
 import kotlinx.coroutines.flow.Flow
