@@ -27,7 +27,7 @@ class ConfirmViewModel @Inject constructor(
 
     init {
         try {
-            val categoryState = categoryRepository.observeAllCategory()
+            val categoryState = categoryRepository.observeAll()
             viewModelScope.launch {
                 categoryState.collect { _uiState.value = TsundokuUiState(category = it) }
             }

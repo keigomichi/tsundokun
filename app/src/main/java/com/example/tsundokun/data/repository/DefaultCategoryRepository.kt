@@ -13,7 +13,7 @@ import javax.inject.Inject
 class DefaultCategoryRepository @Inject constructor(
     private val categoryDao: CategoryDao
 ) : CategoryRepository {
-    override fun observeAllCategory(): Flow<List<Category>> = categoryDao.observeAll()
+    override fun observeAll(): Flow<List<Category>> = categoryDao.observeAll()
         .map {
             it.toCategory()
         }

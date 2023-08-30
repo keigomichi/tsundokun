@@ -15,7 +15,7 @@ class DefaultTsundokuRepository @Inject constructor(
     private val tsundokuCategoryDao: TsundokuCategoryDao
 ) : TsundokuRepository {
 
-    override fun observeAllTsundoku() = tsundokuDao.observeAll().map {
+    override fun observeAll() = tsundokuDao.observeAll().map {
         it.toTsundoku()
     }
 

@@ -26,8 +26,8 @@ class HomeViewModel @Inject constructor(
             categoryRepository.initializeDatabaseWithDefaultData()
         }
         try {
-            val categoryState = categoryRepository.observeAllCategory()
-            val tsundokuState = tsundokuRepository.observeAllTsundoku()
+            val categoryState = categoryRepository.observeAll()
+            val tsundokuState = tsundokuRepository.observeAll()
             viewModelScope.launch {
                 combine(tsundokuState, categoryState) { tsundoku, category ->
                     TsundokuUiState(tsundoku, category)
