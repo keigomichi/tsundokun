@@ -9,14 +9,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import com.example.tsundokun.data.local.entities.CategoryEntity
+import com.example.tsundokun.domain.models.Category
 import com.example.tsundokun.domain.models.Tsundoku
 import com.example.tsundokun.ui.home.component.webPageList.TsundokuListScreen
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.example.tsundokun.ui.home.component.data.Screen
 import com.example.tsundokun.ui.home.component.data.Screen.ALL
+
 @Composable
-fun CategoryTab(navigator: DestinationsNavigator, categories: List<CategoryEntity>, webPageList: List<Tsundoku>) {
+fun CategoryTab(
+    navigator: DestinationsNavigator,
+    categories: List<Category>,
+    webPageList: List<Tsundoku>
+) {
 
     var tabName by remember {
         mutableStateOf(
@@ -24,10 +29,10 @@ fun CategoryTab(navigator: DestinationsNavigator, categories: List<CategoryEntit
         )
     }
 
-    var tabSelected by rememberSaveable { mutableStateOf(ALL)}
+    var tabSelected by rememberSaveable { mutableStateOf(ALL) }
     val showDialog = rememberSaveable { mutableStateOf(false) }
-        ScrollableTabRow(
-            selectedTabIndex = tabSelected.ordinal,
+    ScrollableTabRow(
+        selectedTabIndex = tabSelected.ordinal,
     ) {
         categories.forEachIndexed { index, _ ->
             Tab(
@@ -36,13 +41,13 @@ fun CategoryTab(navigator: DestinationsNavigator, categories: List<CategoryEntit
                 onClick = { tabSelected = Screen.values()[index] },
             )
         }
-            Tab(selected = false,
-                text = { Text(text = "＋") },
-                onClick = {
-                    showDialog.value = true
-                }
-            )
-        }
+        Tab(selected = false,
+            text = { Text(text = "＋") },
+            onClick = {
+                showDialog.value = true
+            }
+        )
+    }
     if (showDialog.value) {
         AddTabTitleDialog(
             setShowDialog = { showDialog.value = it },
@@ -53,13 +58,20 @@ fun CategoryTab(navigator: DestinationsNavigator, categories: List<CategoryEntit
         ALL -> {
             TsundokuListScreen(selectedCategoryTsundokuList = webPageList, navigator = navigator)
         }
+
         Screen.FAVORITE -> {
-            TsundokuListScreen(selectedCategoryTsundokuList = webPageList.filter { it.isFavorite }, navigator = navigator)
+            TsundokuListScreen(
+                selectedCategoryTsundokuList = webPageList.filter { it.isFavorite },
+                navigator = navigator
+            )
         }
+
         else -> {
-            TsundokuListScreen(selectedCategoryTsundokuList = webPageList
+            TsundokuListScreen(
+                selectedCategoryTsundokuList = webPageList
 //                .filter { it.categoryId.equals(tabSelected) }
-                , navigator = navigator)
+                , navigator = navigator
+            )
         }
     }
     TsundokuListScreen(selectedCategoryTsundokuList = webPageList, navigator = navigator)

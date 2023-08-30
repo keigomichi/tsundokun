@@ -4,8 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tsundokun.data.local.entities.TsundokuEntity
+import com.example.tsundokun.data.repository.CategoryRepository
 import com.example.tsundokun.data.repository.TsundokuRepository
-import com.example.tsundokun.domain.usecases.GetTsundokuUseCase
 import com.example.tsundokun.ui.confirm.component.data.ConfirmScreenNavArgs
 import com.example.tsundokun.ui.home.HomeViewModel.TsundokuUiState
 import com.example.tsundokun.ui.navArgs
@@ -19,8 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ConfirmViewModel @Inject constructor(
     private val tsundokuRepository: TsundokuRepository,
-    private val savedStateHandle: SavedStateHandle,
-    private val tsundokuUseCase: GetTsundokuUseCase
+    categoryRepository: CategoryRepository,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     val navArgs: ConfirmScreenNavArgs = savedStateHandle.navArgs()
     private val _uiState = MutableStateFlow(TsundokuUiState())
@@ -28,7 +28,7 @@ class ConfirmViewModel @Inject constructor(
 
     init {
         try {
-            val categoryState = tsundokuUseCase.observeAllCategory
+            val categoryState = categoryRepository.observeAllCategory()
             viewModelScope.launch {
                 categoryState.collect { _uiState.value = TsundokuUiState(category = it) }
             }
