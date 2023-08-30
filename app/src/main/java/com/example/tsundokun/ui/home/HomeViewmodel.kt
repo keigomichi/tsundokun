@@ -3,7 +3,7 @@ package com.example.tsundokun.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tsundokun.data.repository.CategoryRepository
-import com.example.tsundokun.data.repository.TsundokuRepository
+import com.example.tsundokun.data.repository.DefaultTsundokuRepository
 import com.example.tsundokun.domain.models.Category
 import com.example.tsundokun.domain.models.Tsundoku
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val tsundokuRepository: TsundokuRepository,
+    private val tsundokuRepository: DefaultTsundokuRepository,
     private val categoryRepository: CategoryRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(TsundokuUiState())
@@ -49,8 +49,8 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun updateFavorite(id: String, isFavorite: Boolean) = viewModelScope.launch {
-        tsundokuRepository.updateFavorite(id, isFavorite)
+    fun updateFavorite(id: String) = viewModelScope.launch {
+        tsundokuRepository.updateFavorite(id)
     }
 
     data class TsundokuUiState(

@@ -45,11 +45,19 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
  * リストの各要素であるカード
  */
 @Composable
-fun WebPageCard(tsundoku: Tsundoku, modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
+fun WebPageCard(
+    tsundoku: Tsundoku,
+    modifier: Modifier = Modifier,
+    navigator: DestinationsNavigator
+) {
     val viewModel: HomeViewModel = hiltViewModel()
     val context = LocalContext.current
     var favoriteIconColor: Color
-    favoriteIconColor = if (tsundoku.isFavorite) { Pink80 } else { Color.DarkGray }
+    favoriteIconColor = if (tsundoku.isFavorite) {
+        Pink80
+    } else {
+        Color.DarkGray
+    }
     val expandedState = remember { mutableStateOf(false) }
     Card(
         modifier = modifier.clickable { navigator.navigate(OpenWebViewDestination(url = tsundoku.link!!)) },
@@ -100,10 +108,14 @@ fun WebPageCard(tsundoku: Tsundoku, modifier: Modifier = Modifier, navigator: De
                 )
                 Spacer(modifier = modifier.weight(2f))
                 IconButton(onClick = {
-                    viewModel.updateFavorite(tsundoku.id, !tsundoku.isFavorite)
+                    viewModel.updateFavorite(tsundoku.id)
                 }) {
                     favoriteIconColor =
-                        if (tsundoku.isFavorite) { Pink80 } else { Color.DarkGray }
+                        if (tsundoku.isFavorite) {
+                            Pink80
+                        } else {
+                            Color.DarkGray
+                        }
                     Icon(
                         imageVector = Filled.FavoriteBorder,
                         contentDescription = stringResource(R.string.button_favorite_description),

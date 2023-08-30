@@ -4,19 +4,19 @@ import com.example.tsundokun.data.local.dao.TsundokuCategoryDao
 import com.example.tsundokun.data.local.dao.TsundokuDao
 import com.example.tsundokun.data.local.entities.TsundokuCategoryEntity
 import com.example.tsundokun.data.local.entities.TsundokuEntity
-import com.example.tsundokun.data.local.entities.toDomainModel
+import com.example.tsundokun.data.local.entities.toTsundoku
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class TsundokuRepository @Inject constructor(
+class DefaultTsundokuRepository @Inject constructor(
     private val tsundokuDao: TsundokuDao,
     private val tsundokuCategoryDao: TsundokuCategoryDao
 ) {
 
     fun observeAllTsundoku() = tsundokuDao.observeAll().map {
-        it.toDomainModel()
+        it.toTsundoku()
     }
 
     suspend fun deleteTsundokuById(id: String) = tsundokuDao.deleteById(id)
@@ -38,6 +38,6 @@ class TsundokuRepository @Inject constructor(
     }
 //    = tsundokuDao.upsert(tsundoku)
 
-    suspend fun updateFavorite(id: String, isFavorite: Boolean) =
-        tsundokuDao.updateFavorite(id, isFavorite)
+    suspend fun updateFavorite(id: String) =
+        tsundokuDao.updateFavorite(id)
 }

@@ -36,8 +36,8 @@ interface TsundokuDao {
     @Query("UPDATE tsundoku SET is_read = :isRead WHERE id = :id")
     suspend fun updateRead(id: String, isRead: Boolean)
 
-    @Query("UPDATE tsundoku SET is_favorite = :isFavorite WHERE id = :id")
-    suspend fun updateFavorite(id: String, isFavorite: Boolean)
+    @Query("UPDATE tsundoku SET is_favorite = NOT is_favorite WHERE id = :id")
+    suspend fun updateFavorite(id: String)
 
     @Query("DELETE FROM tsundoku WHERE id = :id")
     suspend fun deleteById(id: String)

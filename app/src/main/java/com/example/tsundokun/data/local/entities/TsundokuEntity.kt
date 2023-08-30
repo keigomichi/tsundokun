@@ -97,7 +97,7 @@ suspend fun getTitle(html: String?): String? {
 /*
  * TsundokuEntityをTsundokuに変換
  */
-suspend fun List<TsundokuEntity>.toDomainModel(): List<Tsundoku> = map {
+suspend fun List<TsundokuEntity>.toTsundoku(): List<Tsundoku> = map {
     Tsundoku(
         id = it.id,
         title = getTitle(html = fetchHtml(url = it.link)),
