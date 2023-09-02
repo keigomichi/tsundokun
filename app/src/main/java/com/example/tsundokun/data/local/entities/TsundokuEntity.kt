@@ -12,6 +12,7 @@ import java.util.UUID
 @Entity(tableName = "tsundoku")
 data class TsundokuEntity(
     @PrimaryKey val id: String = UUID.randomUUID().toString(),
+    @ColumnInfo(name = "category_id") val categoryId: String = "",
     @ColumnInfo(name = "link") val link: String = "",
     @ColumnInfo(name = "is_read") val isRead: Boolean = false,
     @ColumnInfo(name = "is_favorite") var isFavorite: Boolean = false,
@@ -24,8 +25,9 @@ data class TsundokuEntity(
             link = tsundoku.link,
         )
 
-        fun fromLink(link: String) = TsundokuEntity(
+        fun fromLinkAndCategoryId(link: String, categoryId: String) = TsundokuEntity(
             link = link,
+            categoryId = categoryId
         )
     }
 }
