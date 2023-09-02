@@ -15,7 +15,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import com.example.tsundokun.R.string
 import com.example.tsundokun.ui.destinations.HomeScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import kotlinx.coroutines.runBlocking
 
 /*
  * つんどく追加画面のアプリバー
@@ -43,8 +42,9 @@ fun StackAppBar(
     }, actions = {
         if (fieldsAreValid) {
             IconButton(onClick = {
-                runBlocking { addTsundoku() }
+                addTsundoku()
                 navigator.navigate(HomeScreenDestination())
+
             }) {
                 Icon(
                     imageVector = Outlined.Send,

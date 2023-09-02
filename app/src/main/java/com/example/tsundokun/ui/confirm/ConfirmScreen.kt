@@ -1,7 +1,6 @@
 package com.example.tsundokun.ui.confirm
 
 import android.os.Build.VERSION_CODES
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,6 +26,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -49,6 +49,7 @@ import com.example.tsundokun.ui.home.HomeViewModel.TsundokuUiState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @RequiresApi(VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
@@ -62,6 +63,7 @@ fun ConfirmScreen(
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     var isLoading by remember { mutableStateOf(true) }
+    val composableScope = rememberCoroutineScope()
 
     val html = FetchHtml(viewModel.navArgs.link)
     val ogpImageUrl = getOgpImageUrl(html)
@@ -115,8 +117,9 @@ fun ConfirmScreen(
                     fieldsAreValid = fieldsAreValid,
                     navigator,
                     addTsundoku = {
-                        Log.d("ConfirmScreen", "addTsundoku")
-                        viewModel.addTsundoku()
+                        composableScope.launch {
+                            viewModel.addTsundoku()
+                        }
                     },
                 )
             },

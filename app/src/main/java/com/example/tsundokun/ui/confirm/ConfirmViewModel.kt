@@ -6,12 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tsundokun.data.repository.CategoryRepository
 import com.example.tsundokun.data.repository.TsundokuRepository
+import com.example.tsundokun.domain.models.Category
 import com.example.tsundokun.ui.confirm.component.data.ConfirmScreenNavArgs
-import com.example.tsundokun.ui.home.HomeViewModel.TsundokuUiState
 import com.example.tsundokun.ui.navArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,18 +24,25 @@ class ConfirmViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     val navArgs: ConfirmScreenNavArgs = savedStateHandle.navArgs()
-    private val _uiState = MutableStateFlow(TsundokuUiState())
-    val uiState = _uiState.asStateFlow()
 
-    init {
-        try {
-            val categoryState = categoryRepository.observeAll()
-            viewModelScope.launch {
-                categoryState.collect { _uiState.value = TsundokuUiState(category = it) }
-            }
-        } catch (_: Exception) {
-        }
-    }
+    //    private val _uiState = MutableStateFlow(ConfirmUiState())
+    val uiState: StateFlow<ConfirmUiState> = categoryRepository.observeAll().map {
+        ConfirmUiState(it)
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = ConfirmUiState()
+    )
+
+//    init {
+//        try {
+//            val categoryState = categoryRepository.observeAll()
+//            viewModelScope.launch {
+//                categoryState.collect { _uiState.value = _uiState.value.copy(categories = it) }
+//            }
+//        } catch (_: Exception) {
+//        }
+//    }
 
     fun addTsundoku() {
         Log.d("ConfirmViewModel", "addTsundoku: ${navArgs.categoryId}")
@@ -44,4 +53,8 @@ class ConfirmViewModel @Inject constructor(
             )
         }
     }
+
+    data class ConfirmUiState(
+        val categories: List<Category> = emptyList()
+    )
 }
