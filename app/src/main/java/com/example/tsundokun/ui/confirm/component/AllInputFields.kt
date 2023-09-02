@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.tsundokun.R.string
+import com.example.tsundokun.domain.models.Category
 import com.example.tsundokun.ui.confirm.component.jsoup.FetchHtml
 import com.example.tsundokun.ui.confirm.component.jsoup.GetTitle
 
@@ -30,7 +31,9 @@ import com.example.tsundokun.ui.confirm.component.jsoup.GetTitle
 fun AllInputFields(
     modifier: Modifier = Modifier,
     onFieldsValidated: (Boolean) -> Unit,
+    onTextChange: (Category) -> Unit,
     link: String,
+    options: List<Category>,
 ) {
     var selectedOptionText by remember { mutableStateOf("") }
 
@@ -64,10 +67,14 @@ fun AllInputFields(
         )
         SelectedShow(
             text = selectedOptionText,
-            onTextChange = { selectedOptionText = it },
+            onTextChange = {
+                onTextChange(it)
+                selectedOptionText = it.label
+            },
             icon = Outlined.Category,
             title = stringResource(string.category),
             modifier = Modifier.padding(0.dp, 5.dp),
+            options = options
         )
     }
 }

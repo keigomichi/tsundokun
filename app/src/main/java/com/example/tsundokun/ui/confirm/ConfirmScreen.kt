@@ -23,6 +23,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,6 +39,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tsundokun.R.string
+import com.example.tsundokun.domain.models.Category
+import com.example.tsundokun.ui.confirm.ConfirmViewModel.ConfirmUiState
 import com.example.tsundokun.ui.confirm.component.AllInputFields
 import com.example.tsundokun.ui.confirm.component.data.ConfirmScreenNavArgs
 import com.example.tsundokun.ui.confirm.component.jsoup.FetchHtml
@@ -45,7 +48,6 @@ import com.example.tsundokun.ui.confirm.component.jsoup.GetTitle
 import com.example.tsundokun.ui.confirm.component.jsoup.getOgpImageUrl
 import com.example.tsundokun.ui.confirm.component.stackappbar.StackAppBar
 import com.example.tsundokun.ui.destinations.HomeScreenDestination
-import com.example.tsundokun.ui.home.HomeViewModel.TsundokuUiState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.delay
@@ -59,6 +61,7 @@ fun ConfirmScreen(
     navigator: DestinationsNavigator,
     viewModel: ConfirmViewModel = hiltViewModel(),
 ) {
+    val uiState: ConfirmUiState by viewModel.uiState.collectAsState()
     var fieldsAreValid by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -135,6 +138,10 @@ fun ConfirmScreen(
                         .align(Alignment.TopCenter)
                         .padding(16.dp),
                     link = viewModel.navArgs.link,
+                    options = uiState.categories,
+                    onTextChange = {
+                        viewModel.onCategorySelected(it.id)
+                    },
                 )
                 if (isLoading) {
                     Box(
@@ -158,12 +165,11 @@ fun ConfirmScreen(
 @Composable
 fun SelectedField(
     modifier: Modifier = Modifier,
-    title: String = "",
+    title: String,
+    options: List<Category>,
     text: String,
-    onTextChange: (String) -> Unit,
+    onTextChange: (Category) -> Unit,
 ) {
-    val uiState = TsundokuUiState()
-    val options = uiState.category.map { it.label }
     var expanded by remember { mutableStateOf(false) }
 
     ExposedDropdownMenuBox(
@@ -185,11 +191,11 @@ fun SelectedField(
             expanded = expanded,
             onDismissRequest = { expanded = false },
         ) {
-            options.forEach { selectionOption ->
+            options.forEach { option ->
                 DropdownMenuItem(
-                    text = { Text(selectionOption) },
+                    text = { Text(option.label) },
                     onClick = {
-                        onTextChange(selectionOption)
+                        onTextChange(option)
                         expanded = false
                     },
                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,

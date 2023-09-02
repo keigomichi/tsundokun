@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.example.tsundokun.domain.models.Category
 import com.example.tsundokun.ui.confirm.SelectedField
 
 /*
@@ -20,7 +21,8 @@ fun SelectedShow(
     contentDescription: String? = null,
     title: String = "",
     text: String,
-    onTextChange: (String) -> Unit,
+    onTextChange: (Category) -> Unit,
+    options: List<Category>,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -36,6 +38,7 @@ fun SelectedShow(
             title = title,
             text = text,
             onTextChange = onTextChange,
+            options = options,
         )
     }
 }
