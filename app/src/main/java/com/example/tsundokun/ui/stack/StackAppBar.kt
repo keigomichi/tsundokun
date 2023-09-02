@@ -19,7 +19,6 @@ import com.example.tsundokun.ui.confirm.component.data.ConfirmScreenNavArgs
 import com.example.tsundokun.ui.destinations.ConfirmScreenDestination
 import com.example.tsundokun.ui.destinations.HomeScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import java.time.LocalDateTime
 
 /*
  * つんどく追加画面のアプリバー
@@ -54,7 +53,6 @@ fun StackAppBar(
                         ConfirmScreenDestination(
                             ConfirmScreenNavArgs(
                                 link = url,
-                                createdAt = LocalDateTime.now().toString(),
                                 categoryId = "",
                             )
                         ),
