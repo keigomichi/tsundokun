@@ -20,12 +20,12 @@ fun CategoryTab(
 
     val showDialog = rememberSaveable { mutableStateOf(false) }
     ScrollableTabRow(
-        selectedTabIndex = uiState.category.indexOf(uiState.selectedCategory)
+        selectedTabIndex = uiState.category.map { it.id }.indexOf(uiState.selectedCategory.id),
     ) {
         uiState.category.forEachIndexed { index, _ ->
             Tab(
                 text = { Text(text = uiState.category[index].label) },
-                selected = uiState.selectedCategory == uiState.category[index],
+                selected = uiState.selectedCategory.id == uiState.category[index].id,
                 onClick = { onTabClick(index) },
             )
         }

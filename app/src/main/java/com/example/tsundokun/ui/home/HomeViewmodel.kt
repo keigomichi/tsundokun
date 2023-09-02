@@ -32,7 +32,7 @@ class HomeViewModel @Inject constructor(
             viewModelScope.launch {
                 combine(tsundokuState, categoryState) { tsundoku, category ->
                     Log.d("HomeViewModel", "HomeViewModel: $category")
-                    HomeUiState(tsundoku, category, selectedCategory = category[0])//0を変えるとタブの初期位置が変わる
+                    HomeUiState(tsundoku, category)//0を変えるとタブの初期位置が変わる
                 }.collect { _uiState.value = it }
             }
         } catch (_: Exception) {
@@ -64,6 +64,6 @@ class HomeViewModel @Inject constructor(
     data class HomeUiState(
         val tsundoku: List<Tsundoku> = emptyList(),
         val category: List<Category> = emptyList(),
-        val selectedCategory: Category = Category(),
+        val selectedCategory: Category = Category(id = "1"), //アプリ初起動時にupsertされるカテゴリ「すべて」のcategoryId。これをDataStoreに保存すると、アプリ起動時に前回のカテゴリが選択されるようになる。
     )
 }
