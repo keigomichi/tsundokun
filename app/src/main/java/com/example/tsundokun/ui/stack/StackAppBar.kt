@@ -15,11 +15,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.tsundokun.R.string
+import com.example.tsundokun.ui.confirm.component.data.ConfirmScreenNavArgs
 import com.example.tsundokun.ui.destinations.ConfirmScreenDestination
 import com.example.tsundokun.ui.destinations.HomeScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import java.time.LocalDateTime
-
 
 /*
  * つんどく追加画面のアプリバー
@@ -50,11 +50,15 @@ fun StackAppBar(
         if (fieldsAreValid) {
             if (url.startsWith("http")) {
                 IconButton(onClick = {
-//                    navigator.navigate(
-//                        ConfirmScreenDestination(url,
-//                            LocalDateTime.now().toString()
-//                        )
-//                    )
+                    navigator.navigate(
+                        ConfirmScreenDestination(
+                            ConfirmScreenNavArgs(
+                                link = url,
+                                createdAt = LocalDateTime.now().toString(),
+                                categoryId = "",
+                            )
+                        ),
+                    )
                 }) {
                     Icon(
                         imageVector = Outlined.Send,
