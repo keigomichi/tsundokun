@@ -23,7 +23,6 @@ import com.example.tsundokun.ui.home.component.tsundokunReport.TsundokunReport
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(VERSION_CODES.O)
@@ -41,12 +40,14 @@ fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hilt
             floatingActionButton = { AddFab(navigator) },
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
-                TsundokunReport(Modifier,RecentTsundokuData(viewModel))
-                if (tsundokuUiState.category.isNotEmpty())
-                {
-                    CategoryTab(navigator = navigator, categories = tsundokuUiState.category, webPageList = tsundokuUiState.tsundoku)
-                }
-                else{
+                TsundokunReport(Modifier, RecentTsundokuData(viewModel))
+                if (tsundokuUiState.category.isNotEmpty()) {
+                    CategoryTab(
+                        navigator = navigator,
+                        categories = tsundokuUiState.category,
+                        webPageList = tsundokuUiState.tsundoku,
+                    )
+                } else {
                     Log.d("HomeScreen", "HomeScreen: ${tsundokuUiState.category}")
                     Log.d("HomeScreen", "HomeScreen: ${tsundokuUiState.tsundoku}")
                 }

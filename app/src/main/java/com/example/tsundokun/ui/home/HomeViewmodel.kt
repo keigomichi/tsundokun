@@ -18,7 +18,7 @@ class HomeViewModel @Inject constructor(
     private val tsundokuRepository: TsundokuRepository,
     private val categoryRepository: CategoryRepository
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(TsundokuUiState())
+    private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
 
     init {
@@ -30,7 +30,7 @@ class HomeViewModel @Inject constructor(
             val tsundokuState = tsundokuRepository.observeAll()
             viewModelScope.launch {
                 combine(tsundokuState, categoryState) { tsundoku, category ->
-                    TsundokuUiState(tsundoku, category)
+                    HomeUiState(tsundoku, category)
                 }.collect { _uiState.value = it }
             }
         } catch (_: Exception) {
@@ -53,8 +53,15 @@ class HomeViewModel @Inject constructor(
         tsundokuRepository.updateFavorite(id)
     }
 
-    data class TsundokuUiState(
+    fun onTabSelected(index: Int) {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(selectedTab = index)
+        }
+    }
+
+    data class HomeUiState(
         val tsundoku: List<Tsundoku> = emptyList(),
-        val category: List<Category> = emptyList()
+        val category: List<Category> = emptyList(),
+        val selectedTab: Int = 0
     )
 }
