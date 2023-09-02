@@ -2,6 +2,7 @@ package com.example.tsundokun.domain.models
 
 data class Tsundoku(
     val id: String,
+    val categoryId: String,
     val title: String?,
     val ogpImageUrl: String?,
     val faviconImageUrl: String?,

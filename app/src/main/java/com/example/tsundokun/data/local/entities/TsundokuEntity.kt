@@ -113,6 +113,7 @@ suspend fun getTitle(html: String?): String? {
 suspend fun List<TsundokuEntity>.toTsundoku(): List<Tsundoku> = map {
     Tsundoku(
         id = it.id,
+        categoryId = it.categoryId,
         title = getTitle(html = fetchHtml(url = it.link)),
         ogpImageUrl = getOgpImageUrl(html = fetchHtml(url = it.link)),
         faviconImageUrl = getFaviconImageUrl(html = fetchHtml(url = it.link)),
