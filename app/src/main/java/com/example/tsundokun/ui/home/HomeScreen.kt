@@ -13,6 +13,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tsundokun.ui.home.category.tab.CategoryTab
@@ -23,6 +24,7 @@ import com.example.tsundokun.ui.home.component.tsundokunReport.TsundokunReport
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(VERSION_CODES.O)
@@ -31,6 +33,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hiltViewModel()) {
     val tsundokuUiState by viewModel.uiState.collectAsState()
+    val composableScope = rememberCoroutineScope()
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
@@ -44,8 +47,9 @@ fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hilt
                 if (tsundokuUiState.category.isNotEmpty()) {
                     CategoryTab(
                         navigator = navigator,
-                        categories = tsundokuUiState.category,
-                        webPageList = tsundokuUiState.tsundoku,
+                        uiState = tsundokuUiState,
+                        onTabClick = { viewModel.onTabSelected(it) },
+                        onAddTabClick = { composableScope.launch { viewModel.onAddTabClick(it) } },
                     )
                 } else {
                     Log.d("HomeScreen", "HomeScreen: ${tsundokuUiState.category}")

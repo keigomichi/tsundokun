@@ -1,5 +1,6 @@
 package com.example.tsundokun.ui.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tsundokun.data.repository.CategoryRepository
@@ -30,7 +31,8 @@ class HomeViewModel @Inject constructor(
             val tsundokuState = tsundokuRepository.observeAll()
             viewModelScope.launch {
                 combine(tsundokuState, categoryState) { tsundoku, category ->
-                    HomeUiState(tsundoku, category)
+                    Log.d("HomeViewModel", "HomeViewModel: $category")
+                    HomeUiState(tsundoku, category, selectedCategory = category[0])//0を変えるとタブの初期位置が変わる
                 }.collect { _uiState.value = it }
             }
         } catch (_: Exception) {
@@ -43,9 +45,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun addCategory(category: Category) {
+    fun onAddTabClick(category: String) {
         viewModelScope.launch {
-            categoryRepository.addCategory(category)
+            categoryRepository.addCategory(Category(label = category))
         }
     }
 
@@ -55,13 +57,13 @@ class HomeViewModel @Inject constructor(
 
     fun onTabSelected(index: Int) {
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(selectedTab = index)
+            _uiState.value = _uiState.value.copy(selectedCategory = _uiState.value.category[index])
         }
     }
 
     data class HomeUiState(
         val tsundoku: List<Tsundoku> = emptyList(),
         val category: List<Category> = emptyList(),
-        val selectedTab: Int = 0
+        val selectedCategory: Category = Category(),
     )
 }
