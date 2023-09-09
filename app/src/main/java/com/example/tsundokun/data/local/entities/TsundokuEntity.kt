@@ -27,7 +27,7 @@ data class TsundokuEntity(
 
         fun fromLinkAndCategoryId(link: String, categoryId: String) = TsundokuEntity(
             link = link,
-            categoryId = categoryId
+            categoryId = categoryId,
         )
     }
 }
@@ -140,4 +140,3 @@ suspend fun Tsundoku.toEntity(): TsundokuEntity {
         deletedAt = deletedAt,
     )
 }
-

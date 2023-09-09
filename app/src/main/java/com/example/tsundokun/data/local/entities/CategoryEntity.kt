@@ -20,7 +20,7 @@ data class CategoryEntity(
 
     companion object {
         fun fromCategory(category: Category) = CategoryEntity(
-            //他のプロパティはデフォルト値を設定しているので、ラベルだけを設定する
+            // 他のプロパティはデフォルト値を設定しているので、ラベルだけを設定する
             label = category.label,
         )
     }

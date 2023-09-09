@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DefaultTsundokuRepository @Inject constructor(
-    private val tsundokuDao: TsundokuDao
+    private val tsundokuDao: TsundokuDao,
 ) : TsundokuRepository {
 
     override fun observeAll() = tsundokuDao.observeAll().map {

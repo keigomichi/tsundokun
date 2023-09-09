@@ -42,8 +42,8 @@ import com.example.tsundokun.R.string
 import com.example.tsundokun.domain.models.Category
 import com.example.tsundokun.ui.confirm.component.SelectedShow
 import com.example.tsundokun.ui.confirm.component.jsoup.FetchHtml
+import com.example.tsundokun.ui.confirm.component.jsoup.GetOgpImageUrl
 import com.example.tsundokun.ui.confirm.component.jsoup.GetTitle
-import com.example.tsundokun.ui.confirm.component.jsoup.getOgpImageUrl
 
 @Composable
 fun StackDialog(
@@ -81,13 +81,13 @@ fun StackDialog(
                     icon = Outlined.Category,
                     title = stringResource(string.category),
                     modifier = Modifier.padding(16.dp, 8.dp),
-                    //FIXME: 仮のデータ。Categoryにしているのは、確認画面のカテゴリ選択に合わせているためこのよな形になっている。
+                    // FIXME: 仮のデータ。Categoryにしているのは、確認画面のカテゴリ選択に合わせているためこのよな形になっている。
                     options = listOf(
                         Category(id = "", label = "本", createdAt = Long.MAX_VALUE),
                         Category(id = "", label = "漫画", createdAt = Long.MAX_VALUE),
                         Category(id = "", label = "雑誌", createdAt = Long.MAX_VALUE),
                         Category(id = "", label = "その他", createdAt = Long.MAX_VALUE),
-                    )
+                    ),
                 )
 
                 AddButton(
@@ -132,7 +132,7 @@ private fun OgpAndTitleField(
     linkText: String,
 ) {
     val html = FetchHtml(linkText)
-    val ogpImageUrl = getOgpImageUrl(html)
+    val ogpImageUrl = GetOgpImageUrl(html)
     val title = GetTitle(html)
 
     Column(

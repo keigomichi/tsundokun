@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.example.tsundokun.R.drawable
 import com.example.tsundokun.ui.confirm.component.jsoup.FetchHtml
-import com.example.tsundokun.ui.confirm.component.jsoup.getOgpImageUrl
+import com.example.tsundokun.ui.confirm.component.jsoup.GetOgpImageUrl
 
 /*
  * OGP表示
@@ -29,7 +29,7 @@ fun ShowOgp(
     image: String,
 ) {
     val html = FetchHtml(image)
-    val ogpImageUrl = getOgpImageUrl(html)
+    val ogpImageUrl = GetOgpImageUrl(html)
 
     Column(
         modifier = Modifier

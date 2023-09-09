@@ -44,8 +44,8 @@ import com.example.tsundokun.ui.confirm.ConfirmViewModel.ConfirmUiState
 import com.example.tsundokun.ui.confirm.component.AllInputFields
 import com.example.tsundokun.ui.confirm.component.data.ConfirmScreenNavArgs
 import com.example.tsundokun.ui.confirm.component.jsoup.FetchHtml
+import com.example.tsundokun.ui.confirm.component.jsoup.GetOgpImageUrl
 import com.example.tsundokun.ui.confirm.component.jsoup.GetTitle
-import com.example.tsundokun.ui.confirm.component.jsoup.getOgpImageUrl
 import com.example.tsundokun.ui.confirm.component.stackappbar.StackAppBar
 import com.example.tsundokun.ui.destinations.HomeScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
@@ -69,7 +69,7 @@ fun ConfirmScreen(
     val composableScope = rememberCoroutineScope()
 
     val html = FetchHtml(viewModel.navArgs.link)
-    val ogpImageUrl = getOgpImageUrl(html)
+    val ogpImageUrl = GetOgpImageUrl(html)
 
     LaunchedEffect(ogpImageUrl) {
         if (ogpImageUrl != null) {

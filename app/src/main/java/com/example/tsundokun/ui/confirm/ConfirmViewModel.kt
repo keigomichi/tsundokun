@@ -40,7 +40,8 @@ class ConfirmViewModel @Inject constructor(
         Log.d("ConfirmViewModel", "addTsundoku: ${navArgs.categoryId}")
         viewModelScope.launch {
             tsundokuRepository.addTsundoku(
-                link = navArgs.link, categoryId = uiState.value.selectedCategoryId
+                link = navArgs.link,
+                categoryId = uiState.value.selectedCategoryId,
             )
         }
     }

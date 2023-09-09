@@ -10,7 +10,7 @@ import com.example.tsundokun.data.local.entities.TsundokuEntity
 @Database(
     entities = [TsundokuEntity::class, CategoryEntity::class],
     version = 1,
-    exportSchema = false
+    exportSchema = false,
 )
 abstract class TsundokunDatabase : RoomDatabase() {
     abstract fun tsundokuDao(): TsundokuDao

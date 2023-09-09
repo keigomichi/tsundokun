@@ -74,8 +74,7 @@ fun AllInputFields(
             icon = Outlined.Category,
             title = stringResource(string.category),
             modifier = Modifier.padding(0.dp, 5.dp),
-            options = options
+            options = options,
         )
     }
 }
-

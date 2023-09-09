@@ -44,7 +44,6 @@ fun StackAppBar(
             IconButton(onClick = {
                 addTsundoku()
                 navigator.navigate(HomeScreenDestination())
-
             }) {
                 Icon(
                     imageVector = Outlined.Send,

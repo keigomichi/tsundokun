@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val tsundokuRepository: TsundokuRepository,
-    private val categoryRepository: CategoryRepository
+    private val categoryRepository: CategoryRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
@@ -32,7 +32,7 @@ class HomeViewModel @Inject constructor(
             viewModelScope.launch {
                 combine(tsundokuState, categoryState) { tsundoku, category ->
                     Log.d("HomeViewModel", "HomeViewModel: $category")
-                    HomeUiState(tsundoku, category)//0を変えるとタブの初期位置が変わる
+                    HomeUiState(tsundoku, category) // 0を変えるとタブの初期位置が変わる
                 }.collect { _uiState.value = it }
             }
         } catch (_: Exception) {
@@ -64,6 +64,6 @@ class HomeViewModel @Inject constructor(
     data class HomeUiState(
         val tsundoku: List<Tsundoku> = emptyList(),
         val category: List<Category> = emptyList(),
-        val selectedCategory: Category = Category(id = "1"), //アプリ初起動時にupsertされるカテゴリ「すべて」のcategoryId。これをDataStoreに保存すると、アプリ起動時に前回のカテゴリが選択されるようになる。
+        val selectedCategory: Category = Category(id = "1"), // アプリ初起動時にupsertされるカテゴリ「すべて」のcategoryId。これをDataStoreに保存すると、アプリ起動時に前回のカテゴリが選択されるようになる。
     )
 }

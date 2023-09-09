@@ -13,8 +13,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.example.tsundokun.domain.models.Tsundoku
 import com.example.tsundokun.ui.home.HomeViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 @Composable
 fun CardDropdown(expandedState: MutableState<Boolean>, viewModel: HomeViewModel, tsundoku: Tsundoku) {

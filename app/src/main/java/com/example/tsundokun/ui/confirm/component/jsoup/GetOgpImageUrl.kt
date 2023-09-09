@@ -14,7 +14,7 @@ import org.jsoup.Jsoup
  * htmlからogp画像のurlを取得
  */
 @Composable
-fun getOgpImageUrl(html: String?): String? {
+fun GetOgpImageUrl(html: String?): String? {
     var imageUrl by remember { mutableStateOf<String?>(null) }
     var fetchCompleted by remember { mutableStateOf(false) }
 
@@ -34,4 +34,3 @@ fun getOgpImageUrl(html: String?): String? {
     }
     return if (fetchCompleted) imageUrl else null
 }
-

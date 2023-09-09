@@ -54,7 +54,7 @@ fun StackAppBar(
                             ConfirmScreenNavArgs(
                                 link = url,
                                 categoryId = "",
-                            )
+                            ),
                         ),
                     )
                 }) {

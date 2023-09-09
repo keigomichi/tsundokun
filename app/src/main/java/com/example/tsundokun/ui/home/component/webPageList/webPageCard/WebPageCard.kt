@@ -48,7 +48,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun WebPageCard(
     tsundoku: Tsundoku,
     modifier: Modifier = Modifier,
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
     val context = LocalContext.current

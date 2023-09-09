@@ -11,7 +11,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DefaultCategoryRepository @Inject constructor(
-    private val categoryDao: CategoryDao
+    private val categoryDao: CategoryDao,
 ) : CategoryRepository {
     override fun observeAll(): Flow<List<Category>> = categoryDao.observeAll()
         .map {

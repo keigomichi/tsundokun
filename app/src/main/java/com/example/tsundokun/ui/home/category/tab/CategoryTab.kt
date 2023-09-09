@@ -17,7 +17,6 @@ fun CategoryTab(
     onTabClick: (Int) -> Unit,
     onAddTabClick: (String) -> Unit,
 ) {
-
     val showDialog = rememberSaveable { mutableStateOf(false) }
     ScrollableTabRow(
         selectedTabIndex = uiState.category.map { it.id }.indexOf(uiState.selectedCategory.id),
@@ -29,11 +28,12 @@ fun CategoryTab(
                 onClick = { onTabClick(index) },
             )
         }
-        Tab(selected = false,
+        Tab(
+            selected = false,
             text = { Text(text = "＋") },
             onClick = {
                 showDialog.value = true
-            }
+            },
         )
     }
     if (showDialog.value) {
@@ -46,21 +46,22 @@ fun CategoryTab(
         "1" -> {
             TsundokuListScreen(
                 selectedCategoryTsundokuList = uiState.tsundoku,
-                navigator = navigator
+                navigator = navigator,
             )
         }
 
         "2" -> {
             TsundokuListScreen(
                 selectedCategoryTsundokuList = uiState.tsundoku.filter { it.isFavorite },
-                navigator = navigator
+                navigator = navigator,
             )
         }
 
         else -> {
             TsundokuListScreen(
                 selectedCategoryTsundokuList = uiState.tsundoku
-                    .filter { it.categoryId == uiState.selectedCategory.id }, navigator = navigator
+                    .filter { it.categoryId == uiState.selectedCategory.id },
+                navigator = navigator,
             )
         }
     }
