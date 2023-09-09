@@ -1,4 +1,4 @@
-package com.example.tsundokun.ui.home.component
+package com.example.tsundokun.ui.home.category.tab
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,7 +36,10 @@ import androidx.compose.ui.window.Dialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddTabTitleDialog(setShowDialog: (Boolean) -> Unit, tabList: MutableList<String>) {
+fun AddTabTitleDialog(
+    setShowDialog: (Boolean) -> Unit,
+    onAddTabClick: (String) -> Unit,
+) {
     val txtField = remember { mutableStateOf("") }
 
     Dialog(onDismissRequest = { setShowDialog(false) }) {
@@ -88,8 +91,8 @@ fun AddTabTitleDialog(setShowDialog: (Boolean) -> Unit, tabList: MutableList<Str
                     Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-                                tabList.add(txtField.value)
                                 setShowDialog(false)
+                                onAddTabClick(txtField.value)
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier

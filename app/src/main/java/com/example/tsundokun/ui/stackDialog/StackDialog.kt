@@ -39,10 +39,11 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest.Builder
 import com.example.tsundokun.R.drawable
 import com.example.tsundokun.R.string
-import com.example.tsundokun.ui.confirm.SelectedShow
-import com.example.tsundokun.ui.confirm.fetchHtml
-import com.example.tsundokun.ui.confirm.getOgpImageUrl
-import com.example.tsundokun.ui.confirm.getTitle
+import com.example.tsundokun.domain.models.Category
+import com.example.tsundokun.ui.confirm.component.SelectedShow
+import com.example.tsundokun.ui.confirm.component.jsoup.FetchHtml
+import com.example.tsundokun.ui.confirm.component.jsoup.GetOgpImageUrl
+import com.example.tsundokun.ui.confirm.component.jsoup.GetTitle
 
 @Composable
 fun StackDialog(
@@ -76,10 +77,17 @@ fun StackDialog(
 
                 SelectedShow(
                     text = selectedOptionText,
-                    onTextChange = { selectedOptionText = it },
+                    onTextChange = { selectedOptionText = it.label },
                     icon = Outlined.Category,
                     title = stringResource(string.category),
                     modifier = Modifier.padding(16.dp, 8.dp),
+                    // FIXME: 仮のデータ。Categoryにしているのは、確認画面のカテゴリ選択に合わせているためこのよな形になっている。
+                    options = listOf(
+                        Category(id = "", label = "本", createdAt = Long.MAX_VALUE),
+                        Category(id = "", label = "漫画", createdAt = Long.MAX_VALUE),
+                        Category(id = "", label = "雑誌", createdAt = Long.MAX_VALUE),
+                        Category(id = "", label = "その他", createdAt = Long.MAX_VALUE),
+                    ),
                 )
 
                 AddButton(
@@ -123,9 +131,9 @@ private fun LinkField(
 private fun OgpAndTitleField(
     linkText: String,
 ) {
-    val html = fetchHtml(linkText)
-    val ogpImageUrl = getOgpImageUrl(html)
-    val title = getTitle(html)
+    val html = FetchHtml(linkText)
+    val ogpImageUrl = GetOgpImageUrl(html)
+    val title = GetTitle(html)
 
     Column(
         modifier = Modifier

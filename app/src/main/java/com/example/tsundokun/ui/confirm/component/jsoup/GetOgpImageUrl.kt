@@ -1,4 +1,4 @@
-package com.example.tsundokun.ui.home.component.webPageList.webPageCard
+package com.example.tsundokun.ui.confirm.component.jsoup
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,24 +11,26 @@ import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 
 /*
- * htmlからfavicon画像のurlを取得
+ * htmlからogp画像のurlを取得
  */
 @Composable
-fun getFaviconImageUrl(html: String?): String? {
+fun GetOgpImageUrl(html: String?): String? {
     var imageUrl by remember { mutableStateOf<String?>(null) }
+    var fetchCompleted by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = html) {
         withContext(Dispatchers.IO) {
             try {
                 val doc = html?.let { Jsoup.parse(it) }
-                val ogImage = doc?.selectFirst("[href~=.*\\.(ico|png)]")
+                val ogImage = doc?.selectFirst("meta[property=og:image]")
                 if (ogImage != null) {
-                    imageUrl = ogImage.attr("href")
+                    imageUrl = ogImage.attr("content")
                 }
+                fetchCompleted = true
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
-    return imageUrl
+    return if (fetchCompleted) imageUrl else null
 }

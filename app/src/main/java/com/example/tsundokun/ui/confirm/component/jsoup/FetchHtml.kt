@@ -1,4 +1,4 @@
-package com.example.tsundokun.ui.home.component.webPageList.webPageCard
+package com.example.tsundokun.ui.confirm.component.jsoup
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -10,13 +10,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 
-/*
- * htmlを取得
- */
 @Composable
-fun fetchHtml(url: String): String? {
+fun FetchHtml(url: String): String? {
     var html by remember { mutableStateOf<String?>(null) }
-    var fetchError by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = url) {
         withContext(Dispatchers.IO) {
@@ -25,7 +21,6 @@ fun fetchHtml(url: String): String? {
                 html = doc.toString()
             } catch (e: Exception) {
                 e.printStackTrace()
-                fetchError = true
             }
         }
     }

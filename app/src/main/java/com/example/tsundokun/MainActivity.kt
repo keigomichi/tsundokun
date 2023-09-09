@@ -41,7 +41,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             MainScreen()
         }
-
         val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
 
         remoteConfig.fetchAndActivate().addOnCompleteListener(this) { task ->

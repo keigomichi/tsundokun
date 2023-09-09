@@ -11,10 +11,11 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.example.tsundokun.domain.models.Tsundoku
 import com.example.tsundokun.ui.home.HomeViewModel
 
 @Composable
-fun CardDropdown(expandedState: MutableState<Boolean>, viewModel: HomeViewModel, webpageId: String) {
+fun CardDropdown(expandedState: MutableState<Boolean>, viewModel: HomeViewModel, tsundoku: Tsundoku) {
     DropdownMenu(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background)
@@ -27,7 +28,7 @@ fun CardDropdown(expandedState: MutableState<Boolean>, viewModel: HomeViewModel,
         DropdownMenuItem(
             text = { Text(text = "削除") },
             onClick = {
-                viewModel.deleteById(webpageId)
+                viewModel.deleteTsundoku(tsundoku)
                 expandedState.value = false
             },
         )

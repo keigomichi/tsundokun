@@ -35,9 +35,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.tsundokun.R
+import com.example.tsundokun.domain.models.Tsundoku
 import com.example.tsundokun.ui.destinations.OpenWebViewDestination
 import com.example.tsundokun.ui.home.HomeViewModel
-import com.example.tsundokun.ui.home.component.data.WebPage
 import com.example.tsundokun.ui.theme.Pink80
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -45,14 +45,22 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
  * リストの各要素であるカード
  */
 @Composable
-fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
+fun WebPageCard(
+    tsundoku: Tsundoku,
+    modifier: Modifier = Modifier,
+    navigator: DestinationsNavigator,
+) {
     val viewModel: HomeViewModel = hiltViewModel()
     val context = LocalContext.current
     var favoriteIconColor: Color
-    favoriteIconColor = if (webpage.isFavorite) { Pink80 } else { Color.DarkGray }
+    favoriteIconColor = if (tsundoku.isFavorite) {
+        Pink80
+    } else {
+        Color.DarkGray
+    }
     val expandedState = remember { mutableStateOf(false) }
     Card(
-        modifier = modifier.clickable { navigator.navigate(OpenWebViewDestination(url = webpage.link!!)) },
+        modifier = modifier.clickable { navigator.navigate(OpenWebViewDestination(url = tsundoku.link!!)) },
         shape = RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background,
@@ -61,15 +69,15 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: Dest
         Column {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = webpage.title ?: "",
+                    text = tsundoku.title ?: "",
                     modifier = Modifier
                         .padding(8.dp)
                         .weight(5f),
                     style = MaterialTheme.typography.bodyLarge,
                 )
                 Image(
-                    painter = rememberAsyncImagePainter(webpage.ogpImageUrl),
-                    contentDescription = webpage.title,
+                    painter = rememberAsyncImagePainter(tsundoku.ogpImageUrl),
+                    contentDescription = tsundoku.title,
                     modifier = Modifier
                         .padding(horizontal = 8.dp)
                         .height(96.dp)
@@ -84,7 +92,7 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: Dest
                         .weight(1f),
                 ) {
                     Image(
-                        painter = rememberAsyncImagePainter(model = webpage.faviconImageUrl),
+                        painter = rememberAsyncImagePainter(model = tsundoku.faviconImageUrl),
                         contentDescription = "",
                         modifier = Modifier
                             .fillMaxSize()
@@ -100,10 +108,14 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: Dest
                 )
                 Spacer(modifier = modifier.weight(2f))
                 IconButton(onClick = {
-                    viewModel.updateFavorite(webpage.id, !webpage.isFavorite)
+                    viewModel.updateFavorite(tsundoku.id)
                 }) {
                     favoriteIconColor =
-                        if (webpage.isFavorite) { Pink80 } else { Color.DarkGray }
+                        if (tsundoku.isFavorite) {
+                            Pink80
+                        } else {
+                            Color.DarkGray
+                        }
                     Icon(
                         imageVector = Filled.FavoriteBorder,
                         contentDescription = stringResource(R.string.button_favorite_description),
@@ -113,7 +125,9 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: Dest
                         tint = favoriteIconColor,
                     )
                 }
-                IconButton(onClick = { webpage.link?.let { ShareLink(context = context, link = it) } }) {
+                IconButton(onClick = {
+                    tsundoku.link?.let { ShareLink(context = context, link = it) }
+                }) {
                     Icon(
                         imageVector = Filled.Share,
                         contentDescription = stringResource(R.string.button_share_description),
@@ -131,7 +145,7 @@ fun WebPageCard(webpage: WebPage, modifier: Modifier = Modifier, navigator: Dest
                             .width(20.dp),
                     )
                     if (expandedState.value) {
-                        CardDropdown(expandedState, viewModel, webpage.id)
+                        CardDropdown(expandedState, viewModel, tsundoku)
                     }
                 }
             }

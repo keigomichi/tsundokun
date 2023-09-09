@@ -1,4 +1,4 @@
-package com.example.tsundokun.ui.home.component.webPageList.webPageCard
+package com.example.tsundokun.ui.confirm.component.jsoup
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,24 +11,23 @@ import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 
 /*
- * htmlからogp画像のurlを取得
+ * htmlからタイトルを取得
  */
 @Composable
-fun getOgpImageUrl(html: String?): String? {
-    var imageUrl by remember { mutableStateOf<String?>(null) }
+fun GetTitle(html: String?): String? {
+    var title by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(key1 = html) {
         withContext(Dispatchers.IO) {
             try {
                 val doc = html?.let { Jsoup.parse(it) }
-                val ogImage = doc?.selectFirst("meta[property=og:image]")
-                if (ogImage != null) {
-                    imageUrl = ogImage.attr("content")
+                if (doc != null) {
+                    title = doc.title()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
-    return imageUrl
+    return title
 }
