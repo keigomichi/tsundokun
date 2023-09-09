@@ -102,6 +102,7 @@ dependencies {
     implementation(libs.ktor.client.cio)
     implementation(libs.hilt.android)
     implementation("com.google.android.gms:play-services-fido:18.1.0")
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
 
     annotationProcessor(libs.room.compiler)
 
