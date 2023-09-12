@@ -38,8 +38,14 @@ jobs:
       - name: Check spotless
         run: ./gradlew spotlessCheck --no-configuration-cache
 
-      - name: Build project and UnitTest
-        run: ./gradlew assembleDebug
+      - name: Build project
+        run: ./gradlew assemble
+
+      - name: Upload build outputs (APKs)
+        uses: actions/upload-artifact@v3
+        with:
+          name: APKs
+          path: "**/build/outputs/apk/**/*.apk"
 
       - name: Run unit tests
         run: ./gradlew testDebugUnitTest
@@ -48,6 +54,9 @@ jobs:
     needs: build
     runs-on: macOS-latest
     timeout-minutes: 45
+    strategy:
+      matrix:
+        api-level: [31]
 
     steps:
       - name: Checkout
@@ -73,15 +82,12 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
-      - name: Build androidTest
-        run: ./gradlew assembleAndroidTest
-
       - name: Run instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 31
+          api-level: ${{ matrix.api-level }}
           arch: x86_64
           disable-animations: true
-          disk-size: 1500M
-          heap-size: 500M
+          disk-size: 2048M
+          heap-size: 512M
           script: ./gradlew connectedDebugAndroidTest
