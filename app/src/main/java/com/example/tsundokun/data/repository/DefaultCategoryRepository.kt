@@ -1,9 +1,9 @@
 package com.example.tsundokun.data.repository
 
+import com.example.tsundokun.core.model.Category
 import com.example.tsundokun.data.local.dao.CategoryDao
 import com.example.tsundokun.data.local.entities.CategoryEntity
 import com.example.tsundokun.data.local.entities.toCategory
-import com.example.tsundokun.domain.models.Category
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

@@ -3,7 +3,7 @@ package com.example.tsundokun.data.local.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.tsundokun.domain.models.Tsundoku
+import com.example.tsundokun.core.model.Tsundoku
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup

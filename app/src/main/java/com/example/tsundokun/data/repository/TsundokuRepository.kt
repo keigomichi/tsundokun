@@ -1,6 +1,6 @@
 package com.example.tsundokun.data.repository
 
-import com.example.tsundokun.domain.models.Tsundoku
+import com.example.tsundokun.core.model.Tsundoku
 import kotlinx.coroutines.flow.Flow
 
 interface TsundokuRepository {
