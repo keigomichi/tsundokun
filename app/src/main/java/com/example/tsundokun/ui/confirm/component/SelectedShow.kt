@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.example.tsundokun.domain.models.Category
+import com.example.tsundokun.core.model.Category
 import com.example.tsundokun.ui.confirm.SelectedField
 
 /*

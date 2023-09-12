@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tsundokun.core.model.Category
 import com.example.tsundokun.data.repository.CategoryRepository
 import com.example.tsundokun.data.repository.TsundokuRepository
-import com.example.tsundokun.domain.models.Category
 import com.example.tsundokun.ui.confirm.component.data.ConfirmScreenNavArgs
 import com.example.tsundokun.ui.navArgs
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.tsundokun.R
-import com.example.tsundokun.domain.models.Tsundoku
+import com.example.tsundokun.core.model.Tsundoku
 import com.example.tsundokun.ui.destinations.OpenWebViewDestination
 import com.example.tsundokun.ui.home.HomeViewModel
 import com.example.tsundokun.ui.theme.Pink80

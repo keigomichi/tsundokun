@@ -3,7 +3,7 @@ package com.example.tsundokun.data.local.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.tsundokun.domain.models.Category
+import com.example.tsundokun.core.model.Category
 import java.util.UUID
 
 @Entity(tableName = "category")

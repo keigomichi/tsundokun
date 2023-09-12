@@ -5,7 +5,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.example.tsundokun.domain.models.Tsundoku
+import com.example.tsundokun.core.model.Tsundoku
 import com.example.tsundokun.ui.home.component.webPageList.webPageCard.WebPageCard
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 

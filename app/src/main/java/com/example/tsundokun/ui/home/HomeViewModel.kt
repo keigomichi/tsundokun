@@ -3,10 +3,10 @@ package com.example.tsundokun.ui.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tsundokun.core.model.Category
+import com.example.tsundokun.core.model.Tsundoku
 import com.example.tsundokun.data.repository.CategoryRepository
 import com.example.tsundokun.data.repository.TsundokuRepository
-import com.example.tsundokun.domain.models.Category
-import com.example.tsundokun.domain.models.Tsundoku
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
