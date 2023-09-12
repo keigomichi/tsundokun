@@ -1,4 +1,4 @@
-package com.example.tsundokun.domain.models
+package com.example.tsundokun.core.model
 
 data class Tsundoku(
     val id: String,

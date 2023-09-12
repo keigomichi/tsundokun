@@ -14,3 +14,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "tsundokun"
 include(":app")
+include(":core:model")

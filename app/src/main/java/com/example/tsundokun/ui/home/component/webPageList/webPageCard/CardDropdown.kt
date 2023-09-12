@@ -11,7 +11,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.example.tsundokun.domain.models.Tsundoku
+import com.example.tsundokun.core.model.Tsundoku
 import com.example.tsundokun.ui.home.HomeViewModel
 
 @Composable

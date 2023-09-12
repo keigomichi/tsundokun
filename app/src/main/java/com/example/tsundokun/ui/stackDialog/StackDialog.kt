@@ -39,7 +39,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest.Builder
 import com.example.tsundokun.R.drawable
 import com.example.tsundokun.R.string
-import com.example.tsundokun.domain.models.Category
+import com.example.tsundokun.core.model.Category
 import com.example.tsundokun.ui.confirm.component.SelectedShow
 import com.example.tsundokun.ui.confirm.component.jsoup.FetchHtml
 import com.example.tsundokun.ui.confirm.component.jsoup.GetOgpImageUrl
