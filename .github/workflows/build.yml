@@ -24,7 +24,7 @@ jobs:
       - name: Copy google-services.json
         env:
           GOOGLE_SERVICE: ${{ secrets.GOOGLE_SERVICE_JSON }}
-        run: echo $GOOGLE_SERVICE | base64 --decode > ./app/google-services.json
+        run: echo "$GOOGLE_SERVICE" | base64 --decode > ./app/google-services.json
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -45,6 +45,7 @@ jobs:
         run: ./gradlew testDebugUnitTest
 
   androidTest:
+    needs: build
     runs-on: macOS-latest
     timeout-minutes: 45
 
