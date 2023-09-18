@@ -23,7 +23,7 @@ fun RecentTsundokuData(viewModel: HomeViewModel = hiltViewModel()): Int {
         val date = tsundoku.createdAt.isEmpty()
             .let { if (it) now else LocalDateTime.parse(tsundoku.createdAt) }
 //          LocalDateTime.parse(tsundoku.createdAt) FIXME: java.time.format.DateTimeParseException: Text '' could not be parsed at index 0
-        date.isAfter(oneWeekAgo) && date.isBefore(now)
+        date.isAfter(oneWeekAgo) && (date.isBefore(now) || date.isEqual(now))
     }
     return recentTsundokuData.size
 }
