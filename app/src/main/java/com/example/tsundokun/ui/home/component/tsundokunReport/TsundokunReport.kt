@@ -46,7 +46,7 @@ fun TsundokunReport(modifier: Modifier = Modifier, recentlySaveCount: Int) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
                     painter = painterResource(
-                        getTsundokunImageTypeByRecentlySaveCount(recentlySaveCount)
+                        getTsundokunImageTypeByRecentlySaveCount(recentlySaveCount),
                     ),
                     contentDescription = "",
                     modifier = Modifier
@@ -76,7 +76,7 @@ fun TsundokunReport(modifier: Modifier = Modifier, recentlySaveCount: Int) {
                     }
                     Text(
                         text = stringResource(
-                            id = getTsundokunReportDetailTypeByRecentlySaveCount(recentlySaveCount)
+                            id = getTsundokunReportDetailTypeByRecentlySaveCount(recentlySaveCount),
                         ),
                         style = MaterialTheme.typography.bodySmall,
                         modifier = modifier.padding(bottom = 8.dp),
@@ -93,11 +93,9 @@ fun TsundokunReport(modifier: Modifier = Modifier, recentlySaveCount: Int) {
 fun getTsundokunImageTypeByRecentlySaveCount(recentlySaveCount: Int): Int {
     return if (recentlySaveCount < 5) {
         drawable.low_reading_tsundokun
-    }
-    else if (recentlySaveCount < 10) {
+    } else if (recentlySaveCount < 10) {
         drawable.tsundokun
-    }
-    else {
+    } else {
         drawable.high_reading_tsundokun
     }
 }
@@ -108,11 +106,9 @@ fun getTsundokunImageTypeByRecentlySaveCount(recentlySaveCount: Int): Int {
 fun getTsundokunReportDetailTypeByRecentlySaveCount(recentlySaveCount: Int): Int {
     return if (recentlySaveCount < 5) {
         string.low_reading_tsundokun_report_detail
-    }
-    else if (recentlySaveCount < 10) {
+    } else if (recentlySaveCount < 10) {
         string.medium_reading_tsundokun_report_detail
-    }
-    else {
+    } else {
         string.high_reading_tsundokun_report_detail
     }
 }
