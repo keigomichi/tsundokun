@@ -45,7 +45,9 @@ fun TsundokunReport(modifier: Modifier = Modifier, recentlySaveCount: Int) {
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
-                    painter = painterResource(drawable.tsundokun),
+                    painter = painterResource(
+                        getTsundokunImageTypeByRecentlySaveCount(recentlySaveCount),
+                    ),
                     contentDescription = "",
                     modifier = Modifier
                         .padding(horizontal = 8.dp)
@@ -73,12 +75,40 @@ fun TsundokunReport(modifier: Modifier = Modifier, recentlySaveCount: Int) {
                         }
                     }
                     Text(
-                        text = stringResource(id = string.tsundokun_report_detail),
+                        text = stringResource(
+                            id = getTsundokunReportDetailTypeByRecentlySaveCount(recentlySaveCount),
+                        ),
                         style = MaterialTheme.typography.bodySmall,
                         modifier = modifier.padding(bottom = 8.dp),
                     )
                 }
             }
         }
+    }
+}
+
+/*
+ * 今週積読した記事の数に応じたつんどくんの画像を取得する
+ */
+fun getTsundokunImageTypeByRecentlySaveCount(recentlySaveCount: Int): Int {
+    return if (recentlySaveCount < 5) {
+        drawable.low_reading_tsundokun
+    } else if (recentlySaveCount < 10) {
+        drawable.tsundokun
+    } else {
+        drawable.high_reading_tsundokun
+    }
+}
+
+/*
+ * 今週積読した記事の数に応じたつんどくんレポート内のコメントを取得する
+ */
+fun getTsundokunReportDetailTypeByRecentlySaveCount(recentlySaveCount: Int): Int {
+    return if (recentlySaveCount < 5) {
+        string.low_reading_tsundokun_report_detail
+    } else if (recentlySaveCount < 10) {
+        string.medium_reading_tsundokun_report_detail
+    } else {
+        string.high_reading_tsundokun_report_detail
     }
 }
