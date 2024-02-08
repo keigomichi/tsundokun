@@ -6,7 +6,6 @@ plugins {
     alias(libs.plugins.tsundokun.android.hilt)
     alias(libs.plugins.tsundokun.android.room)
     alias(libs.plugins.tsundokun.android.firebase)
-    alias(libs.plugins.spotless)
     alias(libs.plugins.serialization)
 }
 
@@ -37,20 +36,6 @@ android {
             excludes.add("/META-INF/{AL2.0,LGPL2.1}")
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
-    }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
-}
-
-spotless {
-    kotlin {
-        target("**/*.kt")
-        targetExclude("$buildDir/**/*.kt")
-        targetExclude("bin/**/*.kt")
-
-        ktlint("0.49.1")
     }
 }
 
