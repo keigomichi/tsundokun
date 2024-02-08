@@ -54,6 +54,10 @@ gradlePlugin{
             id = "tsundokun.android.room"
             implementationClass = "AndroidRoomConventionPlugin"
         }
+        register("androidFirebase"){
+            id = "tsundokun.android.firebase"
+            implementationClass = "AndroidApplicationFirebaseConventionPlugin"
+        }
         register("androidTest"){
             id = "tsundokun.android.test"
             implementationClass = "AndroidTestConventionPlugin"

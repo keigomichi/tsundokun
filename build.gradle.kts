@@ -4,19 +4,11 @@
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.serialization) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.hilt) apply false
-}
-
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath(libs.google.services)
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
-    }
+    alias(libs.plugins.room) apply false
+    alias(libs.plugins.gms) apply false
 }
