@@ -16,7 +16,7 @@ junit = "4.13.2"
 kotlin = "1.8.10"
 ksp = "1.8.0-1.0.8"
 ktor = "2.3.4"
-room = "2.5.2"
+room = "2.6.1"
 spotless = "6.21.0"
 jsoup = "1.16.1"
 supabase = "1.0.3"
@@ -60,7 +60,7 @@ android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", ver
 firebase-crashlytics-gradlePlugin = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
-#room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
+room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
