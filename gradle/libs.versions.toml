@@ -70,3 +70,12 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+
+tsundokun-android-application = { id = "tsundokun.android.application", version = "unspecified"}
+tsundokun-android-application-compose = { id = "tsundokun.android.application.compose", version = "unspecified" }
+tsundokun-android-library = { id = "tsundokun.android.library" , version = "unspecified"}
+tsundokun-android-library-compose = { id = "tsundokun.android.library.compose" , version = "unspecified"}
+tsundokun-android-feature = { id = "tsundokun.android.feature" , version = "unspecified"}
+tsundokun-android-hilt = { id = "tsundokun.android.hilt" , version = "unspecified"}
+tsundokun-android-room = { id = "tsundokun.android.room" , version = "unspecified"}
+tsundokun-android-test = { id = "tsundokun.android.test" , version = "unspecified"}
