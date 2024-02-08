@@ -14,7 +14,7 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
             }
 
             extensions.configure<RoomExtension> {
-                schemaDirectory("%projectDir/schemas")
+                schemaDirectory("$projectDir/schemas")
             }
 
             dependencies {
