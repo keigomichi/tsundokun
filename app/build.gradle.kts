@@ -82,7 +82,7 @@ dependencies {
     implementation(libs.ktor.client.cio)
 
     // Fido
-    implementation("com.google.android.gms:play-services-fido:20.1.0")
+    implementation(libs.play.services.fido)
 
     testImplementation(libs.junit)
 

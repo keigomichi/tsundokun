@@ -17,6 +17,7 @@ junit = "4.13.2"
 kotlin = "1.9.0"
 ksp = "1.9.0-1.0.13"
 ktor = "2.3.4"
+playServicesFido = "20.1.0"
 room = "2.6.1"
 spotless = "6.21.0"
 jsoup = "1.16.1"
@@ -54,6 +55,7 @@ hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testi
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
+play-services-fido = { module = "com.google.android.gms:play-services-fido", version.ref = "playServicesFido" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
