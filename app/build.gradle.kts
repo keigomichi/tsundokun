@@ -8,7 +8,6 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     alias(libs.plugins.serialization)
-    kotlin("kapt")
     alias(libs.plugins.hilt)
 }
 
@@ -108,8 +107,8 @@ dependencies {
 
     annotationProcessor(libs.room.compiler)
 
-    kapt(libs.hilt.compiler)
-    kapt(libs.room.compiler)
+    ksp(libs.hilt.compiler)
+    ksp(libs.room.compiler)
 
     ksp(libs.compose.destinations.ksp)
 
@@ -123,8 +122,4 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.testManifest)
 
-}
-
-kapt {
-    correctErrorTypes = true
 }
