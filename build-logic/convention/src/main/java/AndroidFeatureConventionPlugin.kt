@@ -11,7 +11,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 apply("tsundokun.android.hilt")
             }
 
-            dependencies{
+            dependencies {
                 add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
                 add("implementation", libs.findLibrary("androidx.lifecycle.viewmodel.compose").get())
                 add("implementation", libs.findLibrary("androidx.lifecycle.runtime.compose").get())

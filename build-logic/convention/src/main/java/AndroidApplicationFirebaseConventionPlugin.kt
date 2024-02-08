@@ -18,7 +18,6 @@ class AndroidApplicationFirebaseConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("firebase.config").get())
                 add("implementation", libs.findLibrary("firebase.crashlytics").get())
             }
-
         }
     }
 }
