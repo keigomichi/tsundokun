@@ -1,24 +1,21 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
+    alias(libs.plugins.tsundokun.android.application)
+    alias(libs.plugins.tsundokun.android.application.compose)
+    alias(libs.plugins.tsundokun.android.hilt)
+    alias(libs.plugins.tsundokun.android.room)
+    alias(libs.plugins.tsundokun.android.firebase)
     alias(libs.plugins.spotless)
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
     alias(libs.plugins.serialization)
-    alias(libs.plugins.hilt)
 }
 
 android {
     namespace = "com.example.tsundokun"
-    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.tsundokun"
         minSdk = 24
-        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
@@ -36,24 +33,7 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.2"
-    }
-
-    packagingOptions {
+    packaging {
         resources {
             excludes.add("/META-INF/{AL2.0,LGPL2.1}")
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -78,39 +58,32 @@ spotless {
 dependencies {
     implementation(project(":core:model"))
 
+    // Jetpack Compose
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.compose.destinations.core)
     implementation(libs.androidx.compose.material.iconsExtended)
     implementation(libs.coil.kt)
     implementation(libs.coil.compose)
     implementation(libs.jsoup)
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-config-ktx")
-    implementation("com.google.firebase:firebase-crashlytics-ktx")
+
+    // Compose Destinations
+    implementation(libs.compose.destinations.core)
+    ksp(libs.compose.destinations.ksp)
+
+    // Supabase
     implementation(platform(libs.supabase.bom))
     implementation(libs.supabase.postgrest.kt)
+
+    // Ktor
     implementation(libs.ktor.client.cio)
-    implementation(libs.hilt.android)
+
+    // Fido
     implementation("com.google.android.gms:play-services-fido:20.1.0")
-
-    annotationProcessor(libs.room.compiler)
-
-    ksp(libs.hilt.compiler)
-    ksp(libs.room.compiler)
-
-    ksp(libs.compose.destinations.ksp)
 
     testImplementation(libs.junit)
 
