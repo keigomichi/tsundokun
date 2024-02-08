@@ -15,7 +15,6 @@ android {
 
     defaultConfig {
         applicationId = "com.example.tsundokun"
-        minSdk = 24
         versionCode = 1
         versionName = "1.0"
 
