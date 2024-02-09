@@ -1,5 +1,3 @@
-@file:Suppress("DSL_SCOPE_VIOLATION")
-
 plugins {
     alias(libs.plugins.tsundokun.android.application)
     alias(libs.plugins.tsundokun.android.application.compose)
