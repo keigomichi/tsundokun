@@ -1,13 +1,7 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+   alias(libs.plugins.tsundokun.android.library)
 }
 
 android {
     namespace = "com.example.tsundokun.core.model"
-    compileSdk = 33
-
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
 }

@@ -1,21 +1,24 @@
 [versions]
-androidGradlePlugin = "8.1.1"
-androidxActivity = "1.7.2"
-androidxComposeBom = "2022.12.00"
-androidxCore = "1.8.0"
+androidGradlePlugin = "8.2.2"
+androidxActivity = "1.8.2"
+androidxComposeBom = "2024.02.00"
+androidxCore = "1.12.0"
 androidxEspresso = "3.5.1"
-androidxHiltNavigationCompose= "1.0.0"
-androidxLifecycle = "2.6.2"
+androidxHiltNavigationCompose = "1.1.0"
+androidxLifecycle = "2.7.0"
 androidxTestExt = "1.1.5"
 coil = "2.4.0"
 composeDestinations = "1.7.41-beta"
-googleServices = "4.3.15"
-hilt = "2.46.1"
+firebaseBom = "32.7.1"
+firebaseCrashlyticsGradle = "2.9.9"
+gmsPlugin = "4.4.0"
+hilt = "2.48"
 junit = "4.13.2"
-kotlin = "1.8.10"
-ksp = "1.8.10-1.0.9"
+kotlin = "1.9.0"
+ksp = "1.9.0-1.0.13"
 ktor = "2.3.4"
-room = "2.5.2"
+playServicesFido = "20.1.0"
+room = "2.6.1"
 spotless = "6.21.0"
 jsoup = "1.16.1"
 supabase = "1.0.3"
@@ -34,31 +37,55 @@ androidx-compose-material-iconsExtended = { group = "androidx.compose.material",
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
-androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
+androidx-lifecycle-viewModel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxEspresso" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxTestExt" }
 compose-destinations-core = { group = "io.github.raamcosta.compose-destinations", name = "core", version.ref = "composeDestinations" }
 compose-destinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "composeDestinations" }
 coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
+firebase-config = { group = "com.google.firebase", name = "firebase-config-ktx" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
 jsoup = { module = "org.jsoup:jsoup", name = "jsoup", version.ref = "jsoup" }
-google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
-ktor-client-cio = { group = "io.ktor" , name = "ktor-client-cio" , version.ref = "ktor"}
+ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
+play-services-fido = { module = "com.google.android.gms:play-services-fido", version.ref = "playServicesFido" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
-supabase-bom = { group = "io.github.jan-tennert.supabase" , name = "bom" , version.ref = "supabase"}
-supabase-postgrest-kt = { group = "io.github.jan-tennert.supabase", name = "postgrest-kt"}
+supabase-bom = { group = "io.github.jan-tennert.supabase", name = "bom", version.ref = "supabase" }
+supabase-postgrest-kt = { group = "io.github.jan-tennert.supabase", name = "postgrest-kt" }
+
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+firebase-crashlytics-gradlePlugin = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsGradle" }
+gms = { id = "com.google.gms.google-services", version.ref = "gmsPlugin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-serialization = { id = "org.jetbrains.kotlin.plugin.serialization" , version.ref = "kotlin"}
+room = { id = "androidx.room", version.ref = "room" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+
+tsundokun-android-application = { id = "tsundokun.android.application", version = "unspecified"}
+tsundokun-android-application-compose = { id = "tsundokun.android.application.compose", version = "unspecified" }
+tsundokun-android-library = { id = "tsundokun.android.library" , version = "unspecified"}
+tsundokun-android-library-compose = { id = "tsundokun.android.library.compose" , version = "unspecified"}
+tsundokun-android-feature = { id = "tsundokun.android.feature" , version = "unspecified"}
+tsundokun-android-hilt = { id = "tsundokun.android.hilt" , version = "unspecified"}
+tsundokun-android-room = { id = "tsundokun.android.room" , version = "unspecified"}
+tsundokun-android-firebase = { id = "tsundokun.android.firebase" , version = "unspecified"}
+tsundokun-android-test = { id = "tsundokun.android.test" , version = "unspecified"}
