@@ -45,12 +45,11 @@ fun SearchScreen(navigator: DestinationsNavigator) {
     var searchQuery by rememberSaveable { mutableStateOf(searchUiState.searchQuery) }
     var active by remember { mutableStateOf(false) }
 
-    
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
     ) {
-        Column{
+        Column {
             SearchBar(
                 query = searchQuery,
                 onQueryChange = { newQuery -> searchQuery = newQuery },
@@ -70,7 +69,7 @@ fun SearchScreen(navigator: DestinationsNavigator) {
                     Icon(
                         imageVector = Filled.ArrowBack,
                         contentDescription = stringResource(string.button_close),
-                        modifier = Modifier.clickable { navigator.popBackStack() }
+                        modifier = Modifier.clickable { navigator.popBackStack() },
                     )
                 },
                 trailingIcon = {
