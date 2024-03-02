@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.example.tsundokun.R.string
+import com.example.tsundokun.ui.destinations.SearchScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 /*
@@ -21,7 +22,7 @@ fun TopAppHomeBar(navigator: DestinationsNavigator) {
     CenterAlignedTopAppBar(
         title = { Text(stringResource(id = string.app_name)) },
         navigationIcon = {
-            IconButton(onClick = { /* 検索する */ }) {
+            IconButton(onClick = { navigator.navigate(SearchScreenDestination()) }) {
                 Icon(
                     imageVector = Filled.Search,
                     contentDescription = stringResource(string.button_search_description),
