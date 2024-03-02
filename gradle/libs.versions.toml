@@ -19,7 +19,7 @@ ksp = "1.9.0-1.0.13"
 ktor = "2.3.4"
 playServicesFido = "20.1.0"
 room = "2.6.1"
-spotless = "6.21.0"
+spotless = "6.25.0"
 jsoup = "1.16.1"
 supabase = "1.0.3"
 
